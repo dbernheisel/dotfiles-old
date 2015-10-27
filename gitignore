@@ -1,0 +1,6 @@
+.DS\_Store
+*.sw?
+*.sqlite3
+.secrets
+tmp
+temp

@@ -5,16 +5,19 @@
 ### dot files
 Starting with Prezto, then added my own theme and put my secrets into a file (not uploaded here :smirk:)
 https://github.com/sorin-ionescu/prezto
+Use this font for awesomeness: Inconsolata+Awesome.ttf
 
 
 ### cd to
 ![cd to Finder app](images/cd_to.png)
+
 https://github.com/jbtule/cdto
 
 This small app will allow you to open up Terminal/iTerm from which folder you're currently at within Finder. This is essential!
 
 ### Sublime Text Icon Replacement
 ![Sublime Text Icon](images/sublime_text_icon.png)
+
 https://dribbble.com/shots/1827862-Yosemite-Sublime-Text-Icon
 
 This just looks better in my dock. I like it.
