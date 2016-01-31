@@ -1,5 +1,24 @@
 #!/usr/bin/env bash
 
+# Install prezto first.
+# https://github.com/sorin-ionescu/prezto
+
+: '
+########################
+# INSTALL INSTRUCTIONS #
+########################
+
+zsh
+git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+setopt EXTENDED_GLOB
+for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
+  ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
+done
+chsh -s /bin/zsh
+bash install.sh
+
+'
+
 folder=$(pwd)
 
 echo "Backing up existing dotfiles"
@@ -28,8 +47,6 @@ for f in "${files[@]}"; do
 	fi
 	ln -s "$folder/$f" "$HOME/.$f"
 done
-
-
 
 echo ""
 echo "Copying zprezto theme"
