@@ -122,6 +122,8 @@ I use the Afterglow theme.
   "draw_white_space": "selection",
   "highlight_line": true,
   "highlight_modified_tabs": true,
+  
+  "index_files": true,
   "tab_size": 2,
   "translate_tabs_to_spaces": true,
   "trim_trailing_white_space_on_save": true,
@@ -129,7 +131,6 @@ I use the Afterglow theme.
   "font_face": "Inconsolata-dz for Powerline",
   "font_options": "subpixel_antialias",
   "font_size": 14,
-
 
   "rulers": [
     80
@@ -151,6 +152,7 @@ I use the Afterglow theme.
 10. Sass
 11. SideBarEnhancements
 12. Markdown Preview
+13. 
 
 
 ## GitX
