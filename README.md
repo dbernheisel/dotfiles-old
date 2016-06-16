@@ -152,7 +152,6 @@ I use the Afterglow theme.
 10. Sass
 11. SideBarEnhancements
 12. Markdown Preview
-13. 
 
 
 ## GitX
@@ -163,7 +162,6 @@ Download here: https://rowanj.github.io/gitx/
 Open and hit "Enable Terminal Usage", then you can just tye in `gitx` in whatever project you're in and get a nice UI of your repository.
 
 ![Gitx](https://rowanj.github.io/gitx/images/screenshots/GitX-dev-repo_window.png)
-
 
 # Good Articles
 

@@ -1,11 +1,17 @@
 [user]
 	name = David Bernheisel
-	email = david@bernheisel.com
+	email = david.bernheisel@scimedsolutions.com
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
 [color]
 	ui = auto
+[interactive]
+	diffFilter = diff-highlight
+[pager]
+	log = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less
 [push]
 	default = simple
 [credential]
@@ -14,6 +20,20 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
+[alias]
+	graph = log --graph --all --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+	s = status
 [core]
-	excludesfile = ~/.gitignore
+	compression = -1
+	autocrlf = input
+	excludesfile = /Users/davidbernheisel/.gitignore
 	editor = sublime
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/davidbernheisel/.stCommitMsg

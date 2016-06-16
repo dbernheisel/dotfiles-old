@@ -73,5 +73,31 @@ fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
 
+# not using rvm anymore
+#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
 source ~/.secrets
+alias google='googler -n 10'
+alias be='bundle exec'
+alias sandbox='rails c --sandbox'
+alias sourcetree='open -a SourceTree ./'
+
+# Newer git
+export PATH=/usr/local/opt/git:$PATH
+
+# Oracle
+# If using ruby-oci8, you'll need gem version >=2.2.1
+export NLS_LANG="American_America.UTF8"
+export DYLD_LIBRARY_PATH=~/instantclient_12_1
+export ORACLE_HOME=~/instantclient_12_1
+export OCI_DIR=~/instantclient_12_1
+export ORACLE_SID=orcl
+export PATH=~/instantclient_12_1:$PATH
+
+# Postgres
+export POSTGRES_USER="davidbernheisel"
 

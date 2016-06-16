@@ -1,6 +1,10 @@
 .DS\_Store
+Thumbs.db
+Icon?
+ehthumbs.db
 *.sw?
 *.sqlite3
 .secrets
 tmp
 temp
+.log

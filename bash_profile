@@ -6,7 +6,6 @@
 # The orginal version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.3/bin:${PATH}"
 export PATH
-export EDITOR="nano"
 
 # Setting PATH for Python 2.7
 # The orginal version is saved in .bash_profile.pysave
@@ -25,3 +24,5 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 case $- in
    *i*) source ~/.bashrc
 esac
+
+source ~/.zprofile
