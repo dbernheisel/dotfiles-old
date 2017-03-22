@@ -133,6 +133,3 @@ alias sourcetree='open -a SourceTree ./'
 # rbenv. Rbenv is sourced in zshrc
 alias rbenv-update='(cd ~/.rbenv/plugins/ruby-build && git pull)'
 
-# RipGrep
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*|!node_modules/*|!bower_components|!tmp|!coverage|!deps|!.hg|!.svn|!.sass-cache"'
-

@@ -47,19 +47,7 @@ nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
 " Make semicolon the same as colon
-nnoremap : :
-nnoremap ; :
-
-" vim-fzf
-nnoremap <C-P> :Files<CR>
-nnoremap <C-F> :Find<CR>
-
-" vim-test commands
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
+map ; :
 
 " Preferences
 set clipboard=unnamed       " allow yanks to go to system clipboard
@@ -76,11 +64,6 @@ set number                  " turn on number gutter
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
-
-" FZF and ripgrep
-if executable("rg")
-  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*|!.hg|!.svn|!.sass-cache|!node_modules|!bower_components|!_build|!tmp|!coverage|!deps" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-endif
 
 call plug#begin('~/.config/nvim/plugged')
 
@@ -103,17 +86,20 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'c-brenn/phoenix.vim'
   "Plug 'tpope/vim-projectionist' " required for some navigation features
-  Plug 'slashmili/alchemist.vim' " Elixir plugin
-  Plug 'pangloss/vim-javascript'          " JSX-compatible JS
-  Plug 'mxw/vim-jsx'                      " JSX syntax
-  Plug 'kchmck/vim-coffee-script'
+  Plug 'slashmili/alchemist.vim'   " Elixir plugin
+  Plug 'pangloss/vim-javascript'   " JSX-compatible JS
+  Plug 'mxw/vim-jsx'               " JSX syntax
+  Plug 'kchmck/vim-coffee-script'  " CoffeeScript syntax
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-surround'
+  Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
   Plug 'ludovicchabant/vim-gutentags'
     let g:gutentags_cache_dir = '~/.ctags_cache'
 
   Plug 'neomake/neomake'
+
+  " Run linters and compile after write
   augroup localneomake
     autocmd! BufWritePost * Neomake
   augroup END
@@ -159,7 +145,7 @@ highlight ColorColumn ctermbg=darkred
 call matchadd('ColorColumn', '\%81v', 100) " alert at 81st vertical char
 
 " FZF and RipGrep
-if executable('/usr/local/opt/fzf')
+if executable('fzf')
   set rtp+=/usr/local/opt/fzf " use homebrew-installed fzf
   set grepprg=rg\ --vimgrep   " use ripgrep
 endif
@@ -168,3 +154,18 @@ endif
 if filereadable($HOME . '/.vimrc.local')
   source ~/.vimrc.local
 endif
+
+" vim-fzf
+nnoremap <C-P> :Files<CR>
+nnoremap <C-F> :Find<Space>
+
+" vim-test commands
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+
+" FZF and ripgrep
+command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**" --glob "!node_modules/**" --glob "!bower_components/**" --glob "!tmp/**" --glob "!coverage/**" --glob "!deps/**" --glob "!.hg/**" --glob "!.svn/**" --glob "!.sass-cache/**" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
