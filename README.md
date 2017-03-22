@@ -122,7 +122,7 @@ I use the Afterglow theme.
   "draw_white_space": "selection",
   "highlight_line": true,
   "highlight_modified_tabs": true,
-  
+
   "index_files": true,
   "tab_size": 2,
   "translate_tabs_to_spaces": true,
@@ -138,6 +138,12 @@ I use the Afterglow theme.
 
 }
 ```
+
+### Enable Italics in iTerm2
+1. `tic ~/dotfiles/xterm-256color-italic.terminfo`
+1. Update iTerm2 profile terminal to report `xterm-256color-italic`
+1. Restart iTerm2
+1. Test with `` echo `tput sitm`italics`tput ritm` ``
 
 ### Plugins
 1. Alignment

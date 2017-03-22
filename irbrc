@@ -11,6 +11,7 @@ if defined?(::Bundler)
     end
   end
 end
-
-Pry.start
-exit
+if defined?(::Pry)
+  Pry.start
+  exit
+end

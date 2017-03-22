@@ -9,13 +9,13 @@
 [interactive]
 	diffFilter = diff-highlight
 [pager]
-	log = diff-highlight | less
-	show = diff-highlight | less
-	diff = diff-highlight | less
+	log = diff-highlight | less -F
+	show = diff-highlight | less -F
+	diff = diff-highlight | less -F
+[credential]
+  helper = osxkeychain
 [push]
 	default = simple
-[credential]
-	helper = osxkeychain
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
@@ -28,12 +28,24 @@
 	compression = -1
 	autocrlf = input
 	excludesfile = /Users/davidbernheisel/.gitignore
-	editor = sublime
+	editor = vim
+[diff]
+  tool = vimdiff
+[difftool "vimdiff"]
+  path = nvim
+[difftool "vscode"]
+  cmd = code --wait --diff $LOCAL $REMOTE
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+[merge]
+	tool = vimdiff
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  trustExitCode = true
+[mergetool "vimdiff"]
+	path = nvim
 [commit]
 	template = /Users/davidbernheisel/.stCommitMsg
+[http]
+	postBuffer = 157286400
+

@@ -1,6 +1,9 @@
 export PATH=/Users/bernheisel/Documents/Utilities/mongodb/bin:$PATH
 
-# added by travis gem
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+###-tns-completion-start-###
+if [ -f /Users/davidbernheisel/.tnsrc ]; then
+    source /Users/davidbernheisel/.tnsrc
+fi
+###-tns-completion-end-###
 
-source ~/.zshrc
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

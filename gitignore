@@ -1,3 +1,4 @@
+tags
 .DS\_Store
 Thumbs.db
 Icon?
@@ -8,3 +9,4 @@ ehthumbs.db
 tmp
 temp
 .log
+.vscode/
