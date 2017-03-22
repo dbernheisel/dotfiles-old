@@ -83,7 +83,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'simeji/winresizer'
   Plug 'vim-airline/vim-airline'
   Plug 'danilo-augusto/vim-afterglow'
-
+  Plug 'tommcdo/vim-lion'
   Plug 'c-brenn/phoenix.vim'
   "Plug 'tpope/vim-projectionist' " required for some navigation features
   Plug 'slashmili/alchemist.vim'   " Elixir plugin
@@ -92,8 +92,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'kchmck/vim-coffee-script'  " CoffeeScript syntax
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-surround'
-  Plug 'junegunn/fzf'
-  Plug 'junegunn/fzf.vim'
+  Plug '/usr/local/opt/fzf' | Plug 'junegunn/fzf.vim'
   Plug 'ludovicchabant/vim-gutentags'
     let g:gutentags_cache_dir = '~/.ctags_cache'
 
@@ -155,9 +154,12 @@ if filereadable($HOME . '/.vimrc.local')
   source ~/.vimrc.local
 endif
 
+" FZF and ripgrep
+command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**" --glob "!node_modules/**" --glob "!bower_components/**" --glob "!tmp/**" --glob "!coverage/**" --glob "!deps/**" --glob "!.hg/**" --glob "!.svn/**" --glob "!.sass-cache/**" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+
 " vim-fzf
 nnoremap <C-P> :Files<CR>
-nnoremap <C-F> :Find<Space>
+nnoremap <C-F> :RipGrep<Space>
 
 " vim-test commands
 nmap <silent> <leader>t :TestNearest<CR>
@@ -165,7 +167,4 @@ nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>a :TestSuite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
-
-" FZF and ripgrep
-command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**" --glob "!node_modules/**" --glob "!bower_components/**" --glob "!tmp/**" --glob "!coverage/**" --glob "!deps/**" --glob "!.hg/**" --glob "!.svn/**" --glob "!.sass-cache/**" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
