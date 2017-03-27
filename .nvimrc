@@ -62,8 +62,18 @@ set noswapfile              " Don't need no stinkin SWAP!
 set cursorline              " turn on row highlighting where cursor is
 set cursorcolumn            " turn on column highlighting where cursor is
 set ruler                   " turn on ruler information in statusline
-set number                  " turn on number gutter
-set relativenumber          " turn on relative numbers
+
+" Set number gutter
+set number                              " turn on number gutter
+set relativenumber                      " turn on relative numbering to line
+
+" Set absolute numbers when focus lost
+autocmd FocusLost * :set number
+autocmd FocusGained * :set relativenumber
+
+" Set relative numbers only in Normal Mode
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
@@ -73,7 +83,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     let g:deoplete#enable_at_startup = 1
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-
+  Plug 'blueyed/vim-diminactive'      " Dim inactive buffers
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel :A, :R
                                       " :Rgenerate, :Rails
   Plug 'tpope/vim-rake'               " Add :Rake commands
@@ -154,6 +164,9 @@ if executable('fzf')
   set rtp+=/usr/local/opt/fzf " use homebrew-installed fzf
   set grepprg=rg\ --vimgrep   " use ripgrep
 endif
+
+" vim-diminactive change background color
+highlight ColorColumn ctermbg=0 guibg=#dddddd
 
 " Local config
 if filereadable($HOME . '/.vimrc.local')
