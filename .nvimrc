@@ -111,7 +111,7 @@ call plug#begin('~/.config/nvim/plugged')
     let g:gutentags_cache_dir = '~/.ctags_cache'
 
   Plug 'neomake/neomake'              " Execute linters and compilers
-
+  Plug 'jaawerth/neomake-local-eslint-first'  " Prefer local eslint to global eslint
   " Run after write
   augroup localneomake
     autocmd! BufWritePost * Neomake
@@ -166,7 +166,7 @@ if executable('fzf')
 endif
 
 " vim-diminactive change background color
-highlight ColorColumn ctermbg=0 guibg=#dddddd
+highlight ColorColumn ctermbg=0 guibg=#eeeeee
 
 " Local config
 if filereadable($HOME . '/.vimrc.local')
