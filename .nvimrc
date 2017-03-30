@@ -1,3 +1,5 @@
+" ln -s ~/dotfiles/.nvimrc ~/.config/nvim/init.vim
+
 set mouse="" " Disable mouse
 
 " Configure tabs to 2, and convert to spaces
@@ -77,6 +79,13 @@ autocmd InsertLeave * :set relativenumber
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
+
+" install vim-plug if needed.
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 call plug#begin('~/.config/nvim/plugged')
 

@@ -30,7 +30,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # awscli from brew auto-completion
-source /usr/local/share/zsh/site-functions/_aws
+if type aws &> /dev/null; then
+  source /usr/local/share/zsh/site-functions/_aws
+fi
 
 ###-tns-completion-start-###
 if [ -f /Users/davidbernheisel/.tnsrc ]; then

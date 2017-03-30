@@ -57,15 +57,15 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 
 # asdf version manager
 # Autocompletions are sourced in zshrc
-source $HOME/.asdf/asdf.sh
+[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
 
 source ~/.secrets
 # Newer git
-export PATH=/usr/local/opt/git:$PATH
+[ -f /usr/local/opt/git ] && export PATH=/usr/local/opt/git:$PATH
 
 # Oracle
 # If using ruby-oci8, you'll need gem version >=2.2.1
-source ~/.oracle-client.sh
+[ -f ~/.oracle-client.sh ] && source ~/.oracle-client.sh
 
 # Postgres
 export POSTGRES_USER="davidbernheisel"

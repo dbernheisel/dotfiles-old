@@ -29,12 +29,13 @@
 	autocrlf = input
 	excludesfile = /Users/davidbernheisel/.gitignore
 	editor = vim
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
   tool = vimdiff
 [difftool "vimdiff"]
   path = nvim
 [difftool "vscode"]
-  cmd = code --wait --diff $LOCAL $REMOTE
+  cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 [merge]
