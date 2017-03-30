@@ -95,6 +95,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'blueyed/vim-diminactive'      " Dim inactive buffers
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel :A, :R
                                       " :Rgenerate, :Rails
+  Plug 'francoiscabrol/ranger.vim'    " File explorer
   Plug 'tpope/vim-rake'               " Add :Rake commands
   Plug 'tpope/vim-bundler'            " Add :Bundle commands
   Plug 'janko-m/vim-test'             " Add :Test commands
@@ -176,6 +177,15 @@ endif
 
 " vim-diminactive change background color
 highlight ColorColumn ctermbg=0 guibg=#eeeeee
+
+" start vim-ranger on opening a directory
+if executable('ranger')
+  let g:loaded_netrw       = 1
+  let g:loaded_netrwPlugin = 1
+  if argc() == 1 && argv(0) == '.'
+    autocmd VimEnter * Ranger
+  endif
+endif
 
 " Local config
 if filereadable($HOME . '/.vimrc.local')
