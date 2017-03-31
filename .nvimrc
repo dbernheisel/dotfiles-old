@@ -9,7 +9,9 @@ set expandtab
 set shiftwidth=2
 
 set showcmd
-set termguicolors
+
+" Open to last line after close
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 " Turn on rendering whitespace
 set listchars+=trail:·,precedes:←,extends:→,tab:¬\ ,nbsp:+,conceal:※
