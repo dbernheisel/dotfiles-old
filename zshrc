@@ -44,4 +44,4 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # RipGrep
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*" --glob "!node_modules/*" --glob "!bower_components/*" --glob "!tmp/*" --glob "!coverage/*" --glob "!deps/*" --glob "!.hg/*" --glob "!.svn/*" --glob "!.sass-cache/*"'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'

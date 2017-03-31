@@ -9,6 +9,7 @@ set expandtab
 set shiftwidth=2
 
 set showcmd
+set termguicolors
 
 " Turn on rendering whitespace
 set listchars+=trail:·,precedes:←,extends:→,tab:¬\ ,nbsp:+,conceal:※
@@ -96,6 +97,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel :A, :R
                                       " :Rgenerate, :Rails
   Plug 'francoiscabrol/ranger.vim'    " File explorer
+  Plug 'rbgrouleff/bclose.vim'        " Ranger dependency
   Plug 'tpope/vim-rake'               " Add :Rake commands
   Plug 'tpope/vim-bundler'            " Add :Bundle commands
   Plug 'janko-m/vim-test'             " Add :Test commands
@@ -164,6 +166,7 @@ call plug#end()
 set background=dark
 syntax enable
 colorscheme afterglow
+au BufNewFile,BufRead Brewfile setf ruby
 
 " Highlight 81st character
 highlight ColorColumn ctermbg=darkred
@@ -193,7 +196,7 @@ if filereadable($HOME . '/.vimrc.local')
 endif
 
 " FZF and ripgrep
-command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**" --glob "!node_modules/**" --glob "!bower_components/**" --glob "!tmp/**" --glob "!coverage/**" --glob "!deps/**" --glob "!.hg/**" --glob "!.svn/**" --glob "!.sass-cache/**" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 " vim-fzf
 nnoremap <C-P> :Files<CR>
