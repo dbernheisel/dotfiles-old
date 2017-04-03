@@ -1,9 +1,9 @@
 tap 'caskroom/cask'
 tap 'neovim/neovim'
-cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
-cask 'java'           # Java Langauge
 cask 'android-sdk'    # CLI adb Android SDK
-cask 'pdftotext'      # CLI for converting PDF to Text
+cask 'java'           # Java Langauge
+cask 'pdftotext'      # CLI for converting PDF to Text. Used fir Ranger
+cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
 brew 'ansible'        # CLI Ansible
 brew 'autoconf'       # CLI Build utility
 brew 'automake'       # CLI Build utility
@@ -39,14 +39,12 @@ brew 'passenger'      # Library Ruby Web Server
 brew 'phantomjs'      # CLI phantomjs headless webkit browser (for testing)
 brew 'wget'           # CLI wget HTTP interface
 brew 'qt@5.5'         # Library qt. Used for Capybara
-brew 'ranger'         # CLI ranger File Explorer
-brew 'highlight'
-brew 'atool'
-brew 'w3m'
-brew 'poppler'
-brew 'transmission'
-brew 'mediainfo'
-brew 'exiftool'
+brew 'ranger'         # CLI Ranger File Explorer
+brew 'highlight'      # Library. Provides syntax highlighting. Used for Ranger
+brew 'atool'          # CLI. Archives inspection. Used for Ranger.
+brew 'transmission'   # CLI. Bittorrent tool. Used for Ranger.
+brew 'mediainfo'      # CLI. Media file metadata inspection. Used for Ranger.
+brew 'exiftool'       # CLI. Image file metadata inspection. Used for Ranger.
 brew 'redis'          # Server Database
 brew 'readline'       # Library file reading
 brew 'ripgrep'        # CLI rg grep current directory
