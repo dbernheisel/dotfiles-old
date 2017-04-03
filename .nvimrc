@@ -104,6 +104,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-rake'               " Add :Rake commands
   Plug 'tpope/vim-bundler'            " Add :Bundle commands
   Plug 'janko-m/vim-test'             " Add :Test commands
+  Plug 'skywind3000/asyncrun.vim'     " Add asyncrun test strategy for vim-test
   Plug 'airblade/vim-gitgutter'       " Git gutter
   Plug 'tpope/vim-fugitive'           " Git support. Works w/ Airline
   Plug 'sheerun/vim-polyglot'         " Languages support.
@@ -188,6 +189,7 @@ highlight ColorColumn ctermbg=0 guibg=#eeeeee
 if executable('ranger')
   let g:loaded_netrw       = 1
   let g:loaded_netrwPlugin = 1
+  let g:ranger_map_keys    = 0 " disable <C-f> mapping
   if argc() == 1 && argv(0) == '.'
     autocmd VimEnter * Ranger
   endif
@@ -209,7 +211,9 @@ command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --n
 nnoremap <C-P> :Files<CR>
 nnoremap <C-F> :RipGrep<Space>
 
-" vim-test commands
+" vim-test
+let test#strategy = "asyncrun"
+let test#ruby#rspec#options = '--require ~/.config/nvim/ruby_quickfix_formatter.rb --format QuickfixFormatter'
 nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>a :TestSuite<CR>
