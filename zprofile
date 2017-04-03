@@ -8,7 +8,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # Editors
-export EDITOR='vim'
+export EDITOR='nvim'
 export VISUAL='vim'
 export PAGER='less'
 

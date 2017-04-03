@@ -3,6 +3,7 @@ tap 'neovim/neovim'
 cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
 cask 'java'           # Java Langauge
 cask 'android-sdk'    # CLI adb Android SDK
+cask 'pdftotext'      # CLI for converting PDF to Text
 brew 'ansible'        # CLI Ansible
 brew 'autoconf'       # CLI Build utility
 brew 'automake'       # CLI Build utility
