@@ -101,6 +101,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'francoiscabrol/ranger.vim'    " File explorer
   Plug 'rbgrouleff/bclose.vim'        " Ranger dependency
   Plug 'scrooloose/nerdtree'          " Sidebar file explorer
+  Plug 'scrooloose/nerdcommenter'     " Easier block commenting.
   Plug 'tpope/vim-rake'               " Add :Rake commands
   Plug 'tpope/vim-bundler'            " Add :Bundle commands
   Plug 'janko-m/vim-test'             " Add :Test commands
@@ -203,6 +204,10 @@ endif
 " NERDTree
 nmap <C-B> :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers=0
+
+" NERDCommenter
+" For whatever reason, _ is actually /
+map <C-_> <leader>c<space>
 
 " FZF and ripgrep
 command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)

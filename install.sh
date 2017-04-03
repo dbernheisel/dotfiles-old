@@ -59,3 +59,13 @@ curl "https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/di
 echo ""
 echo "Installing google-cli https://www.npmjs.com/package/google-cli"
 npm install -g google-cli
+
+echo ""
+echo "Symlinking nvimrc"
+ln -s ~/dotfiles/.nvimrc  ~/.config/nvim/init.vim
+
+echo ""
+echo "Symlinking ranger configs"
+ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
+ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
+
