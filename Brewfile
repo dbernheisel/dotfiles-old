@@ -1,7 +1,24 @@
 tap 'caskroom/cask'
 tap 'neovim/neovim'
-cask 'android-sdk'    # CLI adb Android SDK
+cask 'google-chrome'
+cask 'vlc'
+cask 'visual-studio-code'
+cask 'virtualbox'
+cask 'transmission'
+cask 'postico'
+cask 'hex-fiend'
+cask 'xld'
+cask 'handbrake'
+cask 'handbrake-batch'
+cask 'boxer'
+cask 'slack'
+cask 'sourcetree'
+cask 'android-file-transfer'
+cask 'itsycal'
+cask 'omnidisksweeper'
+cask 'insomniax'
 cask 'java'           # Java Langauge
+cask 'android-sdk'    # CLI adb Android SDK
 cask 'pdftotext'      # CLI for converting PDF to Text. Used fir Ranger
 cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
 brew 'ansible'        # CLI Ansible
