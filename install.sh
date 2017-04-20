@@ -53,10 +53,6 @@ echo "Copying zprezto theme"
 cp prompt_bernheisel_setup ~/.zprezto/modules/prompt/functions/prompt_bernheisel_setup
 
 echo ""
-echo "Installing diff-highlight"
-curl "https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight" > "/usr/local/bin/diff-highlight" && chmod +x "/usr/local/bin/diff-highlight"
-
-echo ""
 echo "Installing google-cli https://www.npmjs.com/package/google-cli"
 npm install -g google-cli
 

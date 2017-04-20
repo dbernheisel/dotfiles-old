@@ -98,9 +98,9 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'blueyed/vim-diminactive'      " Dim inactive buffers
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel :A, :R
                                       " :Rgenerate, :Rails
-  Plug 'francoiscabrol/ranger.vim'    " File explorer
+  Plug 'francoiscabrol/ranger.vim', { 'on': 'Ranger' }    " File explorer
   Plug 'rbgrouleff/bclose.vim'        " Ranger dependency
-  Plug 'scrooloose/nerdtree'          " Sidebar file explorer
+  Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Sidebar file explorer
   Plug 'scrooloose/nerdcommenter'     " Easier block commenting.
   Plug 'tpope/vim-rake'               " Add :Rake commands
   Plug 'tpope/vim-bundler'            " Add :Bundle commands
