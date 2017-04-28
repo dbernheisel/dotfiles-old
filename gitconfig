@@ -1,6 +1,6 @@
 [user]
 	name = David Bernheisel
-	email = david.bernheisel@scimedsolutions.com
+	email = david@bernheisel.com
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
@@ -23,11 +23,18 @@
 [alias]
 	graph = log --graph --all --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
-	s = status
+  s = status
+  aa = add --all
+  ca = commit --amend
+  co = checkout
+  dm = diff master
+  uf = reset --hard HEAD
+  rc = rebase --continue
+  up = !git fetch origin && git rebase origin/master
 [core]
 	compression = -1
 	autocrlf = input
-	excludesfile = /Users/davidbernheisel/.gitignore
+	excludesfile = ~/.gitignore
 	editor = vim
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
@@ -37,12 +44,14 @@
 [difftool "vscode"]
   cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+[fetch]
+  prune = true
 [merge]
 	tool = vimdiff
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
+	trustExitCode = true
 [mergetool "vimdiff"]
 	path = nvim
 [commit]

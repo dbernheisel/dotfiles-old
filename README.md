@@ -3,36 +3,10 @@
 ## Instructions
 
 1. Install zprezto. https://github.com/sorin-ionescu/prezto
-  ```bash
-  zsh
-  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-  setopt EXTENDED_GLOB
-  for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-    ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-  done
-  chsh -s /bin/zsh
-
-  # Update the repositories this uses.
-  cd ~/dotfiles/iTerm2-Color-Schemes && git pull && cd ~/dotfiles
-  cd ~/dotfiles/fonts && git pull && cd ~/dotfiles
-  ```
 
 2. Run `bash install.sh`
 
-3. Install fonts you want. I currently use Inconsolata-dz
-
 4. Install iTerm2. https://www.iterm2.com
-
-5. Install SublimeText3. https://www.sublimetext.com/3
-
-6. Install SublimeText3 Package Control. https://packagecontrol.io/installation. Hit `` ctrl+` `` in SublimeText
-  ```python
-  import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)
-  ```
-
-7. Setup themes: Afterglow in iTerm2, and Predawn in SublimeText.
-
-8. Setup Sublime Text 3 plugins.
 
 9. Replace icons as needed.
 
@@ -159,15 +133,6 @@ I use the Afterglow theme.
 11. SideBarEnhancements
 12. Markdown Preview
 
-
-## GitX
-This is a great tool that helps visualize the Git actions and histories when things start to get complicated. I also use this to discard hunks of code and review the changes before I commit.
-
-Download here: https://rowanj.github.io/gitx/
-
-Open and hit "Enable Terminal Usage", then you can just tye in `gitx` in whatever project you're in and get a nice UI of your repository.
-
-![Gitx](https://rowanj.github.io/gitx/images/screenshots/GitX-dev-repo_window.png)
 
 # Good Articles
 

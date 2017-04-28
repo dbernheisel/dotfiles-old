@@ -107,6 +107,9 @@ if type "terraform" &> /dev/null; then
   alias tf='terraform'
 fi
 
+if type "hub" &> /dev/null; then
+  alias git='hub'
+fi
 
 # Android development
 alias adb='/Users/davidbernheisel/Library/Android/sdk/platform-tools/adb'
@@ -133,3 +136,6 @@ alias sourcetree='open -a SourceTree ./'
 # rbenv. Rbenv is sourced in zshrc
 alias rbenv-update='(cd ~/.rbenv/plugins/ruby-build && git pull)'
 
+alias :q='exit'
+alias ll='ls -la'
+alias weather='curl wttr.in'

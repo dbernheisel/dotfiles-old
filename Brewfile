@@ -1,5 +1,7 @@
 tap 'caskroom/cask'
 tap 'neovim/neovim'
+tap 'caskroom/fonts'
+cask 'font-hack-nerd-font'
 cask 'google-chrome'
 cask 'vlc'
 cask 'visual-studio-code'
@@ -71,6 +73,7 @@ brew 'sqlite'         # Service Database
 brew 'tesseract'      # CLI tesseract OCR
 brew 'tidy-html5'     # CLI tidy HTML linting
 brew 'tmate'          # CLI tmate tmux over SSH
+brew 'tmux'           # CLI tmux terminal multiplexer
 brew 'unrar'          # CLI unrar compression
 brew 'xz'             # CLI xz compression
 brew 'x264'           # Library video decoder
