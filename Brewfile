@@ -1,7 +1,9 @@
 tap 'caskroom/cask'
 tap 'neovim/neovim'
 tap 'caskroom/fonts'
+tap 'thoughtbot/formulae'
 cask 'font-hack-nerd-font'
+cask 'font-inconsolata'
 cask 'google-chrome'
 cask 'vlc'
 cask 'visual-studio-code'
@@ -19,6 +21,7 @@ cask 'android-file-transfer'
 cask 'itsycal'
 cask 'omnidisksweeper'
 cask 'insomniax'
+cask 'iterm2'
 cask 'java'           # Java Langauge
 cask 'android-sdk'    # CLI adb Android SDK
 cask 'pdftotext'      # CLI for converting PDF to Text. Used fir Ranger
@@ -40,6 +43,7 @@ brew 'freetype'       # Library Render fonts
 brew 'fzf'            # CLI Fuzzy Finder CLI
 brew 'ghostscript'    # CLI Produce PDFs
 brew 'git'            # CLI Git
+brew 'hub'            # CLI add commands to git
 brew 'git-flow'       # CLI Git-Flow git shortcuts
 brew 'glib'           # Library Build utility
 brew 'go'             # Go Language
@@ -53,6 +57,7 @@ brew 'postgresql'     # Service Database
 brew 'nginx'          # Service Web server
 brew 'neovim'         # CLI text editor
 brew 'openssl'        # Library SSL library
+brew 'libyaml'        # Library for parsing YAML
 brew 'p7zip'          # CLI 7a 7za compression
 brew 'passenger'      # Library Ruby Web Server
 brew 'phantomjs'      # CLI phantomjs headless webkit browser (for testing)
@@ -79,3 +84,5 @@ brew 'xz'             # CLI xz compression
 brew 'x264'           # Library video decoder
 brew 'yarn'           # CLI JavaScript package manager
 brew 'wrk'            # CLI wrk HTTP benchmarking
+brew 'heroku'         # CLI heroku
+brew 'parity'         # CLI adding commands to heroku
