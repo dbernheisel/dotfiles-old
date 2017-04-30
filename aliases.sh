@@ -58,5 +58,4 @@ alias sandbox='rails c --sandbox'
 alias sourcetree='open -a SourceTree ./'
 
 alias :q='exit'
-alias ll='ls -la'
 alias weather='curl wttr.in'

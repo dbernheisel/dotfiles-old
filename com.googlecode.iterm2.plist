@@ -30305,7 +30305,7 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>1709 144 606 456 1440 0 1920 1080 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>506 414 918 381 0 0 1440 877 </string>
+	<string>506 244 918 512 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>159 379 570 401 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
@@ -30590,6 +30590,8 @@
 			<real>0.90000000000000002</real>
 			<key>Idle Code</key>
 			<integer>0</integer>
+			<key>Initial Text</key>
+			<string>tmux attach -t base || tmux new -s base</string>
 			<key>Jobs to Ignore</key>
 			<array>
 				<string>rlogin</string>

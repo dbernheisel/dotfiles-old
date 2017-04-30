@@ -239,6 +239,8 @@ asdf_install_latest_golang() {
   latest_version=$(asdf list-all golang | grep -E 'darwin' | grep -v 'rc' | grep -v 'beta' | grep -E 'amd64' | tail -n 1)
   fancy_echo "Installing golang $latest_version" "$yellow"
   asdf install golang "$latest_version"
+  fancy_echo "Setting global verison of golang to $latest_version"
+  asdf global golang "$latest_version"
 }
 
 asdf_install_latest_python_three
