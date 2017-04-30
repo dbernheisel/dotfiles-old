@@ -34,17 +34,11 @@ if type aws &> /dev/null; then
   source /usr/local/share/zsh/site-functions/_aws
 fi
 
-###-tns-completion-start-###
-if [ -f /Users/davidbernheisel/.tnsrc ]; then
-    source /Users/davidbernheisel/.tnsrc
-fi
-###-tns-completion-end-###
-
 # fzf Autocompletions
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # tmuxinator
-source ~/.asdf/installs/ruby/2.4.0/lib/ruby/gems/2.4.0/gems/tmuxinator-0.9.0/completion/tmuxinator.zsh
+source ~/.asdf/installs/ruby/2.4.1/lib/ruby/gems/2.4.0/gems/tmuxinator-0.9.0/completion/tmuxinator.zsh
 
 # RipGrep
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'

@@ -37,7 +37,12 @@ fi
 alias adb='~/Library/Android/sdk/platform-tools/adb'
 
 # Alias some docker commands
-alias docker_rm_images='docker images --no-trunc | grep '<none>' | awk '\{ print "$3" \}' | xargs docker rmi'
+docker_rm_images() {
+  docker images --no-trunc | \
+    grep "<none>" | \
+    awk "{ print '$3' }" | \
+    xargs docker rmi
+}
 alias docker_rm_containers='docker ps --filter status=dead --filter status=exited -aq | xargs docker rm -v'
 alias docker_rm_volumes='docker volume ls -qf dangling=true | xargs docker volume rm'
 alias docker_clean='docker_rm_images && docker_rm_containers && docker_rm_volumes'

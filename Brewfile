@@ -79,6 +79,7 @@ brew 'tesseract'      # CLI tesseract OCR
 brew 'tidy-html5'     # CLI tidy HTML linting
 brew 'tmate'          # CLI tmate tmux over SSH
 brew 'tmux'           # CLI tmux terminal multiplexer
+brew 'reattach-to-user-namespace' # CLI to help tmux
 brew 'unrar'          # CLI unrar compression
 brew 'xz'             # CLI xz compression
 brew 'x264'           # Library video decoder

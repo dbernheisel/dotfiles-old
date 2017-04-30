@@ -127,14 +127,15 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'simeji/winresizer'            " Resize panes with C-e and hjkl
   Plug 'vim-airline/vim-airline'      " Statusline
   Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
-  Plug 'tmux-plugins/vim-tmux-focus-events' " fix FocusGained and FocusLost
   Plug 'danilo-augusto/vim-afterglow' " Theme
   Plug 'tommcdo/vim-lion'             " Align with gl or gL
   Plug 'c-brenn/phoenix.vim'          " :Pgenerate, :Pserver, :Ppreview, Jump
   Plug 'tpope/vim-projectionist'      " required for some navigation features
   Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
   Plug 'elixir-lang/vim-elixir'       " Elixir support
+  Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
   Plug 'christoomey/vim-tmux-navigator' " Navigate between VIM and TMUX seamlessly
+  Plug 'tmux-plugins/vim-tmux-focus-events' " fix FocusGained and FocusLost
   Plug 'tpope/vim-endwise'            " Auto-close if, do, def
   Plug 'tpope/vim-surround'           " Add 's' command to give motions context
                                       " eg: `cs"'` will change the surrounding
@@ -187,9 +188,7 @@ filetype on
 
 " Theming
 set background=dark
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-endif
+syntax on
 
 colorscheme afterglow
 
@@ -230,7 +229,6 @@ augroup vimrcEx
 
   " Resize panes when window resizes
   autocmd VimResized * :wincmd =
-
 augroup END
 
 " Highlight 81st character
