@@ -26,6 +26,7 @@ cask 'java'           # Java Langauge
 cask 'android-sdk'    # CLI adb Android SDK
 cask 'pdftotext'      # CLI for converting PDF to Text. Used fir Ranger
 cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
+brew 'mas'
 brew 'ansible'        # CLI Ansible
 brew 'autoconf'       # CLI Build utility
 brew 'automake'       # CLI Build utility
@@ -87,3 +88,6 @@ brew 'yarn'           # CLI JavaScript package manager
 brew 'wrk'            # CLI wrk HTTP benchmarking
 brew 'heroku'         # CLI heroku
 brew 'parity'         # CLI adding commands to heroku
+#mas 'Xcode',          id: 497799835
+mas 'The Unarchiver', id: 425424353
+mas 'Medis',          id: 1063631769

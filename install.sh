@@ -1,17 +1,37 @@
 #!/bin/bash
+column() {
+  printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+}
+
+# color helpers
+mkcolor() {
+  [ "${BASH_VERSINFO[0]}" -le "3" ] && echo -e "\033[00;$1m" || echo "\e[0;$1m"
+}
+
+mkbold() {
+  [ "${BASH_VERSINFO[0]}" -le "3" ] && echo -e "\033[1;$1m" || echo "\e[1;$1m"
+}
+
+clear=$(mkcolor 0)
+yellow=$(mkbold 33)
+red=$(mkbold 31)
+green=$(mkbold 32)
 
 fancy_echo() {
   local fmt="$1"; shift
+  local color="$1"; shift
 
   # shellcheck disable=SC2059
-  printf "\n$fmt\n" "$@"
+  printf "$color$fmt$clear\n" "$@"
 }
 
-fancy_echo "Installing xcode"
+column
+fancy_echo "Installing xcode command line tools" "$yellow"
 xcode-select --install
 
 if ! command -v brew >/dev/null; then
-  fancy_echo "Installing Homebrew ..."
+  column
+  fancy_echo "Installing Homebrew ..." "$yellow"
   curl -fsS \
     'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
 
@@ -20,23 +40,34 @@ if ! command -v brew >/dev/null; then
   export PATH="/usr/local/bin:$PATH"
 fi
 
-brew install zsh
+install_mas() {
+  if ! command -v mas > /dev/null; then
+    column
+    fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
+    brew install mas
+  fi
+}
+
+install_mas
 
 update_shell() {
   local shell_path;
   shell_path="$(brew --prefix zsh)/bin/zsh"
+  if [ "$SHELL" != "$shell_path" ]; then
 
-  if ! grep "^$shell_path" /etc/shells > /dev/null 2>&1 ; then
-    fancy_echo "Adding '$shell_path' to /etc/shells"
-    sudo sh -c "echo $shell_path >> /etc/shells"
+    column
+    fancy_echo "Changing your shell to zsh ..." "$yellow"
+    if ! grep "^$shell_path" /etc/shells > /dev/null 2>&1 ; then
+      brew install zsh
+      sudo sh -c "echo $shell_path >> /etc/shells"
+    fi
+    chsh -s "$shell_path"
   fi
-  fancy_echo "Changing your shell to zsh ..."
-  chsh -s "$shell_path"
 }
 
 case "$SHELL" in
   */zsh)
-    if [ *"/bin/zsh"* == "$(brew --prefix zsh)/bin/zsh" ] ; then
+    if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
       update_shell
     fi
     ;;
@@ -51,6 +82,17 @@ gem_install_or_update() {
   else
     gem install "$@"
     asdf rehash
+  fi
+}
+
+npm_install_or_update() {
+  local program
+  program=$1; shift
+  npm -g list --depth=1 2> /dev/null | grep "$program" > /dev/null
+  if [ $? -eq 0 ]; then
+    npm -g update "$program"
+  else
+    npm -g install "$program"
   fi
 }
 
@@ -73,63 +115,25 @@ append_to_zshrc() {
   fi
 }
 
-install_asdf() {
-  fancy_echo "Installing asdf ..."
-  if [ ! -d ~/.asdf ]; then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-    if [[ "$SHELL" == *zsh ]]; then
-      append_to_zshrc "$HOME/.asdf/asdf.sh"
-    fi
-  else
-    fancy_echo "asdf already installed"
-  fi
-  source "$HOME/.asdf/asdf.sh"
-  return 0
-}
-
-install_asdf
-
-install_asdf_plugins() {
-  local plugins=(
-    'https://github.com/asdf-vm/asdf-erlang'
-    'https://github.com/vic/asdf-elm'
-    'https://github.com/asdf-vm/asdf-elixir'
-    'https://github.com/asdf-vm/asdf-ruby'
-    'https://github.com/kennyp/asdf-golang'
-    'https://github.com/asdf-vm/asdf-nodejs'
-  )
-  for plugin in "${plugins[@]}"; do
-    local language=${plugin##*-}
-    asdf plugin-add $language $plugin
-  done
-
-  asdf plugin-add python3 https://github.com/tuvistavie/asdf-python
-  asdf plugin-add python2 https://github.com/tuvistavie/asdf-python
-}
-
-install_asdf_plugins
-
 install_zprezto() {
-  fancy_echo "Installing zprezto ..."
   if [ ! -d ~/.zprezto ]; then
+    column
+    fancy_echo "Installing zprezto ..." "$yellow"
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
     setopt EXTENDED_GLOB
     for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md\(.N\); do
       ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
     done
-  else
-    fancy_echo "zprezto already installed"
   fi
 }
 
 install_zprezto
-
-fancy_echo "Copying bernheisel zprezto theme"
 cp prompt_bernheisel_setup ~/.zprezto/modules/prompt/functions/prompt_bernheisel_setup
 
-folder=$(pwd)
 
-fancy_echo "Backing up existing dotfiles"
+column
+fancy_echo "Backing up existing dotfiles" "$yellow"
+folder=$(pwd)
 files=(
 	'bash_profile'
 	'bashrc'
@@ -155,58 +159,67 @@ for f in "${files[@]}"; do
 done
 
 if [ ! -e "$HOME/.secrets" ]; then
-  fancy_echo "Creating ~/.secrets file"
+  fancy_echo "Creating ~/.secrets file" "$yellow"
   touch "$HOME"/.secrets
 fi
 
-if brew list | grep -Fq brew-cask; then
-  fancy_echo "Uninstalling old Homebrew-Cask ..."
-  brew uninstall --force brew-cask
-fi
+column
+install_asdf() {
+  if [ ! -d ~/.asdf ]; then
+    fancy_echo "Installing asdf ..." "$yellow"
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+    if [[ "$SHELL" == *zsh ]]; then
+      append_to_zshrc "$HOME/.asdf/asdf.sh"
+    fi
+  fi
+  source "$HOME/.asdf/asdf.sh"
+}
 
-fancy_echo "Installing programs"
-brew update
-brew bundle
+install_asdf
 
-fancy_echo "Cleaning up old Homebrew formulae ..."
-brew cleanup
-brew cask cleanup
-brew prune
+install_asdf_plugins() {
+  local plugins=(
+    'https://github.com/asdf-vm/asdf-erlang'
+    'https://github.com/vic/asdf-elm'
+    'https://github.com/asdf-vm/asdf-elixir'
+    'https://github.com/asdf-vm/asdf-ruby'
+    'https://github.com/kennyp/asdf-golang'
+    'https://github.com/asdf-vm/asdf-nodejs'
+  )
 
-fancy_echo "Symlinking nvimrc"
-ln -s ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
+  for plugin in "${plugins[@]}"; do
+    local language=${plugin##*-}
+    asdf plugin-add $language $plugin
+  done
 
-fancy_echo "Symlinking tmux.conf"
-ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+  asdf plugin-add python3 https://github.com/tuvistavie/asdf-python
+  asdf plugin-add python2 https://github.com/tuvistavie/asdf-python
+}
 
-fancy_echo "Symlinking ranger configs"
-ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
-ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
+fancy_echo "Installing asdf plugins ..." "$yellow"
+install_asdf_plugins
 
 asdf_install_latest_version() {
   local latest_version
   latest_version=$(asdf list-all "$1" | tail -n 1)
-  fancy_echo "Installing $1 $latest_version"
+  fancy_echo "Installing $1 $latest_version" "$yellow"
   asdf install "$1" "$latest_version"
   fancy_echo "Setting global version of $1 to $latest_version"
   asdf global "$1" "$latest_version"
 }
 
+column
+
 asdf_install_latest_version ruby
-
-fancy_echo "Installing tmuxinator"
-gem_install_or_update tmuxinator
-
 asdf_install_latest_version elixir
 asdf_install_latest_version erlang
 asdf_install_latest_version nodejs
-asdf_install_latest_version golang
 asdf_install_latest_version elm
 
 asdf_install_latest_python_three() {
   local latest_version
   latest_version=$(asdf list-all python | grep -E '^3.*[^-dev]$' | tail -n 1)
-  fancy_echo "Installing python $latest_version"
+  fancy_echo "Installing python $latest_version" "$yellow"
   asdf install python3 "$latest_version"
   fancy_echo "Setting global version of python3 to $latest_version"
   asdf global python3 "$latest_version"
@@ -215,22 +228,53 @@ asdf_install_latest_python_three() {
 asdf_install_latest_python_two() {
   local latest_version
   latest_version=$(asdf list-all python | grep -E '^2.*[^-dev]$' | tail -n 1)
-  fancy_echo "Installing python $latest_version"
+  fancy_echo "Installing python $latest_version" "$yellow"
   asdf install python2 "$latest_version"
   fancy_echo "Setting global version of python2 to $latest_version"
   asdf global python2 "$latest_version"
 }
 
+asdf_install_latest_golang() {
+  local latest_version
+  latest_version=$(asdf list-all golang | grep -E 'darwin' | grep -v 'rc' | grep -v 'beta' | grep -E 'amd64' | tail -n 1)
+  fancy_echo "Installing golang $latest_version" "$yellow"
+  asdf install golang "$latest_version"
+}
+
 asdf_install_latest_python_three
 asdf_install_latest_python_two
+asdf_install_latest_golang
 
+
+column
+fancy_echo "Installing programs" "$yellow"
+if brew list | grep -Fq brew-cask; then
+  fancy_echo "Uninstalling old Homebrew-Cask ..."
+  brew uninstall --force brew-cask
+fi
+brew update
+brew bundle
+fancy_echo "Installing tmuxinator https://github.com/tmuxinator/tmuxinator"
+gem_install_or_update tmuxinator
 fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli"
-npm install -g google-cli
-
+npm_install_or_update google-cli
 fancy_echo "Installing tldr https://www.npmjs.com/package/tldr"
-npm install -g tldr
+npm_install_or_update tldr
+brew cleanup
+brew cask cleanup
+brew prune
 
-fancy_echo "Updating Apple macOS defaults"
+
+column
+fancy_echo "Symlinking config files" "$yellow"
+ln -s ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
+ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
+ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
+
+
+column
+fancy_echo "Updating Apple macOS defaults" "$yellow"
 if [[ "$OSTYPE" == darwin* ]]; then
   fancy_echo "Installing fonts"
   cp -vf ~/dotfiles/fonts/* ~/Library/Fonts
@@ -238,7 +282,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   fancy_echo "Enabling full keyboard access for all controls. e.g. enable Tab in modal dialogs"
   defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-  fancy_echo "Setting a blazingly fast keyboard repeat rate (ain't nobody got time fo special chars while coding!)"
+  fancy_echo "Setting a blazingly fast keyboard repeat rate"
   defaults write NSGlobalDomain KeyRepeat -int 0
 
   fancy_echo "Disable smart quotes and smart dashes as they're annoying when typing code"
