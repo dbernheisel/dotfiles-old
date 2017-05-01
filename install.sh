@@ -270,6 +270,7 @@ brew prune
 column
 fancy_echo "Symlinking config files" "$yellow"
 ln -s ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
+ln -s ~/dotfiles/aliases.sh /.aliases.sh
 ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
 ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
