@@ -286,7 +286,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
   fancy_echo "Setting a blazingly fast keyboard repeat rate"
-  defaults write NSGlobalDomain KeyRepeat -int 0
+  defaults write NSGlobalDomain KeyRepeat -int 1
 
   fancy_echo "Disable smart quotes and smart dashes as they're annoying when typing code"
   defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
