@@ -1,9 +1,11 @@
 #!/bin/bash
+
+
+#### Helper funcions
 column() {
   printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 }
 
-# color helpers
 mkcolor() {
   [ "${BASH_VERSINFO[0]}" -le "3" ] && echo -e "\033[00;$1m" || echo "\e[0;$1m"
 }
@@ -24,57 +26,6 @@ fancy_echo() {
   # shellcheck disable=SC2059
   printf "$color$fmt$clear\n" "$@"
 }
-
-column
-fancy_echo "Installing xcode command line tools" "$yellow"
-xcode-select --install
-
-if ! command -v brew >/dev/null; then
-  column
-  fancy_echo "Installing Homebrew ..." "$yellow"
-  curl -fsS \
-    'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
-
-  append_to_zshrc '# recommended by brew doctor'
-  append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
-  export PATH="/usr/local/bin:$PATH"
-fi
-
-install_mas() {
-  if ! command -v mas > /dev/null; then
-    column
-    fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
-    brew install mas
-  fi
-}
-
-install_mas
-
-update_shell() {
-  local shell_path;
-  shell_path="$(brew --prefix zsh)/bin/zsh"
-  if [ "$SHELL" != "$shell_path" ]; then
-
-    column
-    fancy_echo "Changing your shell to zsh ..." "$yellow"
-    if ! grep "^$shell_path" /etc/shells > /dev/null 2>&1 ; then
-      brew install zsh
-      sudo sh -c "echo $shell_path >> /etc/shells"
-    fi
-    chsh -s "$shell_path"
-  fi
-}
-
-case "$SHELL" in
-  */zsh)
-    if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
-      update_shell
-    fi
-    ;;
-  *)
-    update_shell
-    ;;
-esac
 
 gem_install_or_update() {
   if gem list "$1" --installed > /dev/null; then
@@ -115,6 +66,64 @@ append_to_zshrc() {
   fi
 }
 
+
+#### Prerequisites, like xcode and homebrew
+column
+fancy_echo "Installing xcode command line tools" "$yellow"
+xcode-select --install
+
+if ! command -v brew >/dev/null; then
+  column
+  fancy_echo "Installing Homebrew ..." "$yellow"
+  curl -fsS \
+    'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+
+  append_to_zshrc '# recommended by brew doctor'
+  append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+  export PATH="/usr/local/bin:$PATH"
+fi
+
+install_mas() {
+  if ! command -v mas > /dev/null; then
+    column
+    fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
+    brew install mas
+  fi
+}
+
+install_mas
+
+
+#### Install zsh
+update_shell() {
+  local shell_path;
+  shell_path="$(brew --prefix zsh)/bin/zsh"
+  if [ "$SHELL" != "$shell_path" ]; then
+
+    column
+    fancy_echo "Changing your shell to zsh ..." "$yellow"
+    if ! grep "^$shell_path" /etc/shells > /dev/null 2>&1 ; then
+      brew install zsh
+      sudo sh -c "echo $shell_path >> /etc/shells"
+    fi
+    chsh -s "$shell_path"
+  fi
+}
+
+case "$SHELL" in
+  */zsh)
+    if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
+      update_shell
+    fi
+    ;;
+  *)
+    update_shell
+    ;;
+esac
+
+
+
+#### Install dotfiles
 install_zprezto() {
   if [ ! -d ~/.zprezto ]; then
     column
@@ -129,7 +138,6 @@ install_zprezto() {
 
 install_zprezto
 cp prompt_bernheisel_setup ~/.zprezto/modules/prompt/functions/prompt_bernheisel_setup
-
 
 column
 fancy_echo "Backing up existing dotfiles" "$yellow"
@@ -163,6 +171,16 @@ if [ ! -e "$HOME/.secrets" ]; then
   touch "$HOME"/.secrets
 fi
 
+column
+fancy_echo "Symlinking config files" "$yellow"
+ln -s ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
+ln -s ~/dotfiles/aliases.sh /.aliases.sh
+ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
+ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
+
+
+#### asdf Install, plugins, and languages
 column
 install_asdf() {
   if [ ! -d ~/.asdf ]; then
@@ -248,6 +266,7 @@ asdf_install_latest_python_two
 asdf_install_latest_golang
 
 
+#### Brew installs
 column
 fancy_echo "Installing programs" "$yellow"
 if brew list | grep -Fq brew-cask; then
@@ -267,15 +286,8 @@ brew cask cleanup
 brew prune
 
 
-column
-fancy_echo "Symlinking config files" "$yellow"
-ln -s ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
-ln -s ~/dotfiles/aliases.sh /.aliases.sh
-ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
-ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
 
-
+#### Apple macOS defaults
 column
 fancy_echo "Updating Apple macOS defaults" "$yellow"
 if [[ "$OSTYPE" == darwin* ]]; then
