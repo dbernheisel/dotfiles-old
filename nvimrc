@@ -128,6 +128,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'vim-airline/vim-airline'      " Statusline
   Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
   Plug 'danilo-augusto/vim-afterglow' " Theme
+  Plug 'reewr/vim-monokai-phoenix'    " Theme
   Plug 'tommcdo/vim-lion'             " Align with gl or gL
   Plug 'c-brenn/phoenix.vim'          " :Pgenerate, :Pserver, :Ppreview, Jump
   Plug 'tpope/vim-projectionist'      " required for some navigation features
@@ -188,9 +189,10 @@ filetype on
 
 " Theming
 set background=dark
+set termguicolors
 syntax on
 
-colorscheme afterglow
+colorscheme monokai-phoenix
 
 augroup vimrcEx
   autocmd!
