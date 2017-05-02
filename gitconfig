@@ -22,7 +22,7 @@
 	required = true
 [alias]
 	graph = log --graph --all --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
-	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue%an%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
   s = status
   aa = add --all
   ca = commit --amend
@@ -45,10 +45,15 @@
   cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+[format]
+  pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
+[url "git@github.com:thoughtbot/"]
+  insteadOf = tb:
 [fetch]
   prune = true
 [merge]
-	tool = vimdiff
+  tool = vimdiff
+  ff = only
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
