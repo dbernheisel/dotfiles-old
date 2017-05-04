@@ -17,7 +17,6 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-
 " Turn on rendering whitespace
 set listchars+=trail:·,precedes:←,extends:→,tab:¬\ ,nbsp:+,conceal:※
 set list
@@ -61,7 +60,7 @@ map ; :
 inoremap jj <Esc>
 
 " leader to edit vimrc and reload
-nnoremap <leader>vimrc :vsplit $MYVIMRC<CR>
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Preferences
@@ -73,7 +72,7 @@ set laststatus=2
 
 " Set lines and number gutter
 set cursorline              " turn on row highlighting where cursor is
-set cursorcolumn            " turn on column highlighting where cursor is
+"set cursorcolumn            " turn on column highlighting where cursor is
 set ruler                   " turn on ruler information in statusline
 
 " Set number gutter
@@ -104,7 +103,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     let g:deoplete#enable_at_startup = 1
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-  Plug 'blueyed/vim-diminactive'      " Dim inactive buffers
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel :A, :R
                                       " :Rgenerate, :Rails
   Plug 'francoiscabrol/ranger.vim', { 'on': 'Ranger' }    " File explorer
@@ -123,7 +121,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'sheerun/vim-polyglot'         " Languages support.
   Plug 'tpope/vim-eunuch'             " Add Bash commands Remove,Move,Find,etc
   Plug 'pbrisbin/vim-mkdir'           " create directories if they don't exist
-  Plug 'terryma/vim-multiple-cursors' " visual, then C-n then i
+  Plug 'terryma/vim-multiple-cursors' " visual, then C-n then I
   Plug 'simeji/winresizer'            " Resize panes with C-e and hjkl
   Plug 'vim-airline/vim-airline'      " Statusline
   Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
@@ -159,30 +157,30 @@ call plug#begin('~/.config/nvim/plugged')
   " Turn off jshint (rely on eslint)
   let g:neomake_javascript_enabled_makers = ['eslint']
   " Configure a nice credo setup, courtesy https://github.com/neomake/neomake/pull/300
-"  let g:neomake_elixir_enabled_makers = ['mycredo']
-"  function! NeomakeCredoErrorType(entry)
-"    if a:entry.type ==# 'F'      " Refactoring opportunities
-"      let l:type = 'W'
-"    elseif a:entry.type ==# 'D'  " Software design suggestions
-"      let l:type = 'I'
-"    elseif a:entry.type ==# 'W'  " Warnings
-"      let l:type = 'W'
-"    elseif a:entry.type ==# 'R'  " Readability suggestions
-"      let l:type = 'I'
-"    elseif a:entry.type ==# 'C'  " Convention violation
-"      let l:type = 'W'
-"    else
-"      let l:type = 'M'           " Everything else is a message
-"    endif
-"    let a:entry.type = l:type
-"  endfunction
-"
-"  let g:neomake_elixir_mycredo_maker = {
-"    \ 'exe': 'mix',
-"    \ 'args': ['credo', 'list', '%:p', '--format=oneline'],
-"    \ 'errorformat': '[%t] %. %f:%l:%c %m,[%t] %. %f:%l %m',
-"    \ 'postprocess': function('NeomakeCredoErrorType')
-"    \ }
+  let g:neomake_elixir_enabled_makers = ['mycredo']
+  function! NeomakeCredoErrorType(entry)
+    if a:entry.type ==# 'F'      " Refactoring opportunities
+      let l:type = 'W'
+    elseif a:entry.type ==# 'D'  " Software design suggestions
+      let l:type = 'I'
+    elseif a:entry.type ==# 'W'  " Warnings
+      let l:type = 'W'
+    elseif a:entry.type ==# 'R'  " Readability suggestions
+      let l:type = 'I'
+    elseif a:entry.type ==# 'C'  " Convention violation
+      let l:type = 'W'
+    else
+      let l:type = 'M'           " Everything else is a message
+    endif
+    let a:entry.type = l:type
+  endfunction
+
+  let g:neomake_elixir_mycredo_maker = {
+    \ 'exe': 'mix',
+    \ 'args': ['credo', 'list', '%:p', '--format=oneline'],
+    \ 'errorformat': '[%t] %. %f:%l:%c %m,[%t] %. %f:%l %m',
+    \ 'postprocess': function('NeomakeCredoErrorType')
+    \ }
 "
 call plug#end()
 filetype on
@@ -234,8 +232,8 @@ augroup vimrcEx
 augroup END
 
 " Highlight 81st character
-highlight ColorColumn ctermbg=darkred
-call matchadd('ColorColumn', '\%81v', 100) " alert at 81st vertical char
+highlight OverLength ctermbg=red ctermfg=white guibg=#600000
+match OverLength /\%81v/
 
 " FZF and RipGrep
 if executable('fzf')
@@ -244,7 +242,7 @@ if executable('fzf')
 endif
 
 " vim-diminactive change background color
-highlight ColorColumn ctermbg=0 guibg=#eeeeee
+"highlight ColorColumn ctermbg=0 guibg=#eeeeee
 
 " start vim-ranger on opening a directory
 "if executable('ranger')
