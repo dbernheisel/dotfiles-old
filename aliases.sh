@@ -59,3 +59,5 @@ alias sourcetree='open -a SourceTree ./'
 
 alias :q='exit'
 alias weather='curl wttr.in'
+
+alias boom="git stash && git pull --rebase && git stash pop && git add -A && git commit -m 'another one' && git push"

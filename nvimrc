@@ -72,7 +72,10 @@ set laststatus=2
 
 " Set lines and number gutter
 set cursorline              " turn on row highlighting where cursor is
+<<<<<<< HEAD
 "set cursorcolumn            " turn on column highlighting where cursor is
+=======
+>>>>>>> tune elixir vim
 set ruler                   " turn on ruler information in statusline
 
 " Set number gutter
@@ -103,6 +106,9 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     let g:deoplete#enable_at_startup = 1
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+  Plug 'xolox/vim-notes'              " :Notes
+  Plug 'xolox/vim-misc'               " i dunno.. just need it for vim-notes
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel :A, :R
                                       " :Rgenerate, :Rails
   Plug 'francoiscabrol/ranger.vim', { 'on': 'Ranger' }    " File explorer
@@ -132,6 +138,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-projectionist'      " required for some navigation features
   Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
   Plug 'elixir-lang/vim-elixir'       " Elixir support
+  Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
   Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
   Plug 'christoomey/vim-tmux-navigator' " Navigate between VIM and TMUX seamlessly
   Plug 'tmux-plugins/vim-tmux-focus-events' " fix FocusGained and FocusLost
@@ -141,6 +148,7 @@ call plug#begin('~/.config/nvim/plugged')
                                       " double-quotes to single-quotes.
   Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
   Plug 'junegunn/fzf.vim'             " Fuzzy-finder
+  Plug 'dkprice/vim-easygrep'         " Grep across files
   Plug 'ludovicchabant/vim-gutentags' " Ctags support.
     let g:gutentags_cache_dir = '~/.ctags_cache'
 
@@ -292,6 +300,13 @@ let g:airline_section_y = '%y'
 let g:airline_section_z = '%l/%L'
 let g:airline#extensions#default#section_truncate_width = { 'b': 10 }
 
+" vim-alchemist
+let g:alchemist_tag_map = 'gd'
+
+" vim-notes
+let g:notes_directories = ['~/Documents/Notes']
+let g:notes_smart_quotes = 0
+
 " vim-test
 let test#strategy = "tslime"
 let g:tslime_always_current_session = 1
@@ -300,6 +315,7 @@ let g:tslime_always_current_window = 1
 nmap <silent> <leader>t :TcstNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>ts :Tmux bin/test_suite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 
