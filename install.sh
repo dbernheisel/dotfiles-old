@@ -211,6 +211,7 @@ install_asdf() {
 install_asdf
 
 install_asdf_plugins() {
+  export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
   local plugins=(
     'https://github.com/asdf-vm/asdf-erlang'
     'https://github.com/vic/asdf-elm'
@@ -224,6 +225,9 @@ install_asdf_plugins() {
     local language=${plugin##*-}
     asdf plugin-add $language $plugin
   done
+
+  source "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
+  unset GNUPGHOME
 
   asdf plugin-add python3 https://github.com/tuvistavie/asdf-python
   asdf plugin-add python2 https://github.com/tuvistavie/asdf-python
