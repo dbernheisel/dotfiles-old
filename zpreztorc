@@ -35,7 +35,6 @@ zstyle ':prezto:load' pmodule \
   'ssh' \
   'completion' \
   'homebrew' \
-  'node' \
   'rsync' \
   'osx' \
   'tmux' \

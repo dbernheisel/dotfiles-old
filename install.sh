@@ -180,6 +180,21 @@ ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
 ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
 
 
+
+#### Brew installs
+column
+fancy_echo "Installing programs" "$yellow"
+if brew list | grep -Fq brew-cask; then
+  fancy_echo "Uninstalling old Homebrew-Cask ..."
+  brew uninstall --force brew-cask
+fi
+brew update
+brew bundle
+brew cleanup
+brew cask cleanup
+brew prune
+
+
 #### asdf Install, plugins, and languages
 column
 install_asdf() {
@@ -266,24 +281,14 @@ asdf_install_latest_python_two
 asdf_install_latest_golang
 
 
-#### Brew installs
+#### Tools
 column
-fancy_echo "Installing programs" "$yellow"
-if brew list | grep -Fq brew-cask; then
-  fancy_echo "Uninstalling old Homebrew-Cask ..."
-  brew uninstall --force brew-cask
-fi
-brew update
-brew bundle
 fancy_echo "Installing tmuxinator https://github.com/tmuxinator/tmuxinator"
 gem_install_or_update tmuxinator
 fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli"
 npm_install_or_update google-cli
 fancy_echo "Installing tldr https://www.npmjs.com/package/tldr"
 npm_install_or_update tldr
-brew cleanup
-brew cask cleanup
-brew prune
 
 
 

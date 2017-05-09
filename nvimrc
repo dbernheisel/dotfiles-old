@@ -72,10 +72,6 @@ set laststatus=2
 
 " Set lines and number gutter
 set cursorline              " turn on row highlighting where cursor is
-<<<<<<< HEAD
-"set cursorcolumn            " turn on column highlighting where cursor is
-=======
->>>>>>> tune elixir vim
 set ruler                   " turn on ruler information in statusline
 
 " Set number gutter
@@ -153,7 +149,6 @@ call plug#begin('~/.config/nvim/plugged')
     let g:gutentags_cache_dir = '~/.ctags_cache'
 
   Plug 'neomake/neomake'              " Execute linters and compilers
-  Plug 'jaawerth/neomake-local-eslint-first'  " Prefer local eslint to global eslint
   " Run after write
   augroup localneomake
     autocmd! BufWritePost * Neomake
@@ -276,7 +271,7 @@ let NERDTreeShowLineNumbers=0
 map <C-_> <leader>c<space>
 
 " FZF and ripgrep
-command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 " vim-fzf
 nnoremap <C-P> :Files<CR>

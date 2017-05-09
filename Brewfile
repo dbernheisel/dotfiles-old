@@ -35,6 +35,7 @@ brew 'automake'       # CLI Build utility
 brew 'awscli'         # CLI Amazon AWS CLI
 brew 'cmake'          # CLI Build utility
 brew 'coreutils'      # CLI GNU utilities
+brew 'gpg'            # CLI GPG security
 brew 'ctags'          # CLI Exhuburant ctags
 brew 'diff-so-fancy'  # CLI diff-highlight for git
 brew 'dfu-util'       # CLI Firmware loader for keyboard
