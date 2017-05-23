@@ -67,6 +67,7 @@ append_to_zshrc() {
 }
 
 
+
 #### Prerequisites, like xcode and homebrew
 column
 fancy_echo "Installing xcode command line tools" "$yellow"
@@ -231,6 +232,7 @@ install_asdf_plugins() {
 
   asdf plugin-add python3 https://github.com/tuvistavie/asdf-python
   asdf plugin-add python2 https://github.com/tuvistavie/asdf-python
+  asdf plugin-add python https://github.com/tuvistavie/asdf-python
 }
 
 fancy_echo "Installing asdf plugins ..." "$yellow"
@@ -258,8 +260,11 @@ asdf_install_latest_python_three() {
   latest_version=$(asdf list-all python | grep -E '^3.*[^-dev]$' | tail -n 1)
   fancy_echo "Installing python $latest_version" "$yellow"
   asdf install python3 "$latest_version"
+  asdf install python "$latest_version"
   fancy_echo "Setting global version of python3 to $latest_version"
   asdf global python3 "$latest_version"
+  asdf global python "$latest_version"
+
 }
 
 asdf_install_latest_python_two() {
@@ -287,13 +292,15 @@ asdf_install_latest_golang
 
 #### Tools
 column
+gem_install_or_update neovim
+pip install neovim
 fancy_echo "Installing tmuxinator https://github.com/tmuxinator/tmuxinator"
 gem_install_or_update tmuxinator
 fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli"
 npm_install_or_update google-cli
 fancy_echo "Installing tldr https://www.npmjs.com/package/tldr"
 npm_install_or_update tldr
-
+git clone https://github.com/djui/alias-tips.git ~/.zprezto/modules/alias-tips
 
 
 #### Apple macOS defaults

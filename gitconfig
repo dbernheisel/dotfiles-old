@@ -35,16 +35,17 @@
 	compression = -1
 	autocrlf = input
 	excludesfile = ~/.gitignore
-	editor = vim
+	editor = nvim
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [diff]
   tool = vimdiff
 [difftool "vimdiff"]
-  path = nvim
+  path = nvim -d
 [difftool "vscode"]
   cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
 [format]
   pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
 [url "git@github.com:thoughtbot/"]
@@ -58,11 +59,12 @@
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [mergetool "vimdiff"]
-	path = nvim
+	path = nvim -d
 [commit]
 	template = /Users/davidbernheisel/.stCommitMsg
 [http]
 	postBuffer = 157286400
-
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
+[url "ssh://git@heroku.com/"]
+	insteadOf = https://git.heroku.com/

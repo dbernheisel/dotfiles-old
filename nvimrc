@@ -236,7 +236,18 @@ augroup END
 
 " Highlight 81st character
 highlight OverLength ctermbg=red ctermfg=white guibg=#600000
-match OverLength /\%81v/
+function! UpdateMatch()
+  if &previewwindow
+    match OverLength none
+  else
+    if &ft !~ '^\%(elixir\|qf\)$'
+      match OverLength /\%81v/
+    else
+      match OverLength /\%101v/
+    endif
+  endif
+endfun
+autocmd BufEnter,BufWinEnter * call UpdateMatch()
 
 " FZF and RipGrep
 if executable('fzf')
@@ -310,7 +321,7 @@ let g:tslime_always_current_window = 1
 nmap <silent> <leader>t :TcstNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>ts :Tmux bin/test_suite<CR>
+nmap <silent> <leader>s :Tmux bin/test_suite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 
