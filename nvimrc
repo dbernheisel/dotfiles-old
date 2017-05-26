@@ -133,7 +133,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'c-brenn/phoenix.vim'          " :Pgenerate, :Pserver, :Ppreview, Jump
   Plug 'tpope/vim-projectionist'      " required for some navigation features
   Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
-  Plug 'elixir-lang/vim-elixir'       " Elixir support
   Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
   Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
   Plug 'christoomey/vim-tmux-navigator' " Navigate between VIM and TMUX seamlessly
@@ -237,14 +236,12 @@ augroup END
 " Highlight 81st character
 highlight OverLength ctermbg=red ctermfg=white guibg=#600000
 function! UpdateMatch()
-  if &previewwindow
-    match OverLength none
+  if &previewwindow || &ft !~ '^\%(qf\)$'
+    match none
+  elseif &ft !~ '^\%(elixir\)$'
+    match OverLength /\%81v/
   else
-    if &ft !~ '^\%(elixir\|qf\)$'
-      match OverLength /\%81v/
-    else
-      match OverLength /\%101v/
-    endif
+    match OverLength /\%101v/
   endif
 endfun
 autocmd BufEnter,BufWinEnter * call UpdateMatch()
@@ -304,7 +301,19 @@ let g:airline_section_b = ''
 let g:airline_section_x = ''
 let g:airline_section_y = '%y'
 let g:airline_section_z = '%l/%L'
+let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#default#section_truncate_width = { 'b': 10 }
+
+" vim-tmuxline
+let g:tmuxline_preset = {
+  \'a'    : '#h',
+  \'b'    : '#S',
+  \'c'    : '',
+  \'win'  : '#I #W',
+  \'cwin' : '#I #W',
+  \'x'    : '#(git rev-parse --abbrev-ref HEAD)',
+  \'y'    : ['%Y-%m-%d %a', '%H:%M'],
+  \'z'    : '#(pmset -g batt | egrep "([0-9]+\%).*" -o | cut -f1 -d ";")'}
 
 " vim-alchemist
 let g:alchemist_tag_map = 'gd'

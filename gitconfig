@@ -61,7 +61,7 @@
 [mergetool "vimdiff"]
 	path = nvim -d
 [commit]
-	template = /Users/davidbernheisel/.stCommitMsg
+	template = /Users/davidbernheisel/dotfiles/gitmessage
 [http]
 	postBuffer = 157286400
 [url "ssh://git@github.com/"]

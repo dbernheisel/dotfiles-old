@@ -2,6 +2,7 @@ tap 'caskroom/cask'
 tap 'neovim/neovim'
 tap 'caskroom/fonts'
 tap 'thoughtbot/formulae'
+tap 'Goles/battery'
 cask 'font-hack-nerd-font'
 cask 'font-inconsolata'
 cask 'font-fira-code'
@@ -28,7 +29,7 @@ cask 'java'           # Java Langauge
 cask 'android-sdk'    # CLI adb Android SDK
 cask 'pdftotext'      # CLI for converting PDF to Text. Used fir Ranger
 cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
-brew 'mas'
+brew 'mas'            # CLI to install from Mac App Store
 brew 'ansible'        # CLI Ansible
 brew 'autoconf'       # CLI Build utility
 brew 'automake'       # CLI Build utility
@@ -91,6 +92,7 @@ brew 'yarn'           # CLI JavaScript package manager
 brew 'wrk'            # CLI wrk HTTP benchmarking
 brew 'heroku'         # CLI heroku
 brew 'parity'         # CLI adding commands to heroku
+brew 'battery'        # CLI for showing battery level, used for tmux
 #mas 'Xcode',          id: 497799835
 mas 'The Unarchiver', id: 425424353
 mas 'Medis',          id: 1063631769
