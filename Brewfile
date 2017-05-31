@@ -25,6 +25,7 @@ cask 'omnidisksweeper'
 cask 'insomniax'
 cask 'iterm2'
 cask 'alfred'
+cask '1password'
 cask 'java'           # Java Langauge
 cask 'android-sdk'    # CLI adb Android SDK
 cask 'pdftotext'      # CLI for converting PDF to Text. Used fir Ranger

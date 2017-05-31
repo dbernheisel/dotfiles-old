@@ -158,32 +158,8 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Turn off jshint (rely on eslint)
   let g:neomake_javascript_enabled_makers = ['eslint']
-  " Configure a nice credo setup, courtesy https://github.com/neomake/neomake/pull/300
-  let g:neomake_elixir_enabled_makers = ['mycredo']
-  function! NeomakeCredoErrorType(entry)
-    if a:entry.type ==# 'F'      " Refactoring opportunities
-      let l:type = 'W'
-    elseif a:entry.type ==# 'D'  " Software design suggestions
-      let l:type = 'I'
-    elseif a:entry.type ==# 'W'  " Warnings
-      let l:type = 'W'
-    elseif a:entry.type ==# 'R'  " Readability suggestions
-      let l:type = 'I'
-    elseif a:entry.type ==# 'C'  " Convention violation
-      let l:type = 'W'
-    else
-      let l:type = 'M'           " Everything else is a message
-    endif
-    let a:entry.type = l:type
-  endfunction
-
-  let g:neomake_elixir_mycredo_maker = {
-    \ 'exe': 'mix',
-    \ 'args': ['credo', 'list', '%:p', '--format=oneline'],
-    \ 'errorformat': '[%t] %. %f:%l:%c %m,[%t] %. %f:%l %m',
-    \ 'postprocess': function('NeomakeCredoErrorType')
-    \ }
-"
+  " Turn on credo checking
+  let g:neomake_elixir_enabled_makers = ['mix', 'credo']
 call plug#end()
 filetype on
 
@@ -327,10 +303,10 @@ let test#strategy = "tslime"
 let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
 "let test#ruby#rspec#options = '--require ~/.config/nvim/ruby_quickfix_formatter.rb --format QuickfixFormatter'
-nmap <silent> <leader>t :TcstNearest<CR>
+nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>s :Tmux bin/test_suite<CR>
+nmap <silent> <leader>s :Tmux clear; bin/test_suite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 

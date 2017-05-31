@@ -7,6 +7,9 @@ if type "nvim" &> /dev/null; then
   }
 fi
 
+# Git
+alias gaa='git add -A'
+
 # Use Exhuburant ctags
 if [ -f "$(brew --prefix)/bin/ctags)" ]; then
  alias ctags='$(brew --prefix)/bin/ctags'
