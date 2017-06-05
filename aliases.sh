@@ -9,6 +9,9 @@ fi
 
 # Git
 alias gaa='git add -A'
+alias gs='git status'
+alias gd='git diff'
+alias gds='git diff --staged'
 
 # Use Exhuburant ctags
 if [ -f "$(brew --prefix)/bin/ctags)" ]; then

@@ -3,29 +3,30 @@ tap 'neovim/neovim'
 tap 'caskroom/fonts'
 tap 'thoughtbot/formulae'
 tap 'Goles/battery'
-cask 'font-hack-nerd-font'
-cask 'font-inconsolata'
-cask 'font-fira-code'
-cask 'google-chrome'
-cask 'vlc'
-cask 'visual-studio-code'
-cask 'virtualbox'
-cask 'transmission'
-cask 'postico'
-cask 'hex-fiend'
-cask 'xld'
-cask 'handbrake'
-cask 'handbrakebatch'
-cask 'boxer'
-cask 'slack'
-cask 'sourcetree'
-cask 'android-file-transfer'
-cask 'itsycal'
-cask 'omnidisksweeper'
-cask 'insomniax'
-cask 'iterm2'
-cask 'alfred'
-cask '1password'
+cask 'font-hack-nerd-font' # font
+cask 'font-inconsolata' # font
+cask 'font-fira-code' # Mozilla Fira font with code ligatures
+cask 'google-chrome'  # Internet browser
+cask 'vlc'            # Video/Audio Player
+cask 'visual-studio-code'   # Code Editor
+cask 'virtualbox'     # Virtual Machine manager
+cask 'dash'           # Offline documentation
+cask 'transmission'   # Bittorrent
+cask 'postico'        # Postgres Database Viewer
+cask 'hex-fiend'      # Hex value editor
+cask 'xld'            # Audio processing
+cask 'handbrake'      # Video/audio processing
+cask 'handbrakebatch' # Batch video/audio processing with handbrake
+cask 'boxer'          # DOS Emulator
+cask 'slack'          # Chat
+cask 'sourcetree'     # Git manager
+cask 'android-file-transfer'  # Transfer files from/to Android
+cask 'itsycal'        # Calendar menubar
+cask 'omnidisksweeper'  # Disk visualizer
+cask 'insomniax'      # Prevent computer from sleeping
+cask 'iterm2'         # Terminal emulator
+cask 'alfred'         # Spotlot replacement
+cask '1password'      # Password manager
 cask 'java'           # Java Langauge
 cask 'android-sdk'    # CLI adb Android SDK
 cask 'pdftotext'      # CLI for converting PDF to Text. Used fir Ranger

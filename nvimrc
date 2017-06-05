@@ -228,9 +228,6 @@ if executable('fzf')
   set grepprg=rg\ --vimgrep   " use ripgrep
 endif
 
-" vim-diminactive change background color
-"highlight ColorColumn ctermbg=0 guibg=#eeeeee
-
 " start vim-ranger on opening a directory
 "if executable('ranger')
   "let g:loaded_netrw       = 1
@@ -262,15 +259,6 @@ nnoremap <C-P> :Files<CR>
 nnoremap <C-F> :RipGrep<Space>
 
 " vim-airline
-"let g:airline_section_a       (mode, crypt, paste, spell, iminsert)
-"let g:airline_section_b       (hunks, branch)
-"let g:airline_section_c       (bufferline or filename)
-"let g:airline_section_gutter  (readonly, csv)
-"let g:airline_section_x       (tagbar, filetype, virtualenv)
-"let g:airline_section_y       (fileencoding, fileformat)
-"let g:airline_section_z       (percentage, line number, column number)
-"let g:airline_section_error   (ycm_error_count, syntastic, eclim)
-"let g:airline_section_warning (ycm_warning_count, whitespace)
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_section_b = ''
@@ -305,8 +293,8 @@ let g:tslime_always_current_window = 1
 "let test#ruby#rspec#options = '--require ~/.config/nvim/ruby_quickfix_formatter.rb --format QuickfixFormatter'
 nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>s :Tmux clear; bin/test_suite<CR>
+"nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>a :Tmux clear; echo "bin/test_suite"; bin/test_suite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 
