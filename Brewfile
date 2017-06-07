@@ -7,6 +7,7 @@ cask 'font-hack-nerd-font' # font
 cask 'font-inconsolata' # font
 cask 'font-fira-code' # Mozilla Fira font with code ligatures
 cask 'google-chrome'  # Internet browser
+cask 'google-drive'   # File syncing
 cask 'vlc'            # Video/Audio Player
 cask 'visual-studio-code'   # Code Editor
 cask 'virtualbox'     # Virtual Machine manager

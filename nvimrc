@@ -105,8 +105,10 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'xolox/vim-notes'              " :Notes
   Plug 'xolox/vim-misc'               " i dunno.. just need it for vim-notes
-  Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel :A, :R
+  Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel, :R
                                       " :Rgenerate, :Rails
+  Plug 'tpope/vim-projectionist'      " :A, :AS, :AV, and :AT
+  Plug 'andyl/vim-projectionist-elixir' " Projectionist support for Elixir
   Plug 'francoiscabrol/ranger.vim', { 'on': 'Ranger' }    " File explorer
   Plug 'rbgrouleff/bclose.vim'        " Ranger dependency
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Sidebar file explorer
@@ -131,7 +133,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'reewr/vim-monokai-phoenix'    " Theme
   Plug 'tommcdo/vim-lion'             " Align with gl or gL
   Plug 'c-brenn/phoenix.vim'          " :Pgenerate, :Pserver, :Ppreview, Jump
-  Plug 'tpope/vim-projectionist'      " required for some navigation features
   Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
   Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
   Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
