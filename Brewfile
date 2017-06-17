@@ -1,6 +1,7 @@
 tap 'caskroom/cask'
 tap 'neovim/neovim'
 tap 'caskroom/fonts'
+tap 'caskroom/versions'
 tap 'thoughtbot/formulae'
 tap 'Goles/battery'
 cask 'font-hack-nerd-font' # font
@@ -11,6 +12,7 @@ cask 'google-drive'   # File syncing
 cask 'vlc'            # Video/Audio Player
 cask 'visual-studio-code'   # Code Editor
 cask 'virtualbox'     # Virtual Machine manager
+cask 'omnigraffle6'
 cask 'dash'           # Offline documentation
 cask 'transmission'   # Bittorrent
 cask 'postico'        # Postgres Database Viewer

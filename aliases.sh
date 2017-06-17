@@ -68,4 +68,6 @@ alias weather='curl wttr.in'
 
 alias ll='ls -lah'
 
+alias tmuxbase='tmux attach -t base || tmux new -s base'
+
 alias boom="git stash && git pull --rebase && git stash pop && git add -A && git commit -m 'another one' && git push"
