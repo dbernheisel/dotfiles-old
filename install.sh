@@ -186,7 +186,7 @@ ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
 column
 fancy_echo "Installing programs" "$yellow"
 if brew list | grep -Fq brew-cask; then
-  fancy_echo "Uninstalling old Homebrew-Cask ..."
+  fancy_echo "Uninstalling old Homebrew-Cask ..." "$yellow"
   brew uninstall --force brew-cask
 fi
 brew update
@@ -209,8 +209,6 @@ install_asdf() {
   source "$HOME/.asdf/asdf.sh"
 }
 
-install_asdf
-
 install_asdf_plugins() {
   export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
   local plugins=(
@@ -222,49 +220,41 @@ install_asdf_plugins() {
     'https://github.com/asdf-vm/asdf-nodejs'
   )
 
-  for plugin in "${plugins[@]}"; do
-    local language=${plugin##*-}
-    asdf plugin-add $language $plugin
-  done
+  if command -v asdf >/dev/null; then
+    for plugin in "${plugins[@]}"; do
+      local language=${plugin##*-}
+      asdf plugin-add "$language" "$plugin"
+    done
 
-  source "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
-  unset GNUPGHOME
+    source "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
+    unset GNUPGHOME
 
-  asdf plugin-add python3 https://github.com/tuvistavie/asdf-python
-  asdf plugin-add python2 https://github.com/tuvistavie/asdf-python
-  asdf plugin-add python https://github.com/tuvistavie/asdf-python
+    local python_plugin_url='https://github.com/tuvistavie/asdf-python'
+    asdf plugin-add python3 "$python_plugin_url" || true
+    asdf plugin-add python2 "$python_plugin_url" || true
+    asdf plugin-add python "$python_plugin_url" || true
+  else
+    fancy_echo "Could not install plugins for asdf. Could not find asdf" "$red" && false
+  fi
 }
-
-fancy_echo "Installing asdf plugins ..." "$yellow"
-install_asdf_plugins
 
 asdf_install_latest_version() {
-  local latest_version
-  latest_version=$(asdf list-all "$1" | tail -n 1)
-  fancy_echo "Installing $1 $latest_version" "$yellow"
-  asdf install "$1" "$latest_version"
-  fancy_echo "Setting global version of $1 to $latest_version"
-  asdf global "$1" "$latest_version"
+  local language="$1"; shift
+  local latest_version=$(asdf list-all "$language" | tail -n 1)
+  fancy_echo "Installing $language $latest_version" "$yellow"
+  asdf install "$language" "$latest_version"
+  fancy_echo "Setting global version of $language to $latest_version" "$yellow"
+  asdf global "$language" "$latest_version"
 }
-
-column
-
-asdf_install_latest_version ruby
-asdf_install_latest_version elixir
-asdf_install_latest_version erlang
-asdf_install_latest_version nodejs
-asdf_install_latest_version elm
 
 asdf_install_latest_python_three() {
   local latest_version
   latest_version=$(asdf list-all python | grep -E '^3.*[^-dev]$' | tail -n 1)
   fancy_echo "Installing python $latest_version" "$yellow"
   asdf install python3 "$latest_version"
-  asdf install python "$latest_version"
-  fancy_echo "Setting global version of python3 to $latest_version"
+  fancy_echo "Setting global version of python3 to $latest_version" "$yellow"
   asdf global python3 "$latest_version"
-  asdf global python "$latest_version"
-
+  fancy_echo "Setting global version of python to $latest_version" "$yellow"
 }
 
 asdf_install_latest_python_two() {
@@ -272,7 +262,7 @@ asdf_install_latest_python_two() {
   latest_version=$(asdf list-all python | grep -E '^2.*[^-dev]$' | tail -n 1)
   fancy_echo "Installing python $latest_version" "$yellow"
   asdf install python2 "$latest_version"
-  fancy_echo "Setting global version of python2 to $latest_version"
+  fancy_echo "Setting global version of python2 to $latest_version" "$yellow"
   asdf global python2 "$latest_version"
 }
 
@@ -281,10 +271,17 @@ asdf_install_latest_golang() {
   latest_version=$(asdf list-all golang | grep -E 'darwin' | grep -v 'rc' | grep -v 'beta' | grep -E 'amd64' | tail -n 1)
   fancy_echo "Installing golang $latest_version" "$yellow"
   asdf install golang "$latest_version"
-  fancy_echo "Setting global verison of golang to $latest_version"
+  fancy_echo "Setting global verison of golang to $latest_version" "$yellow"
   asdf global golang "$latest_version"
 }
 
+install_asdf && install_asdf_plugins
+
+asdf_install_latest_version ruby
+asdf_install_latest_version elixir
+asdf_install_latest_version erlang
+asdf_install_latest_version nodejs
+asdf_install_latest_version elm
 asdf_install_latest_python_three
 asdf_install_latest_python_two
 asdf_install_latest_golang
@@ -294,11 +291,12 @@ asdf_install_latest_golang
 column
 gem_install_or_update neovim
 pip install neovim
-fancy_echo "Installing tmuxinator https://github.com/tmuxinator/tmuxinator"
+pip3 install neovim
+fancy_echo "Installing tmuxinator https://github.com/tmuxinator/tmuxinator" "$yellow"
 gem_install_or_update tmuxinator
-fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli"
+fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli" "$yellow"
 npm_install_or_update google-cli
-fancy_echo "Installing tldr https://www.npmjs.com/package/tldr"
+fancy_echo "Installing tldr https://www.npmjs.com/package/tldr" "$yellow"
 npm_install_or_update tldr
 git clone https://github.com/djui/alias-tips.git ~/.zprezto/modules/alias-tips
 
@@ -307,30 +305,30 @@ git clone https://github.com/djui/alias-tips.git ~/.zprezto/modules/alias-tips
 column
 fancy_echo "Updating Apple macOS defaults" "$yellow"
 if [[ "$OSTYPE" == darwin* ]]; then
-  fancy_echo "Installing fonts"
+  fancy_echo "Installing fonts" "$yellow"
   cp -vf ~/dotfiles/fonts/* ~/Library/Fonts
 
-  fancy_echo "Enabling full keyboard access for all controls. e.g. enable Tab in modal dialogs"
+  fancy_echo "Enabling full keyboard access for all controls. e.g. enable Tab in modal dialogs" "$yellow"
   defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
-  fancy_echo "Setting a blazingly fast keyboard repeat rate"
+  fancy_echo "Setting a blazingly fast keyboard repeat rate" "$yellow"
   defaults write NSGlobalDomain KeyRepeat -int 1
 
-  fancy_echo "Disable smart quotes and smart dashes as they're annoying when typing code"
+  fancy_echo "Disable smart quotes and smart dashes as they're annoying when typing code" "$yellow"
   defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
   defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
-  fancy_echo "Automatically quit printer app once the print jobs complete"
+  fancy_echo "Automatically quit printer app once the print jobs complete" "$yellow"
   defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-  fancy_echo "Enabling Safari debug menu"
+  fancy_echo "Enabling Safari debug menu" "$yellow"
   defaults write com.apple.Safari IncludeInternalDebugMenu -bool true
 
-  fancy_echo "Enabling the Develop menu and the Web Inspector in Safari"
+  fancy_echo "Enabling the Develop menu and the Web Inspector in Safari" "$yellow"
   defaults write com.apple.Safari IncludeDevelopMenu -bool true
   defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
   defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
 
-  fancy_echo "Adding a context menu item for showing the Web Inspector in web views"
+  fancy_echo "Adding a context menu item for showing the Web Inspector in web views" "$yellow"
   defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 fi

@@ -13,9 +13,6 @@ fi
 # asdf version manager autocompletes
 source $HOME/.asdf/completions/asdf.bash
 
-# rbenv initialize
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
 # Customize to your needs...
 setopt extended_glob
 unsetopt nomatch
