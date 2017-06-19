@@ -245,7 +245,7 @@ if filereadable($HOME . '/.vimrc.local')
 endif
 
 " NERDTree
-nmap <C-B> :NERDTreeToggle<CR>
+nmap <leader>b :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers=0
 
 " NERDCommenter
@@ -257,7 +257,7 @@ command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --n
 
 " vim-fzf
 nnoremap <C-P> :Files<CR>
-nnoremap <C-F> :RipGrep<Space>
+nnoremap <leader>f :RipGrep<Space>
 
 " vim-airline
 let g:airline_left_sep = ''
