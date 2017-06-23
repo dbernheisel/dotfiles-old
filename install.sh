@@ -181,7 +181,6 @@ ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
 ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
 
 
-
 #### Brew installs
 column
 fancy_echo "Installing programs" "$yellow"
@@ -255,6 +254,7 @@ asdf_install_latest_python_three() {
   fancy_echo "Setting global version of python3 to $latest_version" "$yellow"
   asdf global python3 "$latest_version"
   fancy_echo "Setting global version of python to $latest_version" "$yellow"
+  # Need to set python separately. Seems there's a bug in asdf
 }
 
 asdf_install_latest_python_two() {
@@ -289,15 +289,25 @@ asdf_install_latest_golang
 
 #### Tools
 column
+fancy_echo "Installing neovim plugins for languages"
 gem_install_or_update neovim
 pip install neovim
 pip3 install neovim
+
 fancy_echo "Installing tmuxinator https://github.com/tmuxinator/tmuxinator" "$yellow"
 gem_install_or_update tmuxinator
+
 fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli" "$yellow"
 npm_install_or_update google-cli
+
 fancy_echo "Installing tldr https://www.npmjs.com/package/tldr" "$yellow"
 npm_install_or_update tldr
+
+fancy_echo "Installing eslint" "$yellow"
+npm_install_or_update eslint
+npm_install_or_update babel-eslint
+
+fancy_echo "Installing alias-tips for zsh"
 git clone https://github.com/djui/alias-tips.git ~/.zprezto/modules/alias-tips
 
 

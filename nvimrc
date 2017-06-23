@@ -60,8 +60,15 @@ map ; :
 inoremap jj <Esc>
 
 " leader to edit vimrc and reload
+if !exists("*ResetConfig")
+  function! ResetConfig()
+    set all&
+    source $MYVIMRC
+  endfunction
+endif
+
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>sv :call ResetConfig()<CR>
 
 " Preferences
 set clipboard=unnamed       " allow yanks to go to system clipboard
@@ -159,6 +166,8 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Turn off jshint (rely on eslint)
   let g:neomake_javascript_enabled_makers = ['eslint']
+  let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+
   " Turn on credo checking
   let g:neomake_elixir_enabled_makers = ['mix', 'credo']
 call plug#end()
@@ -287,15 +296,24 @@ let g:alchemist_tag_map = 'gd'
 let g:notes_directories = ['~/Documents/Notes']
 let g:notes_smart_quotes = 0
 
+
 " vim-test
+function! RunTestSuite()
+  if filereadable("bin/test_suite")
+    Tmux clear; echo "bin/test_suite"; bin/test_suite
+  else
+    TestSuite
+  endif
+endfunction
+
 let test#strategy = "tslime"
 let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
-"let test#ruby#rspec#options = '--require ~/.config/nvim/ruby_quickfix_formatter.rb --format QuickfixFormatter'
 nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
-"nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>a :Tmux clear; echo "bin/test_suite"; bin/test_suite<CR>
+nmap <silent> <leader>a :call RunTestSuite()<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
+
+
 

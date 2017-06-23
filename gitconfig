@@ -45,7 +45,7 @@
   cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [format]
   pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
 [url "git@github.com:thoughtbot/"]
@@ -61,7 +61,7 @@
 [mergetool "vimdiff"]
 	path = nvim -d
 [commit]
-	template = /Users/davidbernheisel/dotfiles/gitmessage
+	template = ~/dotfiles/gitmessage
 [http]
 	postBuffer = 157286400
 [url "ssh://git@github.com/"]
