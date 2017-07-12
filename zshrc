@@ -34,6 +34,9 @@ fi
 # fzf Autocompletions
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# PostgreSQL
+export POSTGRES_USER=$(whoami)
+
 # tmuxinator
 source ~/.asdf/installs/ruby/2.4.1/lib/ruby/gems/2.4.0/gems/tmuxinator-0.9.0/completion/tmuxinator.zsh
 
