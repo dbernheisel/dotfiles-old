@@ -135,7 +135,11 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'pbrisbin/vim-mkdir'           " create directories if they don't exist
   Plug 'terryma/vim-multiple-cursors' " visual, then C-n then I
   Plug 'simeji/winresizer'            " Resize panes with C-e and hjkl
-  "Plug 'vim-airline/vim-airline'      " Statusline
+  Plug 'itchyny/lightline.vim'        " Statusline
+  let g:lightline = {
+    \ 'colorscheme': 'one',
+    \ }
+  set noshowmode
   "Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
   Plug 'danilo-augusto/vim-afterglow' " Theme
   Plug 'reewr/vim-monokai-phoenix'    " Theme
