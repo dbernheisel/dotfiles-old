@@ -137,7 +137,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'simeji/winresizer'            " Resize panes with C-e and hjkl
   Plug 'itchyny/lightline.vim'        " Statusline
   let g:lightline = {
-    \ 'colorscheme': 'one',
+    \ 'colorscheme': 'wombat',
     \ }
   set noshowmode
   "Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
