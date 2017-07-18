@@ -98,6 +98,7 @@ brew 'wrk'            # CLI wrk HTTP benchmarking
 brew 'heroku'         # CLI heroku
 brew 'parity'         # CLI adding commands to heroku
 brew 'battery'        # CLI for showing battery level, used for tmux
+brew 'wxmac'          # Library for Erlang debugger to render GUI
 #mas 'Xcode',          id: 497799835
 mas 'The Unarchiver', id: 425424353
 mas 'Medis',          id: 1063631769
