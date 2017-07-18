@@ -110,6 +110,7 @@ call plug#begin('~/.config/nvim/plugged')
     let g:deoplete#enable_at_startup = 1
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
+  Plug 'wellle/tmux-complete.vim'     " Deoplete autocompletion for tmux session text
   Plug 'xolox/vim-notes'              " :Notes
   Plug 'xolox/vim-misc'               " i dunno.. just need it for vim-notes
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel, :R
@@ -134,8 +135,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'pbrisbin/vim-mkdir'           " create directories if they don't exist
   Plug 'terryma/vim-multiple-cursors' " visual, then C-n then I
   Plug 'simeji/winresizer'            " Resize panes with C-e and hjkl
-  Plug 'vim-airline/vim-airline'      " Statusline
-  Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
+  "Plug 'vim-airline/vim-airline'      " Statusline
+  "Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
   Plug 'danilo-augusto/vim-afterglow' " Theme
   Plug 'reewr/vim-monokai-phoenix'    " Theme
   Plug 'tommcdo/vim-lion'             " Align with gl or gL

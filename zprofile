@@ -61,9 +61,6 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 # Newer git
 [ -f $(brew --prefix git) ] && export PATH=$(brew --prefix git):$PATH
 
-# Postgres
-export POSTGRES_USER="davidbernheisel"
-
 # This is how to configure iTerm2 to send the correct CSI for ctrl+h:
 #
 # Edit -> Preferences -> Keys

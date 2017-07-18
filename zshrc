@@ -37,6 +37,9 @@ fi
 # PostgreSQL
 export POSTGRES_USER=$(whoami)
 
+# Elixir
+export ERL_AFLAGS="-kernel shell_history enabled"
+
 # tmuxinator
 source ~/.asdf/installs/ruby/2.4.1/lib/ruby/gems/2.4.0/gems/tmuxinator-0.9.0/completion/tmuxinator.zsh
 
