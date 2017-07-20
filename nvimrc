@@ -273,16 +273,6 @@ command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --n
 nnoremap <C-P> :Files<CR>
 nnoremap <leader>f :RipGrep<Space>
 
-" vim-airline
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_section_b = ''
-let g:airline_section_x = ''
-let g:airline_section_y = '%y'
-let g:airline_section_z = '%l/%L'
-let g:airline#extensions#tmuxline#enabled = 0
-let g:airline#extensions#default#section_truncate_width = { 'b': 10 }
-
 " vim-tmuxline
 let g:tmuxline_preset = {
   \'a'    : '#h',
