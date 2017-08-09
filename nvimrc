@@ -229,10 +229,12 @@ highlight OverLength ctermbg=red ctermfg=white guibg=#600000
 function! UpdateMatch()
   if &previewwindow || &ft !~ '^\%(qf\)$'
     match none
-  elseif &ft !~ '^\%(elixir\)$'
-    match OverLength /\%81v/
-  else
+  elseif &ft ~ '^\%(elixir\)$'
     match OverLength /\%101v/
+  elseif &ft ~ '^\%(markdown\)$'
+    match OverLength /\%73v/
+  else
+    match OverLength /\%81v/
   endif
 endfun
 autocmd BufEnter,BufWinEnter * call UpdateMatch()
