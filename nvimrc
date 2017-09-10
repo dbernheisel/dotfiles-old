@@ -111,6 +111,7 @@ call plug#begin('~/.config/nvim/plugged')
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
   Plug 'wellle/tmux-complete.vim'     " Deoplete autocompletion for tmux session text
+  Plug 'rizzatti/dash.vim'            " :Dash
   Plug 'xolox/vim-notes'              " :Notes
   Plug 'xolox/vim-misc'               " i dunno.. just need it for vim-notes
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel, :R

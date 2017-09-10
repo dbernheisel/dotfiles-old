@@ -12,7 +12,8 @@ cask 'google-backup-and-sync'   # File syncing
 cask 'vlc'            # Video/Audio Player
 cask 'visual-studio-code'   # Code Editor
 cask 'virtualbox'     # Virtual Machine manager
-cask 'omnigraffle6'
+cask 'omnigraffle6'   # Graphing app
+cask 'postman'        # REST app
 cask 'dash'           # Offline documentation
 cask 'transmission'   # Bittorrent
 cask 'postico'        # Postgres Database Viewer
