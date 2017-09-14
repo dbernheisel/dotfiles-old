@@ -10,8 +10,10 @@ fi
 # Git
 alias gaa='git add -A'
 alias gs='git status'
+alias gp='git push -u'
 alias gd='git diff'
 alias gds='git diff --staged'
+alias undeployed='git fetch --multiple production origin && git log production/master..origin/master'
 
 # Use Exhuburant ctags
 if [ -f "$(brew --prefix)/bin/ctags)" ]; then
@@ -70,4 +72,6 @@ alias ll='ls -lah'
 
 alias tmuxbase='tmux attach -t base || tmux new -s base'
 
+# Development
 alias boom="git stash && git pull --rebase && git stash pop && git add -A && git commit -m 'another one' && git push"
+alias copy_prod_db='heroku pg:backups:capture -r production && heroku pg:backups:download -r production && pg_restore --verbose --clean --no-acl --no-owner -h localhost -d joydrive_dev latest.dump'
