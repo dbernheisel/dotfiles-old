@@ -1,6 +1,13 @@
 " ln -s ~/dotfiles/.nvimrc ~/.config/nvim/init.vim
-set nocompatible
 
+" General
+set nocompatible
+set clipboard=unnamed       " allow yanks to go to system clipboard
+set title                   " set iTerm2 tab title
+set splitbelow              " open splits below current
+set splitright              " open splits to the right of current
+set laststatus=2
+set encoding=utf-8
 set mouse="" " Disable mouse
 
 " Configure tabs to 2, and convert to spaces
@@ -10,6 +17,7 @@ set softtabstop=2
 set expandtab
 set shiftwidth=2
 
+" Show the in-process keys for a command
 set showcmd
 
 " Backups
@@ -30,8 +38,6 @@ set undodir=~/.vim/undo
 let mapleader=' '
 let g:maplocalleader='\\'
 
-set encoding=utf-8
-
 " Set searching to highlighting, incrementally, and smartcase search
 set hlsearch
 set incsearch
@@ -39,7 +45,8 @@ set ignorecase
 set smartcase
 map <silent> <CR> :nohl<CR>
 
-set autowrite   " Automatically :write before running commands
+" Automatically :write before running commands
+set autowrite
 
 " Map keys for moving between splits
 nnoremap <C-H> <C-W><C-H>
@@ -48,10 +55,14 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 
 " Get off my lawn
-nnoremap <Left> :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up> :echoe "Use k"<CR>
-nnoremap <Down> :echoe "Use j"<CR>
+nnoremap <Left> :WinResizerStartResize<CR><Char-104><CR>
+nnoremap <Right> :WinResizerStartResize<CR><Char-108><CR>
+nnoremap <Up> :WinResizerStartResize<CR><Char-107><CR>
+nnoremap <Down> :WinResizerStartResize<CR><Char-106><CR>
+imap <Up> <nop>
+imap <Down> <nop>
+imap <Left> <nop>
+imap <Right> <nop>
 
 " Make semicolon the same as colon
 map ; :
@@ -70,26 +81,20 @@ endif
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :call ResetConfig()<CR>
 
-" Preferences
-set clipboard=unnamed       " allow yanks to go to system clipboard
-set title                   " set iTerm2 tab title
-set splitbelow              " open splits below current
-set splitright              " open splits to the right of current
-set laststatus=2
-
 " Set lines and number gutter
 set cursorline              " turn on row highlighting where cursor is
 set ruler                   " turn on ruler information in statusline
 
 " Set number gutter
-set number                              " turn on number gutter
-set relativenumber                      " turn on relative numbering to line
+set number                  " turn on number gutter
+set relativenumber          " turn on relative numbering to line
 function! NumberToggle()
   if(&relativenumber == 1)
     set norelativenumber
   else
     set relativenumber
   endif
+  echo "Toggled relative numbering"
 endfun
 nnoremap <leader><C-L> :call NumberToggle()<CR>
 
@@ -149,7 +154,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
   Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
   Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
-  Plug 'christoomey/vim-tmux-navigator' " Navigate between VIM and TMUX seamlessly
   Plug 'tmux-plugins/vim-tmux-focus-events' " fix FocusGained and FocusLost
   Plug 'tpope/vim-endwise'            " Auto-close if, do, def
   Plug 'tpope/vim-surround'           " Add 's' command to give motions context
@@ -183,7 +187,6 @@ filetype on
 set background=dark
 set termguicolors
 syntax on
-
 colorscheme monokai-phoenix
 
 augroup vimrcEx
@@ -218,7 +221,7 @@ augroup vimrcEx
   autocmd FocusGained * :set relativenumber
 
   " Set relative numbers only in Normal Mode
-  autocmd InsertEnter * :set number
+  autocmd InsertEnter * :set norelativenumber
   autocmd InsertLeave * :set relativenumber
 
   " Resize panes when window resizes
@@ -294,7 +297,6 @@ let g:alchemist_tag_map = 'gd'
 let g:notes_directories = ['~/Documents/Notes']
 let g:notes_smart_quotes = 0
 
-
 " vim-test
 function! RunTestSuite()
   if filereadable("bin/test_suite")
@@ -313,5 +315,5 @@ nmap <silent> <leader>a :call RunTestSuite()<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 
-
-
+" Get italics working
+hi Comment gui=italic

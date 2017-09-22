@@ -10,9 +10,10 @@
 [push]
 	default = current
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
 	required = true
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	clean = git-lfs clean -- %f
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
@@ -72,3 +73,6 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
