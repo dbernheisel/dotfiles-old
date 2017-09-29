@@ -97,6 +97,7 @@ brew 'tidy-html5'     # CLI tidy HTML linting
 brew 'tmate'          # CLI tmate tmux over SSH
 brew 'tmux'           # CLI tmux terminal multiplexer
 brew 'transmission'   # CLI. Bittorrent tool. Used for Ranger.
+brew 'unixodbc'       # Library for interfacing with different databases
 brew 'unrar'          # CLI unrar compression
 brew 'wget'           # CLI wget HTTP interface
 brew 'wrk'            # CLI wrk HTTP benchmarking
