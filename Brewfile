@@ -23,7 +23,7 @@ cask 'handbrake'      # Video/audio processing
 cask 'handbrakebatch' # Batch video/audio processing with handbrake
 cask 'hex-fiend'      # Hex value editor
 cask 'insomniax'      # Prevent computer from sleeping
-cask 'iterm2'         # Terminal emulator
+# cask 'iterm2'         # Terminal emulator
 cask 'itsycal'        # Calendar menubar
 cask 'java'           # Java Langauge
 cask 'omnidisksweeper'  # Disk visualizer
