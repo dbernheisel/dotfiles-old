@@ -25,6 +25,10 @@ set nobackup
 set nowritebackup
 set noswapfile
 
+" Turn off linewise up and down movements
+nmap j gj
+nmap k gk
+
 " Turn on rendering whitespace
 set listchars+=trail:·,precedes:←,extends:→,tab:¬\ ,nbsp:+,conceal:※
 set list
@@ -203,8 +207,28 @@ filetype on
 " Theming
 set background=dark
 set termguicolors
-syntax on
+let g:rehash256 = 1
+if !has('gui_running')
+  if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
+    set t_Co=256
+  elseif has("terminfo")
+    colorscheme default
+    set t_Co=8
+    set t_Sf=[3%p1%dm
+    set t_Sb=[4%p1%dm
+  else
+    colorscheme default
+    set t_Co=8
+    set t_Sf=[3%dm
+    set t_Sb=[4%dm
+  endif
+  " Disable Background Color Erase when within tmux - https://stackoverflow.com/q/6427650/102704
+  if $TMUX != ""
+    set t_ut=
+  endif
+endif
 colorscheme monokai-phoenix
+syntax on
 
 augroup vimrcEx
   autocmd!
@@ -222,7 +246,8 @@ augroup vimrcEx
   autocmd BufNewFile,BufRead *.ex* setf elixir
 
   " Enable spellchecking for Markdown
-  autocmd FileType markdown setlocal spell
+  autocmd FileType markdown setlocal nolist spell foldlevel=999 tw=0 nocin
+  let g:vim_markdown_frontmatter = 1
 
   " Wrap at 80 characters for Markdown
   autocmd BufNewFile,BufRead *.md setlocal textwidth=72
