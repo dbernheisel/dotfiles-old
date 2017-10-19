@@ -10,6 +10,8 @@
 	<integer>0</integer>
 	<key>AppleSmoothFixedFontsSizeThreshold</key>
 	<integer>1</integer>
+	<key>AppleWindowTabbingMode</key>
+	<string>manual</string>
 	<key>ClosingTmuxTabKillsTmuxWindows</key>
 	<true/>
 	<key>ClosingTmuxTabKillsTmuxWindows_selection</key>
@@ -30301,11 +30303,11 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>2718 147 714 378 1440 -101 2560 1440 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>311 214 620 392 0 0 1440 900 </string>
+	<string>410 381 620 392 0 0 1440 900 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>2495 793 918 381 1440 -101 2560 1440 </string>
+	<string>2495 754 918 512 1440 -101 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1440 -97 650 451 1440 -101 2560 1417 </string>
+	<string>0 0 810 576 0 0 1440 900 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>1783 80 650 451 1440 -101 2560 1417 </string>
 	<key>NeverWarnAboutShortLivedSessions_AEA68F76-DC1B-495E-9D61-62F07D57E41E</key>
@@ -30319,6 +30321,8 @@
 			<true/>
 			<key>ASCII Ligatures</key>
 			<true/>
+			<key>Allow Title Reporting</key>
+			<false/>
 			<key>Ambiguous Double Width</key>
 			<false/>
 			<key>Ansi 0 Color</key>
@@ -31045,7 +31049,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-09-27T14:48:55Z</date>
+	<date>2017-10-09T22:25:47Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -31077,7 +31081,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.1</string>
+	<string>3.1.2</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>7</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

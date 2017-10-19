@@ -147,8 +147,9 @@ call plug#begin('~/.config/nvim/plugged')
     \ }
   set noshowmode
   "Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
-  Plug 'danilo-augusto/vim-afterglow' " Theme
   Plug 'reewr/vim-monokai-phoenix'    " Theme
+  Plug 'lifepillar/vim-solarized8'    " Theme
+  Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
   Plug 'tommcdo/vim-lion'             " Align with gl or gL
   Plug 'c-brenn/phoenix.vim'          " :Pgenerate, :Pserver, :Ppreview, Jump
   Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
@@ -180,6 +181,22 @@ call plug#begin('~/.config/nvim/plugged')
 
   " Turn on credo checking
   let g:neomake_elixir_enabled_makers = ['mix', 'credo']
+
+  " Make a writing mode
+  function! ProseMode()
+    call goyo#execute(0, [])
+    set spell noci nosi noai nolist noshowmode noshowcmd
+    set complete+=s
+    set background=light
+    if !has('gui_running')
+      let g:solarized_termcolors=256
+    endif
+    colorscheme solarized8_light
+  endfunction
+
+  command! ProseMode call ProseMode()
+  nmap <leader>p :ProseMode<CR>
+
 call plug#end()
 filetype on
 
@@ -208,7 +225,7 @@ augroup vimrcEx
   autocmd FileType markdown setlocal spell
 
   " Wrap at 80 characters for Markdown
-  autocmd BufNewFile,BufRead *.md setlocal textwidth=80
+  autocmd BufNewFile,BufRead *.md setlocal textwidth=72
 
   " Allow stylesheets to autocomplete hyphenated words
   autocmd FileType css,scss,sass setlocal iskeyword+=-
