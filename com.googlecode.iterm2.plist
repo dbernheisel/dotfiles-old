@@ -30303,11 +30303,11 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>2718 147 714 378 1440 -101 2560 1440 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>410 381 620 392 0 0 1440 900 </string>
+	<string>2410 667 620 392 1440 -101 2560 1417 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>2495 754 918 512 1440 -101 2560 1417 </string>
+	<string>2495 847 918 401 1440 -101 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 810 576 0 0 1440 900 </string>
+	<string>1760 200 810 576 1440 -101 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>1783 80 650 451 1440 -101 2560 1417 </string>
 	<key>NeverWarnAboutShortLivedSessions_AEA68F76-DC1B-495E-9D61-62F07D57E41E</key>
@@ -30473,16 +30473,12 @@
 			<true/>
 			<key>Background Color</key>
 			<dict>
-				<key>Alpha Component</key>
-				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.15686274509803921</real>
-				<key>Color Space</key>
-				<string>sRGB</string>
+				<real>0.1283406391402715</real>
 				<key>Green Component</key>
-				<real>0.15686274509803921</real>
+				<real>0.1283406391402715</real>
 				<key>Red Component</key>
-				<real>0.15686274509803921</real>
+				<real>0.1283406391402715</real>
 			</dict>
 			<key>Background Image Is Tiled</key>
 			<false/>
@@ -30538,15 +30534,15 @@
 			<key>Cursor Guide Color</key>
 			<dict>
 				<key>Alpha Component</key>
-				<real>0.039215686274509803</real>
+				<real>0.25</real>
 				<key>Blue Component</key>
 				<real>1</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>1</real>
+				<real>0.9268307089805603</real>
 				<key>Red Component</key>
-				<real>1</real>
+				<real>0.70213186740875244</real>
 			</dict>
 			<key>Cursor Text Color</key>
 			<dict>
@@ -31049,7 +31045,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-10-09T22:25:47Z</date>
+	<date>2017-10-19T15:35:18Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>

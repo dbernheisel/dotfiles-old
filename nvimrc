@@ -91,7 +91,6 @@ set ruler                   " turn on ruler information in statusline
 
 " Set number gutter
 set number                  " turn on number gutter
-set relativenumber          " turn on relative numbering to line
 function! NumberToggle()
   if(&relativenumber == 1)
     set norelativenumber
@@ -152,7 +151,7 @@ call plug#begin('~/.config/nvim/plugged')
   set noshowmode
   "Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
   Plug 'reewr/vim-monokai-phoenix'    " Theme
-  Plug 'lifepillar/vim-solarized8'    " Theme
+  Plug 'reedes/vim-colors-pencil'            " Theme for markdown editing
   Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
   Plug 'tommcdo/vim-lion'             " Align with gl or gL
   Plug 'c-brenn/phoenix.vim'          " :Pgenerate, :Pserver, :Ppreview, Jump
@@ -186,20 +185,36 @@ call plug#begin('~/.config/nvim/plugged')
   " Turn on credo checking
   let g:neomake_elixir_enabled_makers = ['mix', 'credo']
 
-  " Make a writing mode
-  function! ProseMode()
-    call goyo#execute(0, [])
-    set spell noci nosi noai nolist noshowmode noshowcmd
-    set complete+=s
-    set background=light
-    if !has('gui_running')
-      let g:solarized_termcolors=256
-    endif
-    colorscheme solarized8_light
-  endfunction
+  " Distraction-free writing mode
+  function! s:goyo_enter()
+    " light theme
+    setlocal background=light
+    colorscheme pencil
 
-  command! ProseMode call ProseMode()
-  nmap <leader>p :ProseMode<CR>
+    " turn off auto-indent, whitespace, and in-progress commands
+    setlocal noai nolist noshowcmd
+
+    " turn on autocorrect
+    setlocal spell complete+=s
+    call deoplete#enable()
+  endfunction
+  function! s:goyo_leave()
+    " turn on auto-indent, whitespace, and in-progress commands
+    setlocal showcmd list ai
+
+    " turn off autocorrect
+    setlocal nospell complete-=s
+
+    " put my theme back
+    colorscheme monokai-phoenix
+    setlocal background=dark
+
+    call deoplete#enable()
+  endfunction
+  let g:goyo_width = 72
+  autocmd! User GoyoEnter nested call <SID>goyo_enter()
+  autocmd! User GoyoLeave nested call <SID>goyo_leave()
+  nmap <leader>df :Goyo<CR>
 
 call plug#end()
 filetype on
@@ -228,7 +243,7 @@ augroup vimrcEx
   autocmd FileType markdown setlocal nolist spell foldlevel=999 tw=0 nocin
   let g:vim_markdown_frontmatter = 1
 
-  " Wrap at 80 characters for Markdown
+  " Wrap at 72 characters for Markdown
   autocmd BufNewFile,BufRead *.md setlocal textwidth=72
 
   " Allow stylesheets to autocomplete hyphenated words
@@ -236,14 +251,6 @@ augroup vimrcEx
 
   " Remove trailing whitespace on save
   autocmd BufWritePre * :%s/\s\+$//e
-
-  " Set absolute numbers when focus lost
-  autocmd FocusLost * :set norelativenumber
-  autocmd FocusGained * :set relativenumber
-
-  " Set relative numbers only in Normal Mode
-  autocmd InsertEnter * :set norelativenumber
-  autocmd InsertLeave * :set relativenumber
 
   " Resize panes when window resizes
   autocmd VimResized * :wincmd =
@@ -290,8 +297,8 @@ nmap <leader>b :NERDTreeToggle<CR>
 let NERDTreeShowLineNumbers=0
 
 " NERDCommenter
-" For whatever reason, _ is actually /
-map <C-_> <leader>c<space>
+nmap <leader>/ <leader>c<space>
+vmap <leader>/ <leader>c<space>
 
 " FZF and ripgrep
 command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
@@ -327,6 +334,7 @@ function! RunTestSuite()
   endif
 endfunction
 
+" vim-turbux
 let test#strategy = "tslime"
 let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
