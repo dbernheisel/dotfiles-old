@@ -151,7 +151,9 @@ call plug#begin('~/.config/nvim/plugged')
   set noshowmode
   "Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
   Plug 'reewr/vim-monokai-phoenix'    " Theme
-  Plug 'reedes/vim-colors-pencil'            " Theme for markdown editing
+  Plug 'reedes/vim-colors-pencil'     " Theme for markdown editing
+  Plug 'crater2150/vim-theme-chroma'  " Theme
+  Plug 'crusoexia/vim-monokai'        " Theme
   Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
   Plug 'tommcdo/vim-lion'             " Align with gl or gL
   Plug 'c-brenn/phoenix.vim'          " :Pgenerate, :Pserver, :Ppreview, Jump
@@ -206,8 +208,8 @@ call plug#begin('~/.config/nvim/plugged')
     setlocal nospell complete-=s
 
     " put my theme back
-    colorscheme monokai-phoenix
     setlocal background=dark
+    colorscheme chroma
 
     call deoplete#enable()
   endfunction
@@ -219,10 +221,17 @@ call plug#begin('~/.config/nvim/plugged')
 call plug#end()
 filetype on
 
-" Theming
+" Theme
 set background=dark
-colorscheme monokai-phoenix
+colorscheme chroma
 syntax on
+if $TERM_PROGRAM == "iTerm.app"
+  " Turn on 24bit color
+  set termguicolors
+  let g:truecolor = 1
+else
+  let g:truecolor = 0
+endif
 
 augroup vimrcEx
   autocmd!
