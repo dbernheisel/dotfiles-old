@@ -26,9 +26,10 @@ cask 'insomniax'      # Prevent computer from sleeping
 # cask 'iterm2'         # Terminal emulator
 cask 'itsycal'        # Calendar menubar
 cask 'java'           # Java Langauge
+cask 'kitty'          # Terminal emulator
 cask 'omnidisksweeper'  # Disk visualizer
 cask 'omnigraffle6'   # Graphing app
-cask 'pdftotext'      # CLI for converting PDF to Text. Used fir Ranger
+cask 'pdftotext'      # CLI for converting PDF to Text. Used for Ranger
 cask 'postico'        # Postgres Database Viewer
 cask 'postman'        # REST app
 cask 'slack'          # Chat
