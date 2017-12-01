@@ -335,6 +335,7 @@ let g:notes_directories = ['~/Documents/Notes']
 let g:notes_smart_quotes = 0
 
 " vim-test
+let test#strategy = "tslime"
 function! RunTestSuite()
   if filereadable("bin/test_suite")
     Tmux clear; echo "bin/test_suite"; bin/test_suite
@@ -342,16 +343,15 @@ function! RunTestSuite()
     TestSuite
   endif
 endfunction
-
-" vim-turbux
-let test#strategy = "tslime"
-let g:tslime_always_current_session = 1
-let g:tslime_always_current_window = 1
 nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>
 nmap <silent> <leader>a :call RunTestSuite()<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
+
+" vim-turbux
+let g:tslime_always_current_session = 1
+let g:tslime_always_current_window = 1
 
 " Get italics working
 hi Comment gui=italic
