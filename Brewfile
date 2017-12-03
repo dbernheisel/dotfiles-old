@@ -4,12 +4,17 @@ tap 'caskroom/fonts'
 tap 'caskroom/versions'
 tap 'neovim/neovim'
 tap 'thoughtbot/formulae'
+
 # This should be installed manually
 # https://www.google.com/chrome/
-#cask 'google-chrome'  # Internet browser
+# cask 'google-chrome'  # Internet browser
+# cask 'firefox'        # Internet browser
+
 # This should be installed manually.
 # https://1password.com/downloads/
-#cask '1password'      # Password manager
+# cask '1password'    # Password manager
+
+cask 'java'           # Java Langauge
 cask 'alfred'         # Spotlot replacement
 cask 'android-file-transfer'  # Transfer files from/to Android
 cask 'android-sdk'    # CLI adb Android SDK
@@ -23,9 +28,7 @@ cask 'handbrake'      # Video/audio processing
 cask 'handbrakebatch' # Batch video/audio processing with handbrake
 cask 'hex-fiend'      # Hex value editor
 cask 'insomniax'      # Prevent computer from sleeping
-# cask 'iterm2'         # Terminal emulator
 cask 'itsycal'        # Calendar menubar
-cask 'java'           # Java Langauge
 cask 'kitty'          # Terminal emulator
 cask 'omnidisksweeper'  # Disk visualizer
 cask 'omnigraffle6'   # Graphing app

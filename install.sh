@@ -73,6 +73,14 @@ column
 fancy_echo "Installing xcode command line tools" "$yellow"
 xcode-select --install
 
+if [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
+  column
+  fancy_echo "You need to generate an SSH key first" "$red"
+  fancy_echo "Run `ssh-keygen`, and then run this install script again"
+  cd ~/.ssh
+  exit 1
+fi
+
 if ! command -v brew >/dev/null; then
   column
   fancy_echo "Installing Homebrew ..." "$yellow"
@@ -144,27 +152,27 @@ column
 fancy_echo "Backing up existing dotfiles" "$yellow"
 folder=$(pwd)
 files=(
-	'bash_profile'
-	'bashrc'
-	'gitconfig'
-	'gitignore'
+  'bash_profile'
+  'bashrc'
+  'gitconfig'
+  'gitignore'
   'gitmessage'
-	'irbrc'
-	'pryrc'
-	'zlogin'
-	'zlogout'
-	'zpreztorc'
-	'zprofile'
-	'zshenv'
-	'zshrc'
-	)
+  'irbrc'
+  'pryrc'
+  'zlogin'
+  'zlogout'
+  'zpreztorc'
+  'zprofile'
+  'zshenv'
+  'zshrc'
+)
 
 mkdir -p "$folder/backup" 2>/dev/null
 for f in "${files[@]}"; do
-	if [ -e "$HOME/.$f" ]; then
-		mv -v "$HOME/.$f" "$folder/backup/.$f"
-	fi
-	ln -s "$folder/$f" "$HOME/.$f"
+  if [ -e "$HOME/.$f" ]; then
+    mv -v "$HOME/.$f" "$folder/backup/.$f"
+  fi
+  ln -fs "$folder/$f" "$HOME/.$f"
 done
 
 if [ ! -e "$HOME/.secrets" ]; then
@@ -174,11 +182,18 @@ fi
 
 column
 fancy_echo "Symlinking config files" "$yellow"
-ln -s ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
-ln -s ~/dotfiles/aliases.sh ~/.aliases.sh
-ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -s ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
-ln -s ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
+ln -fs ~/dotfiles/aliases.sh ~/.aliases.sh
+ln -fs ~/dotfiles/tmux.conf ~/.tmux.conf
+
+mkdir -p ~/.config/nvim
+ln -fs ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
+
+mkdir -p ~/.config/ranger
+ln -fs ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
+ln -fs ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
+
+mkdir -p ~/Library/Preferences/kitty
+ln -fs ~/dotfiles/kitty.conf ~/Library/Preferences/kitty/kitty.conf
 
 
 #### Brew installs
@@ -217,6 +232,7 @@ install_asdf_plugins() {
     'https://github.com/asdf-vm/asdf-ruby'
     'https://github.com/kennyp/asdf-golang'
     'https://github.com/asdf-vm/asdf-nodejs'
+    'https://github.com/tuvistavie/asdf-python'
   )
 
   if command -v asdf >/dev/null; then
@@ -226,15 +242,10 @@ install_asdf_plugins() {
     done
 
     source "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
-    unset GNUPGHOME
-
-    local python_plugin_url='https://github.com/tuvistavie/asdf-python'
-    asdf plugin-add python3 "$python_plugin_url" || true
-    asdf plugin-add python2 "$python_plugin_url" || true
-    asdf plugin-add python "$python_plugin_url" || true
   else
     fancy_echo "Could not install plugins for asdf. Could not find asdf" "$red" && false
   fi
+  unset GNUPGHOME
 }
 
 asdf_install_latest_version() {
@@ -246,56 +257,47 @@ asdf_install_latest_version() {
   asdf global "$language" "$latest_version"
 }
 
-asdf_install_latest_python_three() {
-  local latest_version
-  latest_version=$(asdf list-all python | grep -E '^3.*[^-dev]$' | tail -n 1)
-  fancy_echo "Installing python $latest_version" "$yellow"
-  asdf install python3 "$latest_version"
-  fancy_echo "Setting global version of python3 to $latest_version" "$yellow"
-  asdf global python3 "$latest_version"
-  fancy_echo "Setting global version of python to $latest_version" "$yellow"
-  # Need to set python separately. Seems there's a bug in asdf
-}
-
-asdf_install_latest_python_two() {
-  local latest_version
-  latest_version=$(asdf list-all python | grep -E '^2.*[^-dev]$' | tail -n 1)
-  fancy_echo "Installing python $latest_version" "$yellow"
-  asdf install python2 "$latest_version"
-  fancy_echo "Setting global version of python2 to $latest_version" "$yellow"
-  asdf global python2 "$latest_version"
+asdf_install_latest_pythons() {
+  local latest_2_version
+  local latest_3_version
+  latest_2_version=$(asdf list-all python | grep -E '^2.*[^-dev]$' | tail -n 1)
+  latest_3_version=$(asdf list-all python | grep -E '^3.*[^-dev]$' | tail -n 1)
+  fancy_echo "Installing python $latest_2_version" "$yellow"
+  asdf install python "$latest_2_version" && brew unlink python2
+  fancy_echo "Installing python $latest_3_version" "$yellow"
+  asdf install python "$latest_3_version" && brew unlink python3
+  fancy_echo "Setting global version of python to $latest_3_version $latest_2_version" "$yellow"
+  asdf global python "$latest_3_version" "$latest_2_version"
 }
 
 asdf_install_latest_golang() {
-  local latest_version
-  latest_version=$(asdf list-all golang | grep -E 'darwin' | grep -v 'rc' | grep -v 'beta' | grep -E 'amd64' | tail -n 1)
-  fancy_echo "Installing golang $latest_version" "$yellow"
-  asdf install golang "$latest_version"
-  fancy_echo "Setting global verison of golang to $latest_version" "$yellow"
-  asdf global golang "$latest_version"
+  if [[ "$OSTYPE" == darwin* ]]; then
+    local latest_version
+    latest_version=$(asdf list-all golang | grep -E 'darwin' | grep -v 'rc' | grep -v 'beta' | grep -E 'amd64' | tail -n 1)
+    fancy_echo "Installing golang $latest_version" "$yellow"
+    asdf install golang "$latest_version"
+    fancy_echo "Setting global verison of golang to $latest_version" "$yellow"
+    asdf global golang "$latest_version"
+  fi
 }
 
-install_asdf && install_asdf_plugins
-
-asdf_install_latest_version ruby
-asdf_install_latest_version elixir
-asdf_install_latest_version erlang
-asdf_install_latest_version nodejs
-asdf_install_latest_version elm
-asdf_install_latest_python_three
-asdf_install_latest_python_two
-asdf_install_latest_golang
+install_asdf &&\
+  install_asdf_plugins &&\
+  asdf_install_latest_version ruby &&\
+  asdf_install_latest_version elixir &&\
+  asdf_install_latest_version erlang &&\
+  asdf_install_latest_version nodejs &&\
+  asdf_install_latest_version elm &&\
+  asdf_install_latest_pythons &&\
+  asdf_install_latest_golang
 
 
 #### Tools
 column
 fancy_echo "Installing neovim plugins for languages"
 gem_install_or_update neovim
-pip install neovim
+pip2 install neovim
 pip3 install neovim
-
-fancy_echo "Installing tmuxinator https://github.com/tmuxinator/tmuxinator" "$yellow"
-gem_install_or_update tmuxinator
 
 fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli" "$yellow"
 npm_install_or_update google-cli
@@ -309,9 +311,10 @@ git clone https://github.com/djui/alias-tips.git ~/.zprezto/modules/alias-tips
 
 
 #### Apple macOS defaults
-column
-fancy_echo "Updating Apple macOS defaults" "$yellow"
 if [[ "$OSTYPE" == darwin* ]]; then
+  column
+  fancy_echo "Updating Apple macOS defaults" "$yellow"
+
   fancy_echo "Enabling full keyboard access for all controls. e.g. enable Tab in modal dialogs" "$yellow"
   defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 

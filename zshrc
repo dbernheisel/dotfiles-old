@@ -42,9 +42,11 @@ export POSTGRES_USER=$(whoami)
 # Elixir
 export ERL_AFLAGS="-kernel shell_history enabled"
 
-# tmuxinator
-source ~/.asdf/installs/ruby/2.4.1/lib/ruby/gems/2.4.0/gems/tmuxinator-0.9.0/completion/tmuxinator.zsh
-
 # RipGrep
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'
 
+
+bash ~/.asdf/asdf.sh
+
+# recommended by brew doctor
+export PATH="/usr/local/bin:$PATH"
