@@ -1,4 +1,4 @@
-Pry.config.editor = 'code'
+Pry.config.editor = 'nvim'
 unless Pry::VERSION.include?("0.9.")
   # Prompt with ruby version
   Pry.prompt = [proc { |obj, nest_level| "#{RUBY_VERSION} (#{obj}):#{nest_level} > " }, proc { |obj, nest_level| "#{RUBY_VERSION} (#{obj}):#{nest_level} * " }]

@@ -95,6 +95,7 @@ brew 'shellcheck'     # CLI POSIX shell linter
 brew 'sqlite'         # Service Database
 brew 'tesseract'      # CLI tesseract OCR
 brew 'tidy-html5'     # CLI tidy HTML linting
+brew 'tldr'           # CLI for short man pages
 brew 'tmate'          # CLI tmate tmux over SSH
 brew 'tmux'           # CLI tmux terminal multiplexer
 brew 'transmission'   # CLI. Bittorrent tool. Used for Ranger.

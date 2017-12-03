@@ -300,9 +300,6 @@ gem_install_or_update tmuxinator
 fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli" "$yellow"
 npm_install_or_update google-cli
 
-fancy_echo "Installing tldr https://www.npmjs.com/package/tldr" "$yellow"
-npm_install_or_update tldr
-
 fancy_echo "Installing eslint" "$yellow"
 npm_install_or_update eslint
 npm_install_or_update babel-eslint
@@ -315,9 +312,6 @@ git clone https://github.com/djui/alias-tips.git ~/.zprezto/modules/alias-tips
 column
 fancy_echo "Updating Apple macOS defaults" "$yellow"
 if [[ "$OSTYPE" == darwin* ]]; then
-  fancy_echo "Installing fonts" "$yellow"
-  cp -vf ~/dotfiles/fonts/* ~/Library/Fonts
-
   fancy_echo "Enabling full keyboard access for all controls. e.g. enable Tab in modal dialogs" "$yellow"
   defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
