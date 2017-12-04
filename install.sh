@@ -92,15 +92,12 @@ if ! command -v brew >/dev/null; then
   export PATH="/usr/local/bin:$PATH"
 fi
 
-install_mas() {
-  if ! command -v mas > /dev/null; then
-    column
-    fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
-    brew install mas
-  fi
-}
+if ! command -v mas > /dev/null; then
+  column
+  fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
+  brew install mas
+fi
 
-install_mas
 
 
 #### Install zsh
@@ -152,11 +149,13 @@ column
 fancy_echo "Backing up existing dotfiles" "$yellow"
 folder=$(pwd)
 files=(
+  'aliases.sh'
   'bash_profile'
   'bashrc'
   'gitconfig'
   'gitignore'
   'gitmessage'
+  'tmux.conf'
   'irbrc'
   'pryrc'
   'zlogin'
@@ -186,13 +185,18 @@ ln -fs ~/dotfiles/aliases.sh ~/.aliases.sh
 ln -fs ~/dotfiles/tmux.conf ~/.tmux.conf
 
 mkdir -p ~/.config/nvim
+mv -v "$HOME/.config/nvim/init.vim" "$folder/backup/init.vim"
 ln -fs ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
 
-mkdir -p ~/.config/ranger
+mkdir -p "~/.config/ranger"
+mkdir -p "$folder/backup/ranger"
+mv -v "$HOME/.config/ranger/rc.conf" "$folder/backup/ranger/rc.conf"
+mv -v "$HOME/.config/ranger/scope.sh" "$folder/backup/rangers/scope.sh"
 ln -fs ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
 ln -fs ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
 
 mkdir -p ~/Library/Preferences/kitty
+mv -v "~/Library/Preferences/kitty/kitty.conf" "$folder/backup/kitty.conf"
 ln -fs ~/dotfiles/kitty.conf ~/Library/Preferences/kitty/kitty.conf
 
 
@@ -284,8 +288,8 @@ asdf_install_latest_golang() {
 install_asdf &&\
   install_asdf_plugins &&\
   asdf_install_latest_version ruby &&\
-  asdf_install_latest_version elixir &&\
   asdf_install_latest_version erlang &&\
+  asdf_install_latest_version elixir &&\
   asdf_install_latest_version nodejs &&\
   asdf_install_latest_version elm &&\
   asdf_install_latest_pythons &&\
@@ -298,9 +302,6 @@ fancy_echo "Installing neovim plugins for languages"
 gem_install_or_update neovim
 pip2 install neovim
 pip3 install neovim
-
-fancy_echo "Installing google-cli https://www.npmjs.com/package/google-cli" "$yellow"
-npm_install_or_update google-cli
 
 fancy_echo "Installing eslint" "$yellow"
 npm_install_or_update eslint
