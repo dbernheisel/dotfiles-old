@@ -66,6 +66,7 @@ brew 'git'            # CLI Git
 brew 'git-flow'       # CLI Git-Flow git shortcuts
 brew 'glib'           # Library Build utility
 brew 'go'             # Go Language
+brew 'googler'        # CLI google from command line
 brew 'gpg'            # CLI GPG security
 brew 'heroku'         # CLI heroku
 brew 'highlight'      # Library. Provides syntax highlighting. Used for Ranger
