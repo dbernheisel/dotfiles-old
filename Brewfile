@@ -65,7 +65,6 @@ brew 'ghostscript'    # CLI Produce PDFs
 brew 'git'            # CLI Git
 brew 'git-flow'       # CLI Git-Flow git shortcuts
 brew 'glib'           # Library Build utility
-brew 'go'             # Go Language
 brew 'googler'        # CLI google from command line
 brew 'gpg'            # CLI GPG security
 brew 'heroku'         # CLI heroku
@@ -85,7 +84,6 @@ brew 'nginx'          # Service Web server
 brew 'openssl'        # Library SSL library
 brew 'p7zip'          # CLI 7a 7za compression
 brew 'parity'         # CLI adding commands to heroku
-brew 'passenger'      # Library Ruby Web Server
 brew 'phantomjs'      # CLI phantomjs headless webkit browser (for testing)
 brew 'postgresql'     # Service Database
 brew 'qt@5.5'         # Library qt. Used for Capybara
@@ -111,8 +109,10 @@ brew 'wxmac'          # Library for Erlang debugger to render GUI
 brew 'x264'           # Library video decoder
 brew 'xz'             # CLI xz compression
 brew 'yarn'           # CLI JavaScript package manager
+
 # This is too big and should be installed on it's own first.
 # https://itunes.apple.com/us/app/xcode/id497799835?mt=12
-#mas 'Xcode',          id: 497799835
+# mas 'Xcode',          id: 497799835
+
 mas 'The Unarchiver', id: 425424353
 mas 'Medis',          id: 1063631769
