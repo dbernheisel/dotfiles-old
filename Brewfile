@@ -86,6 +86,7 @@ brew 'p7zip'          # CLI 7a 7za compression
 brew 'parity'         # CLI adding commands to heroku
 brew 'phantomjs'      # CLI phantomjs headless webkit browser (for testing)
 brew 'postgresql'     # Service Database
+brew 'postgresql@9.6'  # Service Database
 brew 'qt@5.5'         # Library qt. Used for Capybara
 brew 'ranger'         # CLI Ranger File Explorer
 brew 'readline'       # Library file reading

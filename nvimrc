@@ -3,7 +3,7 @@
 " General
 set nocompatible
 set clipboard=unnamed       " allow yanks to go to system clipboard
-set title                   " set iTerm2 tab title
+set title                   " set tab title
 set splitbelow              " open splits below current
 set splitright              " open splits to the right of current
 set laststatus=2
@@ -86,11 +86,11 @@ nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :call ResetConfig()<CR>
 
 " Set lines and number gutter
-set cursorline              " turn on row highlighting where cursor is
-set ruler                   " turn on ruler information in statusline
+set cursorline " turn on row highlighting where cursor is
+set ruler      " turn on ruler information in statusline
 
 " Set number gutter
-set number                  " turn on number gutter
+set number
 function! NumberToggle()
   if(&relativenumber == 1)
     set norelativenumber
@@ -209,7 +209,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " put my theme back
     setlocal background=dark
-    colorscheme chroma
+    colorscheme monokai-phoenix
 
     call deoplete#enable()
   endfunction
@@ -223,9 +223,9 @@ filetype on
 
 " Theme
 set background=dark
-colorscheme chroma
+colorscheme monokai-phoenix
 syntax on
-if $TERM_PROGRAM == "iTerm.app"
+if $TERM_PROGRAM == "iTerm.app" || $TERMINFO =~ "kitty\.app"
   " Turn on 24bit color
   set termguicolors
   let g:truecolor = 1
