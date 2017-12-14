@@ -4,6 +4,7 @@ tap 'caskroom/fonts'
 tap 'caskroom/versions'
 tap 'neovim/neovim'
 tap 'thoughtbot/formulae'
+tap 'joshuaclayton/formulae'
 
 # This should be installed manually
 # https://www.google.com/chrome/
@@ -104,6 +105,7 @@ brew 'tmux'           # CLI tmux terminal multiplexer
 brew 'transmission'   # CLI. Bittorrent tool. Used for Ranger.
 brew 'unixodbc'       # Library for interfacing with different databases
 brew 'unrar'          # CLI unrar compression
+brew 'unused'         # CLI unused analyzes ctags for dead code
 brew 'wget'           # CLI wget HTTP interface
 brew 'wrk'            # CLI wrk HTTP benchmarking
 brew 'wxmac'          # Library for Erlang debugger to render GUI

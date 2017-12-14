@@ -328,7 +328,7 @@ let g:tmuxline_preset = {
   \'z'    : '#(pmset -g batt | egrep "([0-9]+\%).*" -o | cut -f1 -d ";")'}
 
 " vim-alchemist
-let g:alchemist_tag_map = 'gd'
+let g:alchemist_tag_disable = 1
 
 " vim-notes
 let g:notes_directories = ['~/Documents/Notes']
@@ -336,12 +336,13 @@ let g:notes_smart_quotes = 0
 
 " vim-test
 let test#strategy = "tslime"
+let test#ruby#use_binstubs = 0
 function! RunTestSuite()
-  if filereadable("bin/test_suite")
-    Tmux clear; echo "bin/test_suite"; bin/test_suite
-  else
-    TestSuite
-  endif
+  "if filereadable("bin/test_suite")
+    "Tmux clear; echo "bin/test_suite"; bin/test_suite
+  "else
+  TestSuite
+  "endif
 endfunction
 nmap <silent> <leader>t :TestNearest<CR>
 nmap <silent> <leader>T :TestFile<CR>

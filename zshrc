@@ -45,8 +45,7 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 # RipGrep
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'
 
-
-bash ~/.asdf/asdf.sh
-
 # recommended by brew doctor
 export PATH="/usr/local/bin:$PATH"
+
+source ~/.asdf/asdf.sh
