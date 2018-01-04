@@ -10,7 +10,6 @@ fi
 # Git
 alias gaa='git add -A'
 alias gs='git status'
-alias gp='git push -u'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias undeployed='git fetch --multiple production origin && git log production/master..origin/master'

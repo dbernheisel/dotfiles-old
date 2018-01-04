@@ -169,23 +169,29 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'junegunn/fzf.vim'             " Fuzzy-finder
   Plug 'dkprice/vim-easygrep'         " Grep across files
   Plug 'ludovicchabant/vim-gutentags' " Ctags support.
-    let g:gutentags_cache_dir = '~/.ctags_cache'
+  Plug 'mhinz/vim-mix-format'         " Elixir formatting
+  let g:mix_format_on_save = 0
+  let g:mix_format_elixir_bin_path = '~/.asdf/installs/elixir/1.6.0-rc.0/bin'
 
-  Plug 'neomake/neomake'              " Execute linters and compilers
+  "Plug 'neomake/neomake'              " Execute linters and compilers
+  Plug 'w0rp/ale'                     " Execute linters and compilers
+
   " Run after write
-  augroup localneomake
-    autocmd! BufWritePost * Neomake
-  augroup END
+  "augroup localneomake
+    "autocmd! BufWritePost * Neomake
+  "augroup END
 
   " Don't tell me to use smartquotes in markdown ok?
-  let g:neomake_markdown_enabled_makers = []
+  "let g:neomake_markdown_enabled_makers = []
 
-  " Turn off jshint (rely on eslint)
-  let g:neomake_javascript_enabled_makers = ['eslint']
-  let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+  "" Turn off jshint (rely on eslint)
+  "let g:neomake_javascript_enabled_makers = ['eslint']
+  "let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
 
-  " Turn on credo checking
-  let g:neomake_elixir_enabled_makers = ['mix', 'credo']
+  let g:ale_linters = {'javascript': ['eslint']}
+
+  "" Turn on credo checking
+  "let g:neomake_elixir_enabled_makers = ['mix', 'credo']
 
   " Distraction-free writing mode
   function! s:goyo_enter()
@@ -310,7 +316,7 @@ nmap <leader>/ <leader>c<space>
 vmap <leader>/ <leader>c<space>
 
 " FZF and ripgrep
-command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!tags" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 
 " vim-fzf
 nnoremap <C-P> :Files<CR>
