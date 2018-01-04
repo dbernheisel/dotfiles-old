@@ -1,0 +1,47 @@
+# Common
+build-essential
+curl
+file
+git
+python-setuptools
+
+# Erlang requirements
+autoconf
+build-essential
+libgl1-mesa-dev
+libglu1-mesa-dev
+libncurses5-dev
+libpng16-16
+libssh-dev
+libwxgtk3.0-dev
+m4
+unixodbc-dev
+
+# Ruby requirements
+autoconf
+bison
+build-essential
+gcc-6
+libffi-dev
+libgdbm-dev
+libgdbm3
+libncurses5-dev
+libreadline6-dev
+libssl-dev
+libyaml-dev
+zlib1g-dev
+
+# Python requirements
+build-essential
+curl
+libbz2-dev
+libncurses5-dev
+libreadline-dev
+libsqlite3-dev
+libssl-dev
+llvm
+make
+tk-dev
+wget
+xz-utils
+zlib1g-dev

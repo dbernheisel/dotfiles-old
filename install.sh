@@ -49,23 +49,25 @@ npm_install_or_update() {
   fi
 }
 
-append_to_zshrc() {
-  local text="$1" zshrc
-  local skip_new_line="${2:-0}"
+append_to_file() {
+  local filename="$1"; shift
+  local text="$1"; shift
+  local skip_new_line="${1:-0}"
+  local file
 
-  if [ -w "$HOME/.zshrc.local" ]; then
-    zshrc="$HOME/.zshrc.local"
+  if [ -w "$HOME/.$filename.local" ]; then
+    file="$HOME/.$filename.local"
   else
-    zshrc="$HOME/.zshrc"
+    file="$HOME/.$filename"
   fi
 
-  if ! grep -Fqs "$text" "$zshrc"; then
+  if ! grep -Fqs "$text" "$file"; then
     if [ "$skip_new_line" -eq 1 ]; then
       # shellcheck disable=SC1117
-      printf "%s\n" "$text" >> "$zshrc"
+      printf "%s\n" "$text" >> "$file"
     else
       # shellcheck disable=SC1117
-      printf "\n%s\n" "$text" >> "$zshrc"
+      printf "\n%s\n" "$text" >> "$file"
     fi
   fi
 }
@@ -78,8 +80,24 @@ is_mac() {
   fi
 }
 
+is_linux() {
+  if [[ "$OSTYPE" == linux* ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 is_ubuntu() {
-  if [[ "$OSTYPE" == linux* ]] && uname -a | grep -q Ubuntu; then
+  if is_linux && uname -a | grep -q Ubuntu; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+is_fedora() {
+  if is_linux && uname -a | grep -q Fedora; then
     return 0
   else
     return 1
@@ -94,21 +112,17 @@ if is_mac; then
   xcode-select --install
 fi
 
-if is_ubuntu; then
+if is_linux; then
   column
-  fancy_echo "Installing build-essential command line tools" "$yellow"
+  fancy_echo "Installing essential source-building packages" "$yellow"
   fancy_echo "This may ask for sudo access for installs..."
-  common_reqs=(build-essential curl)
-  python_reqs=(make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev)
-  ruby_reqs=(gcc-6 autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev)
-  erlang_reqs=(build-essential libwxgtk3.0-dev libgl1-mesa-dev libglu1-mesa-dev libpng16-16 libssh-dev unixodbc-dev m4 libncurses5-dev autoconf)
-  # shellcheck disable=SC2128
-  # shellcheck disable=SC2207
-  combined=($(for req in "${common_reqs[@]}" "${python_reqs[@]}" "${ruby_reqs[@]}" "${erlang_reqs[@]}"; do echo "$req" ; done | sort -du))
-  fancy_echo "Installing these packages:"
-  fancy_echo "${combined[*]}"
-  # shellcheck disable=SC2086
-  if ! sudo apt-get install ${combined[*]}; then
+
+  if is_ubuntu && ! grep "^[^#;]" Aptfile | sort -u | xargs sudo apt-get install -y; then
+    fancy_echo "Could not install system utilities. Please install those and then re-run this script" "$red"
+    exit 1
+  fi
+
+  if is_fedora && ! grep "^[^#;]" Dnffile | sort -u | xargs sudo dnf install -y; then
     fancy_echo "Could not install system utilities. Please install those and then re-run this script" "$red"
     exit 1
   fi
@@ -116,7 +130,7 @@ fi
 
 if [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
   column
-  fancy_echo "You need to generate an SSH key first" "$red"
+  fancy_echo "You need to generate an SSH key" "$red"
   ssh-keygen
 fi
 
@@ -126,16 +140,32 @@ if is_mac && ! command -v brew >/dev/null; then
   curl -fsS \
     'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
 
-  append_to_zshrc '# recommended by brew doctor'
+  append_to_file zshrc '# recommended by brew doctor'
+  append_to_file bashrc '# recommended by brew doctor'
   # shellcheck disable=SC2016
-  append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+  append_to_file zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+  # shellcheck disable=SC2016
+  append_to_file bashrc 'export PATH="/usr/local/bin:$PATH"' 1
   export PATH="/usr/local/bin:$PATH"
+
+  if ! command -v mas > /dev/null; then
+    column
+    fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
+    brew install mas
+  fi
 fi
 
-if is_mac && ! command -v mas > /dev/null; then
+if is_linux && ! command -v brew >/dev/null; then
   column
-  fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
-  brew install mas
+  fancy_echo "Installing Linuxbrew ..." "$yellow"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+
+  [[ -d "$HOME/.linuxbrew" ]] && PATH="$HOME/.linuxbrew/bin:$HOME/.linuxbrew/sbin:$PATH"
+  [[ -d /home/linuxbrew/.linuxbrew ]] && PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
+  # shellcheck disable=SC2016
+  append_to_file bashrc "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"'
+  # shellcheck disable=SC2016
+  append_to_file zshrc "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"'
 fi
 
 
@@ -156,18 +186,16 @@ update_shell() {
   fi
 }
 
-if is_mac; then
-  case "$SHELL" in
-    */zsh)
-      if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
-        update_shell
-      fi
-      ;;
-    *)
+case "$SHELL" in
+  */zsh)
+    if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
       update_shell
-      ;;
-  esac
-fi
+    fi
+    ;;
+  *)
+    update_shell
+    ;;
+esac
 
 
 #### Install dotfiles
@@ -186,75 +214,19 @@ install_zprezto() {
 install_zprezto
 cp prompt_bernheisel_setup "$HOME/.zprezto/modules/prompt/functions/prompt_bernheisel_setup"
 
-column
-fancy_echo "Backing up existing dotfiles" "$yellow"
-folder=$(pwd)
-files=(
-  'aliases.sh'
-  'bash_profile'
-  'bashrc'
-  'gitconfig'
-  'gitignore'
-  'gitmessage'
-  'tmux.conf'
-  'irbrc'
-  'pryrc'
-  'zlogin'
-  'zlogout'
-  'zpreztorc'
-  'zprofile'
-  'zshenv'
-  'zshrc'
-)
-
-mkdir -p "$folder/backup" 2>/dev/null
-for f in "${files[@]}"; do
-  if [ -e "$HOME/.$f" ]; then
-    mv -v "$HOME/.$f" "$folder/backup/.$f"
-  fi
-  ln -fs "$folder/$f" "$HOME/.$f"
-done
-
-if [ ! -e "$HOME/.secrets" ]; then
-  fancy_echo "Creating secrets file" "$yellow"
-  touch "$HOME/.secrets"
-fi
-
-column
-fancy_echo "Symlinking config files" "$yellow"
-ln -fs "$HOME/dotfiles/aliases.sh" "$HOME/.aliases.sh"
-ln -fs "$HOME/dotfiles/tmux.conf" "$HOME/.tmux.conf"
-
-mkdir -p "$HOME/.config/nvim"
-mv -v "$HOME/.config/nvim/init.vim" "$folder/backup/init.vim"
-ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"
-
-mkdir -p "$HOME/.config/ranger"
-mkdir -p "$folder/backup/ranger"
-mv -v "$HOME/.config/ranger/rc.conf" "$folder/backup/ranger/rc.conf"
-mv -v "$HOME/.config/ranger/scope.sh" "$folder/backup/rangers/scope.sh"
-ln -fs "$HOME/dotfiles/ranger/rc.conf" "$HOME/.config/ranger/rc.conf"
-ln -fs "$HOME/dotfiles/ranger/scope.sh" "$HOME/.config/ranger/scope.sh"
-
-mkdir -p "$HOME/Library/Preferences/kitty"
-mv -v "$HOME/Library/Preferences/kitty/kitty.conf" "$folder/backup/kitty.conf"
-ln -fs "$HOME/dotfiles/kitty.conf" "$HOME/Library/Preferences/kitty/kitty.conf"
-
 
 #### Brew installs
-if is_mac; then
-  column
-  fancy_echo "Installing programs" "$yellow"
-  if brew list | grep -Fq brew-cask; then
-    fancy_echo "Uninstalling old Homebrew-Cask ..." "$yellow"
-    brew uninstall --force brew-cask
-  fi
-  brew update
-  brew bundle
-  brew cleanup
-  brew cask cleanup
-  brew prune
+column
+fancy_echo "Installing programs" "$yellow"
+if brew list | grep -Fq brew-cask; then
+  fancy_echo "Uninstalling old Homebrew-Cask ..." "$yellow"
+  brew uninstall --force brew-cask
 fi
+brew update
+brew bundle check || brew bundle
+brew cleanup
+brew cask cleanup
+brew prune
 
 
 #### asdf Install, plugins, and languages
@@ -264,7 +236,7 @@ install_asdf() {
     fancy_echo "Installing asdf ..." "$yellow"
     git clone git://github.com/asdf-vm/asdf.git "$HOME/.asdf"
     if [[ "$SHELL" == *zsh ]]; then
-      append_to_zshrc "$HOME/.asdf/asdf.sh"
+      append_to_file zshrc "$HOME/.asdf/asdf.sh"
     fi
   fi
 
@@ -317,9 +289,9 @@ asdf_install_latest_pythons() {
   latest_2_version=$(asdf list-all $language | grep -v '^2.*' | grep -v '[A-Za-z-]' | tail -n 1)
   latest_3_version=$(asdf list-all $language | grep -v '^3.*' | grep -v '[A-Za-z-]' | tail -n 1)
   fancy_echo "Installing python $latest_2_version" "$yellow"
-  asdf install "$language" "$latest_2_version" && brew unlink python2
+  asdf install "$language" "$latest_2_version" && if is_mac; then brew unlink python2; fi
   fancy_echo "Installing python $latest_3_version" "$yellow"
-  asdf install "$language" "$latest_3_version" && brew unlink python3
+  asdf install "$language" "$latest_3_version" && if is_mac; then brew unlink python3; fi
   fancy_echo "Setting global version of $language to $latest_3_version $latest_2_version" "$yellow"
   asdf global "$language" "$latest_3_version" "$latest_2_version"
 }
@@ -373,6 +345,63 @@ npm_install_or_update babel-eslint
 
 fancy_echo "Installing alias-tips for zsh"
 git clone git://github.com/djui/alias-tips.git "$HOME/.zprezto/modules/alias-tips"
+
+column
+fancy_echo "Backing up existing dotfiles" "$yellow"
+folder=$(pwd)
+files=(
+  aliases.sh
+  bash_profile
+  bashrc
+  gitconfig
+  gitignore
+  gitmessage
+  tmux.conf
+  irbrc
+  pryrc
+  zlogin
+  zlogout
+  zpreztorc
+  zprofile
+  zshenv
+  zshrc
+)
+
+mkdir -p "$folder/backup" 2>/dev/null
+for f in "${files[@]}"; do
+  if [ -e "$HOME/.$f" ]; then
+    mv -v "$HOME/.$f" "$folder/backup/.$f"
+  fi
+done
+
+column
+fancy_echo "Symlinking config files" "$yellow"
+for f in "${files[@]}"; do
+  ln -fs "$folder/$f" "$HOME/.$f"
+done
+
+if [ ! -e "$HOME/.secrets" ]; then
+  fancy_echo "Creating secrets file" "$yellow"
+  touch "$HOME/.secrets"
+fi
+
+mkdir -p "$HOME/.config/nvim"
+mv -v "$HOME/.config/nvim/init.vim" "$folder/backup/init.vim"
+ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"
+
+mkdir -p "$HOME/.config/ranger"
+mkdir -p "$folder/backup/ranger"
+mv -v "$HOME/.config/ranger/rc.conf" "$folder/backup/ranger/rc.conf"
+mv -v "$HOME/.config/ranger/scope.sh" "$folder/backup/rangers/scope.sh"
+ln -fs "$HOME/dotfiles/ranger/rc.conf" "$HOME/.config/ranger/rc.conf"
+ln -fs "$HOME/dotfiles/ranger/scope.sh" "$HOME/.config/ranger/scope.sh"
+
+is_mac && kitty_home="$HOME/Library/Preferences/kitty"
+is_linux && kitty_home="$HOME/.config/kitty"
+mkdir -p "$kitty_home"
+mv -v "$kitty_home/kitty.conf" "$folder/backup/kitty.conf"
+ln -fs "$HOME/dotfiles/kitty.conf" "$kitty_home/kitty.conf"
+unset kitty_home
 
 
 #### Apple macOS defaults
