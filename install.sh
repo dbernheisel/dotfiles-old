@@ -70,13 +70,43 @@ append_to_zshrc() {
   fi
 }
 
+is_mac() {
+  if [[ "$OSTYPE" == darwin* ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+is_ubuntu() {
+  if [[ "$OSTYPE" == linux* ]] && uname -a | grep -q Ubuntu; then
+    return 0
+  else
+    return 1
+  fi
+}
 
 
 #### Prerequisites, like xcode and homebrew
-if [[ "$OSTYPE" == darwin* ]]; then
+if is_mac; then
   column
   fancy_echo "Installing xcode command line tools" "$yellow"
   xcode-select --install
+fi
+
+if is_ubuntu; then
+  column
+  fancy_echo "Installing build-essential command line tools" "$yellow"
+  common_reqs=(build-essential curl)
+  python_reqs=(make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev)
+  ruby_reqs=(gcc-6 autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev)
+  erlang_reqs=(build-essential libwxgtk3.0-dev libgl1-mesa-dev libglu1-mesa-dev libpng3 libssh-dev unixodbc-dev m4 libncurses5-dev autoconf)
+  # shellcheck disable=SC2128
+  # shellcheck disable=SC2207
+  combined=($(for req in "${common_reqs}" "${python_reqs[@]}" "${ruby_reqs[@]}" "${erlang_reqs[@]}"; do echo "$req" ; done | sort -du))
+  # shellcheck disable=SC2128
+  # shellcheck disable=SC2086
+  sudo apt-get install $combined
 fi
 
 if [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
@@ -85,7 +115,7 @@ if [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
   ssh-keygen
 fi
 
-if [[ "$OSTYPE" == darwin* ]] && ! command -v brew >/dev/null; then
+if is_mac && ! command -v brew >/dev/null; then
   column
   fancy_echo "Installing Homebrew ..." "$yellow"
   curl -fsS \
@@ -97,7 +127,7 @@ if [[ "$OSTYPE" == darwin* ]] && ! command -v brew >/dev/null; then
   export PATH="/usr/local/bin:$PATH"
 fi
 
-if [[ "$OSTYPE" == darwin* ]] && ! command -v mas > /dev/null; then
+if is_mac && ! command -v mas > /dev/null; then
   column
   fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
   brew install mas
@@ -121,7 +151,7 @@ update_shell() {
   fi
 }
 
-if [[ "$OSTYPE" == darwin* ]]; then
+if is_mac; then
   case "$SHELL" in
     */zsh)
       if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
@@ -140,7 +170,7 @@ install_zprezto() {
   if [ ! -d "$HOME/.zprezto" ]; then
     column
     fancy_echo "Installing zprezto ..." "$yellow"
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
+    git clone --recursive git://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
     setopt EXTENDED_GLOB
     for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md\(.N\); do
       ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
@@ -207,7 +237,7 @@ ln -fs "$HOME/dotfiles/kitty.conf" "$HOME/Library/Preferences/kitty/kitty.conf"
 
 
 #### Brew installs
-if [[ "$OSTYPE" == darwin* ]]; then
+if is_mac; then
   column
   fancy_echo "Installing programs" "$yellow"
   if brew list | grep -Fq brew-cask; then
@@ -227,7 +257,7 @@ column
 install_asdf() {
   if [ ! -d "$HOME/.asdf" ]; then
     fancy_echo "Installing asdf ..." "$yellow"
-    git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf"
+    git clone git://github.com/asdf-vm/asdf.git "$HOME/.asdf"
     if [[ "$SHELL" == *zsh ]]; then
       append_to_zshrc "$HOME/.asdf/asdf.sh"
     fi
@@ -239,8 +269,8 @@ install_asdf() {
 
 install_asdf_plugin() {
   local language="$1"; shift
-  if ! asdf plugin-list | grep -v "$language" >/dev/null; then
-    asdf plugin-add "$language";
+  if asdf plugin-list | grep -v "$language" >/dev/null; then
+    asdf plugin-add "$language"
   fi
 }
 
@@ -278,9 +308,9 @@ asdf_install_latest_pythons() {
   local latest_2_version
   local latest_3_version
   local language="python"
+  install_asdf_plugin "$language"
   latest_2_version=$(asdf list-all $language | grep -v '^2.*' | grep -v '[A-Za-z-]' | tail -n 1)
   latest_3_version=$(asdf list-all $language | grep -v '^3.*' | grep -v '[A-Za-z-]' | tail -n 1)
-  install_asdf_plugin "$language"
   fancy_echo "Installing python $latest_2_version" "$yellow"
   asdf install "$language" "$latest_2_version" && brew unlink python2
   fancy_echo "Installing python $latest_3_version" "$yellow"
@@ -310,7 +340,6 @@ asdf_install_latest_golang() {
   local latest_version
   latest_version=$(asdf list-all golang | grep -E $goarch | grep -v 'rc' | grep -v 'src' | grep -v 'beta' | grep -E $goarchbit | tail -n 1)
   fancy_echo "Installing $language $latest_version" "$yellow"
-  asdf plugin-add "$language"
   asdf install "$language" "$latest_version"
   fancy_echo "Setting global verison of $language to $latest_version" "$yellow"
   asdf global "$language" "$latest_version"
@@ -338,11 +367,11 @@ npm_install_or_update eslint
 npm_install_or_update babel-eslint
 
 fancy_echo "Installing alias-tips for zsh"
-git clone https://github.com/djui/alias-tips.git "$HOME/.zprezto/modules/alias-tips"
+git clone git://github.com/djui/alias-tips.git "$HOME/.zprezto/modules/alias-tips"
 
 
 #### Apple macOS defaults
-if [[ "$OSTYPE" == darwin* ]]; then
+if is_mac; then
   column
   fancy_echo "Updating Apple macOS defaults" "$yellow"
 
