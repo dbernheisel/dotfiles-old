@@ -97,16 +97,21 @@ fi
 if is_ubuntu; then
   column
   fancy_echo "Installing build-essential command line tools" "$yellow"
+  fancy_echo "This may ask for sudo access for installs..."
   common_reqs=(build-essential curl)
   python_reqs=(make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev)
   ruby_reqs=(gcc-6 autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm3 libgdbm-dev)
-  erlang_reqs=(build-essential libwxgtk3.0-dev libgl1-mesa-dev libglu1-mesa-dev libpng3 libssh-dev unixodbc-dev m4 libncurses5-dev autoconf)
+  erlang_reqs=(build-essential libwxgtk3.0-dev libgl1-mesa-dev libglu1-mesa-dev libpng16-16 libssh-dev unixodbc-dev m4 libncurses5-dev autoconf)
   # shellcheck disable=SC2128
   # shellcheck disable=SC2207
-  combined=($(for req in "${common_reqs}" "${python_reqs[@]}" "${ruby_reqs[@]}" "${erlang_reqs[@]}"; do echo "$req" ; done | sort -du))
-  # shellcheck disable=SC2128
+  combined=($(for req in "${common_reqs[@]}" "${python_reqs[@]}" "${ruby_reqs[@]}" "${erlang_reqs[@]}"; do echo "$req" ; done | sort -du))
+  fancy_echo "Installing these packages:"
+  fancy_echo "${combined[*]}"
   # shellcheck disable=SC2086
-  sudo apt-get install $combined
+  if ! sudo apt-get install ${combined[*]}; then
+    fancy_echo "Could not install system utilities. Please install those and then re-run this script" "$red"
+    exit 1
+  fi
 fi
 
 if [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
@@ -269,7 +274,7 @@ install_asdf() {
 
 install_asdf_plugin() {
   local language="$1"; shift
-  if asdf plugin-list | grep -v "$language" >/dev/null; then
+  if ! asdf plugin-list | grep -v "$language" >/dev/null; then
     asdf plugin-add "$language"
   fi
 }
