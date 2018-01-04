@@ -7,23 +7,25 @@ column() {
 }
 
 mkcolor() {
+  # shellcheck disable=SC1117
   [ "${BASH_VERSINFO[0]}" -le "3" ] && echo -e "\033[00;$1m" || echo "\e[0;$1m"
 }
 
 mkbold() {
+  # shellcheck disable=SC1117
   [ "${BASH_VERSINFO[0]}" -le "3" ] && echo -e "\033[1;$1m" || echo "\e[1;$1m"
 }
 
 clear=$(mkcolor 0)
 yellow=$(mkbold 33)
 red=$(mkbold 31)
-green=$(mkbold 32)
 
 fancy_echo() {
   local fmt="$1"; shift
   local color="$1"; shift
 
   # shellcheck disable=SC2059
+  # shellcheck disable=SC1117
   printf "$color$fmt$clear\n" "$@"
 }
 
@@ -39,8 +41,8 @@ gem_install_or_update() {
 npm_install_or_update() {
   local program
   program=$1; shift
-  npm -g list --depth=1 2> /dev/null | grep "$program" > /dev/null
-  if [ $? -eq 0 ]; then
+
+  if npm -g list --depth=1 2> /dev/null | grep "$program" > /dev/null; then
     npm -g update "$program"
   else
     npm -g install "$program"
@@ -59,8 +61,10 @@ append_to_zshrc() {
 
   if ! grep -Fqs "$text" "$zshrc"; then
     if [ "$skip_new_line" -eq 1 ]; then
+      # shellcheck disable=SC1117
       printf "%s\n" "$text" >> "$zshrc"
     else
+      # shellcheck disable=SC1117
       printf "\n%s\n" "$text" >> "$zshrc"
     fi
   fi
@@ -69,30 +73,31 @@ append_to_zshrc() {
 
 
 #### Prerequisites, like xcode and homebrew
-column
-fancy_echo "Installing xcode command line tools" "$yellow"
-xcode-select --install
+if [[ "$OSTYPE" == darwin* ]]; then
+  column
+  fancy_echo "Installing xcode command line tools" "$yellow"
+  xcode-select --install
+fi
 
 if [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
   column
   fancy_echo "You need to generate an SSH key first" "$red"
-  fancy_echo "Run `ssh-keygen`, and then run this install script again"
-  cd ~/.ssh
-  exit 1
+  ssh-keygen
 fi
 
-if ! command -v brew >/dev/null; then
+if [[ "$OSTYPE" == darwin* ]] && ! command -v brew >/dev/null; then
   column
   fancy_echo "Installing Homebrew ..." "$yellow"
   curl -fsS \
     'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
 
   append_to_zshrc '# recommended by brew doctor'
+  # shellcheck disable=SC2016
   append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
   export PATH="/usr/local/bin:$PATH"
 fi
 
-if ! command -v mas > /dev/null; then
+if [[ "$OSTYPE" == darwin* ]] && ! command -v mas > /dev/null; then
   column
   fancy_echo "Installing MAS to manage Mac Apple Store installs" "$yellow"
   brew install mas
@@ -116,22 +121,23 @@ update_shell() {
   fi
 }
 
-case "$SHELL" in
-  */zsh)
-    if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
+if [[ "$OSTYPE" == darwin* ]]; then
+  case "$SHELL" in
+    */zsh)
+      if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
+        update_shell
+      fi
+      ;;
+    *)
       update_shell
-    fi
-    ;;
-  *)
-    update_shell
-    ;;
-esac
-
+      ;;
+  esac
+fi
 
 
 #### Install dotfiles
 install_zprezto() {
-  if [ ! -d ~/.zprezto ]; then
+  if [ ! -d "$HOME/.zprezto" ]; then
     column
     fancy_echo "Installing zprezto ..." "$yellow"
     git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
@@ -143,7 +149,7 @@ install_zprezto() {
 }
 
 install_zprezto
-cp prompt_bernheisel_setup ~/.zprezto/modules/prompt/functions/prompt_bernheisel_setup
+cp prompt_bernheisel_setup "$HOME/.zprezto/modules/prompt/functions/prompt_bernheisel_setup"
 
 column
 fancy_echo "Backing up existing dotfiles" "$yellow"
@@ -175,123 +181,147 @@ for f in "${files[@]}"; do
 done
 
 if [ ! -e "$HOME/.secrets" ]; then
-  fancy_echo "Creating ~/.secrets file" "$yellow"
-  touch "$HOME"/.secrets
+  fancy_echo "Creating secrets file" "$yellow"
+  touch "$HOME/.secrets"
 fi
 
 column
 fancy_echo "Symlinking config files" "$yellow"
-ln -fs ~/dotfiles/aliases.sh ~/.aliases.sh
-ln -fs ~/dotfiles/tmux.conf ~/.tmux.conf
+ln -fs "$HOME/dotfiles/aliases.sh" "$HOME/.aliases.sh"
+ln -fs "$HOME/dotfiles/tmux.conf" "$HOME/.tmux.conf"
 
-mkdir -p ~/.config/nvim
+mkdir -p "$HOME/.config/nvim"
 mv -v "$HOME/.config/nvim/init.vim" "$folder/backup/init.vim"
-ln -fs ~/dotfiles/nvimrc  ~/.config/nvim/init.vim
+ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"
 
-mkdir -p "~/.config/ranger"
+mkdir -p "$HOME/.config/ranger"
 mkdir -p "$folder/backup/ranger"
 mv -v "$HOME/.config/ranger/rc.conf" "$folder/backup/ranger/rc.conf"
 mv -v "$HOME/.config/ranger/scope.sh" "$folder/backup/rangers/scope.sh"
-ln -fs ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
-ln -fs ~/dotfiles/ranger/scope.sh ~/.config/ranger/scope.sh
+ln -fs "$HOME/dotfiles/ranger/rc.conf" "$HOME/.config/ranger/rc.conf"
+ln -fs "$HOME/dotfiles/ranger/scope.sh" "$HOME/.config/ranger/scope.sh"
 
-mkdir -p ~/Library/Preferences/kitty
-mv -v "~/Library/Preferences/kitty/kitty.conf" "$folder/backup/kitty.conf"
-ln -fs ~/dotfiles/kitty.conf ~/Library/Preferences/kitty/kitty.conf
+mkdir -p "$HOME/Library/Preferences/kitty"
+mv -v "$HOME/Library/Preferences/kitty/kitty.conf" "$folder/backup/kitty.conf"
+ln -fs "$HOME/dotfiles/kitty.conf" "$HOME/Library/Preferences/kitty/kitty.conf"
 
 
 #### Brew installs
-column
-fancy_echo "Installing programs" "$yellow"
-if brew list | grep -Fq brew-cask; then
-  fancy_echo "Uninstalling old Homebrew-Cask ..." "$yellow"
-  brew uninstall --force brew-cask
+if [[ "$OSTYPE" == darwin* ]]; then
+  column
+  fancy_echo "Installing programs" "$yellow"
+  if brew list | grep -Fq brew-cask; then
+    fancy_echo "Uninstalling old Homebrew-Cask ..." "$yellow"
+    brew uninstall --force brew-cask
+  fi
+  brew update
+  brew bundle
+  brew cleanup
+  brew cask cleanup
+  brew prune
 fi
-brew update
-brew bundle
-brew cleanup
-brew cask cleanup
-brew prune
 
 
 #### asdf Install, plugins, and languages
 column
 install_asdf() {
-  if [ ! -d ~/.asdf ]; then
+  if [ ! -d "$HOME/.asdf" ]; then
     fancy_echo "Installing asdf ..." "$yellow"
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+    git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf"
     if [[ "$SHELL" == *zsh ]]; then
       append_to_zshrc "$HOME/.asdf/asdf.sh"
     fi
   fi
+
+  # shellcheck disable=SC1090
   source "$HOME/.asdf/asdf.sh"
 }
 
-install_asdf_plugins() {
-  export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
-  local plugins=(
-    'https://github.com/asdf-vm/asdf-erlang'
-    'https://github.com/vic/asdf-elm'
-    'https://github.com/asdf-vm/asdf-elixir'
-    'https://github.com/asdf-vm/asdf-ruby'
-    'https://github.com/kennyp/asdf-golang'
-    'https://github.com/asdf-vm/asdf-nodejs'
-    'https://github.com/tuvistavie/asdf-python'
-  )
-
-  if command -v asdf >/dev/null; then
-    for plugin in "${plugins[@]}"; do
-      local language=${plugin##*-}
-      asdf plugin-add "$language" "$plugin"
-    done
-
-    source "$HOME/.asdf/plugins/nodejs/bin/import-release-team-keyring"
-  else
-    fancy_echo "Could not install plugins for asdf. Could not find asdf" "$red" && false
+install_asdf_plugin() {
+  local language="$1"; shift
+  if ! asdf plugin-list | grep -v "$language" >/dev/null; then
+    asdf plugin-add "$language";
   fi
-  unset GNUPGHOME
 }
 
 asdf_install_latest_version() {
-  local language="$1"; shift
-  local latest_version=$(asdf list-all "$language" | tail -n 1)
+  if command -v asdf >/dev/null; then
+    local language="$1"; shift
+    local latest_version
+    install_asdf_plugin "$language"
+    latest_version=$(asdf list-all "$language" | grep -v '[A-Za-z-]' | tail -n 1)
+    fancy_echo "Installing $language $latest_version" "$yellow"
+    asdf install "$language" "$latest_version"
+    fancy_echo "Setting global version of $language to $latest_version" "$yellow"
+    asdf global "$language" "$latest_version"
+  else
+    fancy_echo "Could not install language for asdf. Could not find asdf" "$red" && false
+  fi
+}
+
+asdf_install_latest_nodejs() {
+  local language="nodejs"
+  local latest_version
+  install_asdf_plugin "$language"
+  export GNUPGHOME="${ASDF_DIR:-$HOME/.asdf}/keyrings/nodejs" && mkdir -p "$GNUPGHOME" && chmod 0700 "$GNUPGHOME"
+  # shellcheck disable=SC1090
+  source "$HOME/.asdf/plugins/$language/bin/import-release-team-keyring"
+  latest_version=$(asdf list-all "$language" | grep -v '[A-Za-z-]' | tail -n 1)
   fancy_echo "Installing $language $latest_version" "$yellow"
   asdf install "$language" "$latest_version"
   fancy_echo "Setting global version of $language to $latest_version" "$yellow"
   asdf global "$language" "$latest_version"
+  unset GNUPGHOME
 }
 
 asdf_install_latest_pythons() {
   local latest_2_version
   local latest_3_version
-  latest_2_version=$(asdf list-all python | grep -E '^2.*[^-dev]$' | tail -n 1)
-  latest_3_version=$(asdf list-all python | grep -E '^3.*[^-dev]$' | tail -n 1)
+  local language="python"
+  latest_2_version=$(asdf list-all $language | grep -v '^2.*' | grep -v '[A-Za-z-]' | tail -n 1)
+  latest_3_version=$(asdf list-all $language | grep -v '^3.*' | grep -v '[A-Za-z-]' | tail -n 1)
+  install_asdf_plugin "$language"
   fancy_echo "Installing python $latest_2_version" "$yellow"
-  asdf install python "$latest_2_version" && brew unlink python2
+  asdf install "$language" "$latest_2_version" && brew unlink python2
   fancy_echo "Installing python $latest_3_version" "$yellow"
-  asdf install python "$latest_3_version" && brew unlink python3
-  fancy_echo "Setting global version of python to $latest_3_version $latest_2_version" "$yellow"
-  asdf global python "$latest_3_version" "$latest_2_version"
+  asdf install "$language" "$latest_3_version" && brew unlink python3
+  fancy_echo "Setting global version of $language to $latest_3_version $latest_2_version" "$yellow"
+  asdf global "$language" "$latest_3_version" "$latest_2_version"
 }
 
 asdf_install_latest_golang() {
-  if [[ "$OSTYPE" == darwin* ]]; then
-    local latest_version
-    latest_version=$(asdf list-all golang | grep -E 'darwin' | grep -v 'rc' | grep -v 'beta' | grep -E 'amd64' | tail -n 1)
-    fancy_echo "Installing golang $latest_version" "$yellow"
-    asdf install golang "$latest_version"
-    fancy_echo "Setting global verison of golang to $latest_version" "$yellow"
-    asdf global golang "$latest_version"
-  fi
+  local language="golang"
+  local goarch
+  local goarchbit
+  case "$OSTYPE" in
+    darwin*)  goarch="darwin" ;;
+    linux*)   goarch="linux" ;;
+    bsd*)     goarch="freebsd" ;;
+    *)        fancy_echo "Cannot determine system for golang" "$red" && exit 1;;
+  esac
+  case $(uname -m) in
+    i?86)   goarchbit=386 ;;
+    x86_64) goarchbit=amd64 ;;
+    ppc64)  goarchbit=ppc64 ;;
+    *)      fancy_echo "Cannot determine system for golang" "$red" && exit 1;;
+  esac
+
+  install_asdf_plugin $language
+  local latest_version
+  latest_version=$(asdf list-all golang | grep -E $goarch | grep -v 'rc' | grep -v 'src' | grep -v 'beta' | grep -E $goarchbit | tail -n 1)
+  fancy_echo "Installing $language $latest_version" "$yellow"
+  asdf plugin-add "$language"
+  asdf install "$language" "$latest_version"
+  fancy_echo "Setting global verison of $language to $latest_version" "$yellow"
+  asdf global "$language" "$latest_version"
 }
 
 install_asdf &&\
-  install_asdf_plugins &&\
   asdf_install_latest_version ruby &&\
   asdf_install_latest_version erlang &&\
   asdf_install_latest_version elixir &&\
-  asdf_install_latest_version nodejs &&\
   asdf_install_latest_version elm &&\
+  asdf_install_latest_nodejs &&\
   asdf_install_latest_pythons &&\
   asdf_install_latest_golang
 
@@ -308,7 +338,7 @@ npm_install_or_update eslint
 npm_install_or_update babel-eslint
 
 fancy_echo "Installing alias-tips for zsh"
-git clone https://github.com/djui/alias-tips.git ~/.zprezto/modules/alias-tips
+git clone https://github.com/djui/alias-tips.git "$HOME/.zprezto/modules/alias-tips"
 
 
 #### Apple macOS defaults
