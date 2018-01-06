@@ -1,10 +1,6 @@
 tap 'Goles/battery'
-tap 'caskroom/cask'
-tap 'caskroom/fonts'
-tap 'caskroom/versions'
 tap 'neovim/neovim'
 tap 'thoughtbot/formulae'
-tap 'joshuaclayton/formulae'
 
 # This should be installed manually
 # https://www.google.com/chrome/
@@ -16,17 +12,37 @@ tap 'joshuaclayton/formulae'
 # cask '1password'    # Password manager
 
 if RUBY_PLATFORM.downcase.include? 'darwin'
+  tap 'caskroom/cask'
+  tap 'caskroom/fonts'
+  tap 'caskroom/versions'
   cask 'alfred'         # Spotlot replacement
+  cask 'android-file-transfer'  # Transfer files from/to Android
+  cask 'android-sdk'    # CLI adb Android SDK
   cask 'boxer'          # DOS Emulator
   cask 'dash'           # Offline documentation
-  cask 'insomniax'      # Prevent computer from sleeping
+  cask 'font-fira-code' # Mozilla Fira font with code ligatures
+  cask 'font-hack-nerd-font' # font
+  cask 'font-inconsolata' # font
+  cask 'google-backup-and-sync'   # File syncing
+  cask 'handbrake'      # Video/audio processing
+  cask 'handbrakebatch' # Batch video/audio processing with handbrake
   cask 'hex-fiend'      # Hex value editor
+  cask 'insomniax'      # Prevent computer from sleeping
   cask 'itsycal'        # Calendar menubar
+  cask 'java'           # Java Langauge
+  cask 'kitty'          # Terminal emulator
   cask 'omnidisksweeper'  # Disk visualizer
   cask 'omnigraffle6'   # Graphing app
+  cask 'pdftotext'      # CLI for converting PDF to Text. Used for Ranger
   cask 'postico'        # Postgres Database Viewer
+  cask 'postman'        # REST app
+  cask 'slack'          # Chat
   cask 'sourcetree'     # Git manager
   cask 'transmission'   # Bittorrent
+  cask 'virtualbox'     # Virtual Machine manager
+  cask 'visual-studio-code'   # Code Editor
+  cask 'vlc'            # Video/Audio Player
+  cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
   cask 'xld'            # Audio processing
   brew 'autoconf'       # CLI Build utility
   brew 'automake'       # CLI Build utility
@@ -44,26 +60,6 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   mas 'Medis',          id: 1063631769
 end
 
-if RUBY_PLATFORM.downcase.include? 'linux'
-end
-
-cask 'java'           # Java Langauge
-cask 'android-file-transfer'  # Transfer files from/to Android
-cask 'android-sdk'    # CLI adb Android SDK
-cask 'font-fira-code' # Mozilla Fira font with code ligatures
-cask 'font-hack-nerd-font' # font
-cask 'font-inconsolata' # font
-cask 'google-backup-and-sync'   # File syncing
-cask 'handbrake'      # Video/audio processing
-cask 'handbrakebatch' # Batch video/audio processing with handbrake
-cask 'kitty'          # Terminal emulator
-cask 'pdftotext'      # CLI for converting PDF to Text. Used for Ranger
-cask 'postman'        # REST app
-cask 'slack'          # Chat
-cask 'virtualbox'     # Virtual Machine manager
-cask 'visual-studio-code'   # Code Editor
-cask 'vlc'            # Video/Audio Player
-cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
 brew 'ansible'        # CLI Ansible
 brew 'atool'          # CLI. Archives inspection. Used for Ranger.
 brew 'awscli'         # CLI Amazon AWS CLI
@@ -111,7 +107,6 @@ brew 'tldr'           # CLI for short man pages
 brew 'tmate'          # CLI tmate tmux over SSH
 brew 'tmux'           # CLI tmux terminal multiplexer
 brew 'unrar'          # CLI unrar compression
-brew 'unused'         # CLI unused analyzes ctags for dead code
 brew 'wget'           # CLI wget HTTP interface
 brew 'wrk'            # CLI wrk HTTP benchmarking
 brew 'x264'           # Library video decoder
