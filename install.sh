@@ -432,4 +432,8 @@ if is_mac; then
 
   fancy_echo "Adding a context menu item for showing the Web Inspector in web views" "$yellow"
   defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+
+  fancy_echo "Turning on AptX and AAC codecs over Bluetooth for non-Apple devices"
+  defaults write bluetoothaudiohd "Enable AptX codec" -bool true
+  defaults write bluetoothaudiohd "Enable AAC codec" -bool true
 fi
