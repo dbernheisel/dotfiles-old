@@ -353,12 +353,14 @@ files=(
   aliases.sh
   bash_profile
   bashrc
+  fzf.bash
+  fzf.zsh
   gitconfig
   gitignore
   gitmessage
-  tmux.conf
   irbrc
   pryrc
+  tmux.conf
   zlogin
   zlogout
   zpreztorc
