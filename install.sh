@@ -346,6 +346,9 @@ npm_install_or_update babel-eslint
 fancy_echo "Installing alias-tips for zsh"
 git clone git://github.com/djui/alias-tips.git "$HOME/.zprezto/modules/alias-tips"
 
+fancy_echo "Registering tmux terminfo for italics" "$yellow"
+tic $HOME/dotfiles/tmux-italics.terminfo
+
 column
 fancy_echo "Backing up existing dotfiles" "$yellow"
 folder=$(pwd)
@@ -435,7 +438,7 @@ if is_mac; then
   fancy_echo "Adding a context menu item for showing the Web Inspector in web views" "$yellow"
   defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
-  fancy_echo "Turning on AptX and AAC codecs over Bluetooth for non-Apple devices"
+  fancy_echo "Turning on AptX and AAC codecs over Bluetooth for non-Apple devices" "$yellow"
   defaults write bluetoothaudiohd "Enable AptX codec" -bool true
   defaults write bluetoothaudiohd "Enable AAC codec" -bool true
 fi

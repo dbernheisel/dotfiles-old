@@ -15,14 +15,13 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   tap 'caskroom/cask'
   tap 'caskroom/fonts'
   tap 'caskroom/versions'
-  cask 'alfred'         # Spotlot replacement
+  cask 'alfred'         # Spotlight replacement
   cask 'android-file-transfer'  # Transfer files from/to Android
   cask 'android-sdk'    # CLI adb Android SDK
   cask 'boxer'          # DOS Emulator
   cask 'dash'           # Offline documentation
-  cask 'font-fira-code' # Mozilla Fira font with code ligatures
-  cask 'font-hack-nerd-font' # font
-  cask 'font-inconsolata' # font
+  cask 'font-firacode-nerd-font' # Fira Mono font with code ligatures and icons
+  cask 'font-inconsolatago-nerd-font' # Inconsolata-g (straight quotes) with icons
   cask 'google-backup-and-sync'   # File syncing
   cask 'handbrake'      # Video/audio processing
   cask 'handbrakebatch' # Batch video/audio processing with handbrake
