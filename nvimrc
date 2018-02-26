@@ -140,6 +140,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'tpope/vim-fugitive'           " Git support. Works w/ Airline
   Plug 'christoomey/vim-conflicted'   " Git merge conflict support
   Plug 'sheerun/vim-polyglot'         " Languages support.
+  let g:elm_format_autosave = 1
   Plug 'tpope/vim-eunuch'             " Add Bash commands Remove,Move,Find,etc
   Plug 'pbrisbin/vim-mkdir'           " create directories if they don't exist
   Plug 'terryma/vim-multiple-cursors' " visual, then C-n then I
@@ -156,8 +157,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'crusoexia/vim-monokai'        " Theme
   Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
   Plug 'tommcdo/vim-lion'             " Align with gl or gL
-  Plug 'c-brenn/phoenix.vim'          " :Pgenerate, :Pserver, :Ppreview, Jump
   Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
+  let g:alchemist_tag_disable = 1
   Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
   Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
   Plug 'tmux-plugins/vim-tmux-focus-events' " fix FocusGained and FocusLost
@@ -171,7 +172,6 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ludovicchabant/vim-gutentags' " Ctags support.
   Plug 'mhinz/vim-mix-format'         " Elixir formatting
   let g:mix_format_on_save = 0
-  let g:mix_format_elixir_bin_path = '~/.asdf/installs/elixir/1.6.0-rc.0/bin'
 
   "Plug 'neomake/neomake'              " Execute linters and compilers
   Plug 'w0rp/ale'                     " Execute linters and compilers
@@ -332,9 +332,6 @@ let g:tmuxline_preset = {
   \'x'    : '#(git rev-parse --abbrev-ref HEAD)',
   \'y'    : ['%Y-%m-%d %a', '%H:%M'],
   \'z'    : '#(pmset -g batt | egrep "([0-9]+\%).*" -o | cut -f1 -d ";")'}
-
-" vim-alchemist
-let g:alchemist_tag_disable = 1
 
 " vim-notes
 let g:notes_directories = ['~/Documents/Notes']
