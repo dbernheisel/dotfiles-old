@@ -390,6 +390,11 @@ if [ ! -e "$HOME/.secrets" ]; then
   touch "$HOME/.secrets"
 fi
 
+if [ ! -e "$HOME/.zshlocal" ]; then
+  fancy_echo "Creating local zsh config" "$yellow"
+  touch "$HOME/.zshlocal"
+fi
+
 mkdir -p "$HOME/.config/nvim"
 mv -v "$HOME/.config/nvim/init.vim" "$folder/backup/init.vim"
 ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"

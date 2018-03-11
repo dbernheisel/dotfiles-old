@@ -49,3 +49,5 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 export PATH="/usr/local/bin:$PATH"
 
 source ~/.asdf/asdf.sh
+
+[ -e "$HOME/.zshlocal" ] && source "$HOME/.zshlocal"

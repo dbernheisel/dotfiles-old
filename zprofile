@@ -76,8 +76,5 @@ fi
 # Choose Send Escape Sequence as Action
 # Type [104;5u
 
-export ANDROID_HOME=/usr/local/opt/android-sdk
-export JAVA_HOME=/Library/Java/Home
-
 source ~/.aliases.sh
 source ~/.secrets

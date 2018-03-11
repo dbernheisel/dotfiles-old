@@ -17,7 +17,6 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   tap 'caskroom/versions'
   cask 'alfred'         # Spotlight replacement
   cask 'android-file-transfer'  # Transfer files from/to Android
-  cask 'android-sdk'    # CLI adb Android SDK
   cask 'boxer'          # DOS Emulator
   cask 'dash'           # Offline documentation
   cask 'font-firacode-nerd-font' # Fira Mono font with code ligatures and icons
@@ -28,7 +27,6 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'hex-fiend'      # Hex value editor
   cask 'insomniax'      # Prevent computer from sleeping
   cask 'itsycal'        # Calendar menubar
-  cask 'java'           # Java Langauge
   cask 'kitty'          # Terminal emulator
   cask 'omnidisksweeper'  # Disk visualizer
   cask 'omnigraffle6'   # Graphing app
@@ -50,6 +48,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   brew 'wxmac'          # Library for Erlang debugger to render GUI
   brew 'mas'            # CLI to install from Mac App Store
   brew 'unixodbc'       # Library for interfacing with different databases
+  brew 'dnsmasq', restart_service: :changed
 
   # This is too big and should be installed on it's own first.
   # https://itunes.apple.com/us/app/xcode/id497799835?mt=12
@@ -114,9 +113,8 @@ brew 'yarn'           # CLI JavaScript package manager
 
 # Services
 brew 'mysql', restart_service: :changed
-brew 'postgresql', restart_service: :changed, conflicts_with: ["postgresql@9.6"]
-brew 'postgresql@9.6', restart_service: :changed, link: true
+brew 'postgresql', restart_service: :changed, link: true, conflicts_with: ["postgresql@9.6"]
+brew 'postgresql@9.6', restart_service: :changed, conflicts_with: ["postgresql"]
 brew 'redis', restart_service: :changed
-brew 'dnsmasq', restart_service: :changed
 brew 'nginx', restart_service: :changed
 brew 'mongodb', restart_service: :changed
