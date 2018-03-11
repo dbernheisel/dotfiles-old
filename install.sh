@@ -289,9 +289,23 @@ asdf_install_latest_pythons() {
   latest_2_version=$(asdf list-all $language | grep -v '^2.*' | grep -v '[A-Za-z-]' | tail -n 1)
   latest_3_version=$(asdf list-all $language | grep -v '^3.*' | grep -v '[A-Za-z-]' | tail -n 1)
   fancy_echo "Installing python $latest_2_version" "$yellow"
-  asdf install "$language" "$latest_2_version" && if is_mac; then brew unlink python2; fi
+  if is_mac; then
+    CFLAGS="-O2 -I$(xcrun --show-sdk-path)/usr/include" \
+      asdf install "$language" "$latest_2_version" && \
+      brew unlink python2
+  else
+    asdf install "$language" "$latest_2_version"
+  fi
+
   fancy_echo "Installing python $latest_3_version" "$yellow"
-  asdf install "$language" "$latest_3_version" && if is_mac; then brew unlink python3; fi
+  if is_mac; then
+    CFLAGS="-O2 -I$(xcrun --show-sdk-path)/usr/include" \
+      asdf install "$language" "$latest_3_version" && \
+      brew unlink python3
+  else
+    asdf install "$language" "$latest_3_version"
+  fi
+
   fancy_echo "Setting global version of $language to $latest_3_version $latest_2_version" "$yellow"
   asdf global "$language" "$latest_3_version" "$latest_2_version"
 }
