@@ -45,6 +45,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   brew 'automake'       # CLI Build utility
   brew 'coreutils'      # CLI GNU utilities
   brew 'htop-osx'       # CLI htop process utility
+  brew 'reattach-to-user-namespace' # CLI to help tmux and mac
   brew 'wxmac'          # Library for Erlang debugger to render GUI
   brew 'mas'            # CLI to install from Mac App Store
   brew 'unixodbc'       # Library for interfacing with different databases
@@ -58,9 +59,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   mas 'Medis',          id: 1063631769
 end
 
-brew 'ansible'        # CLI Ansible
 brew 'atool'          # CLI. Archives inspection. Used for Ranger.
-brew 'awscli'         # CLI Amazon AWS CLI
 brew 'battery'        # CLI for showing battery level, used for tmux
 brew 'cmake'          # CLI Build utility
 brew 'ctags'          # CLI Exhuburant ctags
@@ -73,7 +72,7 @@ brew 'fontconfig'     # CLI fontconfig Font utility for patching fonts
 brew 'freetype'       # Library Render fonts
 brew 'fzf'            # CLI Fuzzy Finder CLI
 brew 'ghostscript'    # CLI Produce PDFs
-brew 'git'            # CLI Git
+brew 'git'            # CLI Git version control
 brew 'git-flow'       # CLI Git-Flow git shortcuts
 brew 'glib'           # Library Build utility
 brew 'googler'        # CLI google from command line
@@ -86,7 +85,7 @@ brew 'lame'           # Library audio encoder/decoder
 brew 'libxml2'        # Library XML parsing
 brew 'libyaml'        # Library for parsing YAML
 brew 'mediainfo'      # CLI. Media file metadata inspection. Used for Ranger.
-brew 'neovim'         # CLI text editor
+brew 'neovim'         # CLI nvim text editor
 brew 'openssl'        # Library SSL library
 brew 'p7zip'          # CLI 7a 7za compression
 brew 'parity'         # CLI adding commands to heroku
@@ -94,14 +93,13 @@ brew 'phantomjs'      # CLI phantomjs headless webkit browser (for testing)
 brew 'qt@5.5'         # Library qt. Used for Capybara
 brew 'ranger'         # CLI Ranger File Explorer
 brew 'readline'       # Library file reading
-brew 'reattach-to-user-namespace' # CLI to help tmux
 brew 'ripgrep'        # CLI rg grep current directory
 brew 'rsync'          # CLI rsync file copying
 brew 'shellcheck'     # CLI POSIX shell linter
 brew 'sqlite'         # Service Database
 brew 'tesseract'      # CLI tesseract OCR
 brew 'tidy-html5'     # CLI tidy HTML linting
-brew 'tldr'           # CLI for short man pages
+brew 'tldr'           # CLI tldr short man pages
 brew 'tmate'          # CLI tmate tmux over SSH
 brew 'tmux'           # CLI tmux terminal multiplexer
 brew 'unrar'          # CLI unrar compression
