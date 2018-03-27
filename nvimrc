@@ -121,20 +121,47 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'wellle/tmux-complete.vim'     " Deoplete autocompletion for tmux session text
   Plug 'rizzatti/dash.vim'            " :Dash
   Plug 'xolox/vim-notes'              " :Notes
+  let g:notes_directories = ['~/Documents/Notes']
+  let g:notes_smart_quotes = 0
   Plug 'xolox/vim-misc'               " i dunno.. just need it for vim-notes
+
   Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel, :R
                                       " :Rgenerate, :Rails
   Plug 'tpope/vim-projectionist'      " :A, :AS, :AV, and :AT
   Plug 'andyl/vim-projectionist-elixir' " Projectionist support for Elixir
-  Plug 'francoiscabrol/ranger.vim', { 'on': 'Ranger' }    " File explorer
-  Plug 'rbgrouleff/bclose.vim'        " Ranger dependency
+
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Sidebar file explorer
+  nmap <leader>b :NERDTreeToggle<CR>
+  let NERDTreeShowLineNumbers=0
+
   Plug 'scrooloose/nerdcommenter'     " Easier block commenting.
+  nmap <leader>/ <leader>c<space>
+  vmap <leader>/ <leader>c<space>
+
   Plug 'tpope/vim-rake'               " Add :Rake commands
   Plug 'tpope/vim-bundler'            " Add :Bundle commands
+
   Plug 'janko-m/vim-test'             " Add :Test commands
+  let test#strategy = "tslime"
+  let test#ruby#use_binstubs = 0
+  function! RunTestSuite()
+    if filereadable("bin/test_suite")
+      Tmux clear; echo "bin/test_suite"; bin/test_suite
+    else
+      TestSuite
+    endif
+  endfunction
+  nmap <silent> <leader>t :TestNearest<CR>
+  nmap <silent> <leader>T :TestFile<CR>
+  nmap <silent> <leader>a :call RunTestSuite()<CR>
+  nmap <silent> <leader>l :TestLast<CR>
+  nmap <silent> <leader>g :TestVisit<CR>
+
   Plug 'jgdavey/tslime.vim'           " Add tslime test strategy for vim-test
   Plug 'jgdavey/vim-turbux'           " vim-test to tmux
+  let g:tslime_always_current_session = 1
+  let g:tslime_always_current_window = 1
+
   Plug 'skywind3000/asyncrun.vim'     " Add asyncrun test strategy for vim-test
   Plug 'airblade/vim-gitgutter'       " Git gutter
   Plug 'tpope/vim-fugitive'           " Git support. Works w/ Airline
@@ -151,49 +178,23 @@ call plug#begin('~/.config/nvim/plugged')
     \ }
   set noshowmode
   "Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
+  let g:tmuxline_preset = {
+    \'a'    : '#h',
+    \'b'    : '#S',
+    \'c'    : '',
+    \'win'  : '#I #W',
+    \'cwin' : '#I #W',
+    \'x'    : '#(git rev-parse --abbrev-ref HEAD)',
+    \'y'    : ['%Y-%m-%d %a', '%H:%M'],
+    \'z'    : '#(pmset -g batt | egrep "([0-9]+\%).*" -o | cut -f1 -d ";")'}
+
   Plug 'reewr/vim-monokai-phoenix'    " Theme
   Plug 'reedes/vim-colors-pencil'     " Theme for markdown editing
   Plug 'crater2150/vim-theme-chroma'  " Theme
   Plug 'crusoexia/vim-monokai'        " Theme
-  Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
-  Plug 'tommcdo/vim-lion'             " Align with gl or gL
-  Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
-  let g:alchemist_tag_disable = 1
-  Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
-  Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
-  Plug 'tmux-plugins/vim-tmux-focus-events' " fix FocusGained and FocusLost
-  Plug 'tpope/vim-endwise'            " Auto-close if, do, def
-  Plug 'tpope/vim-surround'           " Add 's' command to give motions context
-                                      " eg: `cs"'` will change the surrounding
-                                      " double-quotes to single-quotes.
-  Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
-  Plug 'junegunn/fzf.vim'             " Fuzzy-finder
-  Plug 'dkprice/vim-easygrep'         " Grep across files
-  Plug 'ludovicchabant/vim-gutentags' " Ctags support.
-  Plug 'mhinz/vim-mix-format'         " Elixir formatting
-  let g:mix_format_on_save = 0
-
-  "Plug 'neomake/neomake'              " Execute linters and compilers
-  Plug 'w0rp/ale'                     " Execute linters and compilers
-
-  " Run after write
-  "augroup localneomake
-    "autocmd! BufWritePost * Neomake
-  "augroup END
-
-  " Don't tell me to use smartquotes in markdown ok?
-  "let g:neomake_markdown_enabled_makers = []
-
-  "" Turn off jshint (rely on eslint)
-  "let g:neomake_javascript_enabled_makers = ['eslint']
-  "let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
-
-  let g:ale_linters = {'javascript': ['eslint']}
-
-  "" Turn on credo checking
-  "let g:neomake_elixir_enabled_makers = ['mix', 'credo']
 
   " Distraction-free writing mode
+  Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
   function! s:goyo_enter()
     " light theme
     setlocal background=light
@@ -223,6 +224,50 @@ call plug#begin('~/.config/nvim/plugged')
   autocmd! User GoyoEnter nested call <SID>goyo_enter()
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
   nmap <leader>df :Goyo<CR>
+
+  Plug 'tommcdo/vim-lion'             " Align with gl or gL
+
+  Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
+  let g:alchemist_tag_disable = 1
+
+  Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
+  Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
+  Plug 'tmux-plugins/vim-tmux-focus-events' " fix FocusGained and FocusLost
+  Plug 'tpope/vim-endwise'            " Auto-close if, do, def
+  Plug 'tpope/vim-surround'           " Add 's' command to give motions context
+                                      " eg: `cs"'` will change the surrounding
+                                      " double-quotes to single-quotes.
+
+  Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
+  Plug 'junegunn/fzf.vim'             " Fuzzy-finder
+  nnoremap <C-P> :Files<CR>
+  nnoremap <leader>f :RipGrep<Space>
+
+  " FZF and RipGrep
+  if executable('fzf')
+    set rtp+=/usr/local/opt/fzf " use homebrew-installed fzf
+    set grepprg=rg\ --vimgrep   " use ripgrep
+    command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!tags" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+  endif
+
+  Plug 'dkprice/vim-easygrep'         " Grep across files
+  Plug 'ludovicchabant/vim-gutentags' " Ctags support.
+  Plug 'mhinz/vim-mix-format'         " Elixir formatting
+  let g:mix_format_on_save = 0
+
+  Plug 'w0rp/ale'                     " Execute linters and compilers
+  let g:ale_linters = {'javascript': ['eslint']}
+
+  "Plug 'neomake/neomake'              " Execute linters and compilers
+  " Run after write
+  "augroup localneomake
+    "autocmd! BufWritePost * Neomake
+  "augroup END
+  "let g:neomake_markdown_enabled_makers = []
+  "let g:neomake_javascript_enabled_makers = ['eslint']
+  "let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+  "let g:neomake_elixir_enabled_makers = ['mix', 'credo']
+
 
 call plug#end()
 filetype on
@@ -271,7 +316,7 @@ augroup vimrcEx
   autocmd VimResized * :wincmd =
 augroup END
 
-" Highlight 81st character
+" Highlight character that marks where line is too long
 highlight OverLength ctermbg=red ctermfg=white guibg=#600000
 function! UpdateMatch()
   if &previewwindow || &ft !~ '^\%(qf\)$'
@@ -286,76 +331,10 @@ function! UpdateMatch()
 endfun
 autocmd BufEnter,BufWinEnter * call UpdateMatch()
 
-" FZF and RipGrep
-if executable('fzf')
-  set rtp+=/usr/local/opt/fzf " use homebrew-installed fzf
-  set grepprg=rg\ --vimgrep   " use ripgrep
-endif
-
-" start vim-ranger on opening a directory
-"if executable('ranger')
-  "let g:loaded_netrw       = 1
-  "let g:loaded_netrwPlugin = 1
-  "let g:ranger_map_keys    = 0 " disable <C-f> mapping
-  "if argc() == 1 && argv(0) == '.'
-    "autocmd VimEnter * Ranger
-  "endif
-"endif
-
 " Local config
 if filereadable($HOME . '/.vimrc.local')
   source ~/.vimrc.local
 endif
-
-" NERDTree
-nmap <leader>b :NERDTreeToggle<CR>
-let NERDTreeShowLineNumbers=0
-
-" NERDCommenter
-nmap <leader>/ <leader>c<space>
-vmap <leader>/ <leader>c<space>
-
-" FZF and ripgrep
-command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!tags" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-
-" vim-fzf
-nnoremap <C-P> :Files<CR>
-nnoremap <leader>f :RipGrep<Space>
-
-" vim-tmuxline
-let g:tmuxline_preset = {
-  \'a'    : '#h',
-  \'b'    : '#S',
-  \'c'    : '',
-  \'win'  : '#I #W',
-  \'cwin' : '#I #W',
-  \'x'    : '#(git rev-parse --abbrev-ref HEAD)',
-  \'y'    : ['%Y-%m-%d %a', '%H:%M'],
-  \'z'    : '#(pmset -g batt | egrep "([0-9]+\%).*" -o | cut -f1 -d ";")'}
-
-" vim-notes
-let g:notes_directories = ['~/Documents/Notes']
-let g:notes_smart_quotes = 0
-
-" vim-test
-let test#strategy = "tslime"
-let test#ruby#use_binstubs = 0
-function! RunTestSuite()
-  "if filereadable("bin/test_suite")
-    "Tmux clear; echo "bin/test_suite"; bin/test_suite
-  "else
-  TestSuite
-  "endif
-endfunction
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :call RunTestSuite()<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
-
-" vim-turbux
-let g:tslime_always_current_session = 1
-let g:tslime_always_current_window = 1
 
 " Get italics working
 hi Comment gui=italic
