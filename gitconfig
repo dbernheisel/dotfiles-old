@@ -1,22 +1,22 @@
 [user]
-	name = David Bernheisel
-	email = david@bernheisel.com
+  name = David Bernheisel
+  email = david@bernheisel.com
 [color]
-	ui = auto
+  ui = auto
 [interactive]
-	diffFilter = diff-so-fancy --patch-mode
+  diffFilter = diff-so-fancy --patch-mode
 [credential]
   helper = osxkeychain
 [push]
-	default = current
+  default = current
 [filter "lfs"]
-	required = true
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	clean = git-lfs clean -- %f
+  required = true
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  clean = git-lfs clean -- %f
 [filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
+  clean = git-media-clean %f
+  smudge = git-media-smudge %f
 [alias]
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cblue%an%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
   s = status
@@ -29,11 +29,11 @@
   undeployed = !git fetch production && git diff origin/master production/master
   ctags = "!sh -c '[ -f .git/hooks/ctags ] || git init; .git/hooks/ctags' git-ctags"
 [core]
-	compression = -1
-	autocrlf = input
-	excludesfile = ~/.gitignore
-	editor = nvim
-	pager = diff-so-fancy | less --tabs=4 -RX
+  compression = -1
+  autocrlf = input
+  excludesfile = ~/.gitignore
+  editor = nvim
+  pager = diff-so-fancy | less --tabs=4 -RX
 [fetch]
   prune = true
 [diff]
@@ -41,8 +41,8 @@
 [difftool "vscode"]
   cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 [format]
   pretty = %C(yellow)%h%Creset %s %C(red)(%an, %cr)%Creset
 [merge]
@@ -52,27 +52,29 @@
 [mergetool "vimdiff"]
   cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 [commit]
-	template = ~/dotfiles/gitmessage
+  template = ~/dotfiles/gitmessage
 [http]
-	postBuffer = 157286400
+  postBuffer = 157286400
 [url "git@github.com:thoughtbot/"]
   insteadOf = tb:
 [url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
+  insteadOf = https://github.com/
 [url "ssh://git@heroku.com/"]
-	insteadOf = https://git.heroku.com/
+  insteadOf = https://git.heroku.com/
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
 [color "diff"]
-	meta = 227
-	frag = yellow bold
-	commit = 227 bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
+  meta = 227
+  frag = yellow bold
+  commit = 227 bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+  oldMoved = 141 bold
+  newMoved = 39 bold

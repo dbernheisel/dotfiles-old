@@ -11,7 +11,7 @@ fi
 alias gaa='git add -A'
 alias gs='git status'
 alias gd='git diff'
-alias gds='git diff --staged'
+alias gds='git diff --staged --color-moved'
 alias undeployed='git fetch --multiple production origin && git log production/master..origin/master'
 
 # Use Exhuburant ctags
