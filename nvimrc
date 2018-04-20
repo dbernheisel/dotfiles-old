@@ -238,12 +238,11 @@ call plug#begin('~/.config/nvim/plugged')
                                       " eg: `cs"'` will change the surrounding
                                       " double-quotes to single-quotes.
 
+  " FZF and RipGrep
   Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
   Plug 'junegunn/fzf.vim'             " Fuzzy-finder
   nnoremap <C-P> :Files<CR>
   nnoremap <leader>f :RipGrep<Space>
-
-  " FZF and RipGrep
   if executable('fzf')
     set rtp+=/usr/local/opt/fzf " use homebrew-installed fzf
     set grepprg=rg\ --vimgrep   " use ripgrep
@@ -258,17 +257,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'w0rp/ale'                     " Execute linters and compilers
   let g:ale_linters = {'javascript': ['eslint']}
 
-  "Plug 'neomake/neomake'              " Execute linters and compilers
-  " Run after write
-  "augroup localneomake
-    "autocmd! BufWritePost * Neomake
-  "augroup END
-  "let g:neomake_markdown_enabled_makers = []
-  "let g:neomake_javascript_enabled_makers = ['eslint']
-  "let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
-  "let g:neomake_elixir_enabled_makers = ['mix', 'credo']
-
-
+  let g:ale_sign_error = '❌'
+  let g:ale_sign_warning = '⚠️'
 call plug#end()
 filetype on
 
