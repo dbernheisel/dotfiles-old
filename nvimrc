@@ -256,9 +256,6 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'w0rp/ale'                     " Execute linters and compilers
   let g:ale_linters = {'javascript': ['eslint']}
-
-  let g:ale_sign_error = '❌'
-  let g:ale_sign_warning = '⚠️'
 call plug#end()
 filetype on
 
