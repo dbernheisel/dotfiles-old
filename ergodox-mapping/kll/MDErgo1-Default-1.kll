@@ -1,11 +1,12 @@
+Variant = "standard";
+Generator = "KIICONF 0.2";
+Base = "Blank";
+Date = "2015-09-12";
+KLL = "0.3c";
+Author = "HaaTa (Jacob Alexander) 2015";
+Version = "0.1";
 Name = "MDErgo1";
 Layout = "Default";
-Base = "Blank";
-Version = "0.1";
-Author = "HaaTa (Jacob Alexander) 2015";
-KLL = "0.3c";
-Date = "2015-09-12";
-Generator = "KIICONF 0.2";
 
 U"ESC" : U"F12";
 U"5" : U"F5";
@@ -13,9 +14,6 @@ U"4" : U"F4";
 U"3" : U"F3";
 U"2" : U"F2";
 U"1" : U"F1";
-U"BACKSLASH" : ledControl( 4, 15, 0 );
-U"TAB" : ledControl( 3, 15, 0 );
-U"LSHIFT" : ledControl( 5, 0, 0 );
 U"6" : U"F6";
 U"7" : U"F7";
 U"8" : U"F8";
@@ -25,4 +23,6 @@ U"MINUS" : U"F11";
 U"RBRACE" : CONS"VOLUMEUP";
 U"QUOTE" : CONS"VOLUMEDOWN";
 U"RSHIFT" : CONS"MUTE";
+
+
 

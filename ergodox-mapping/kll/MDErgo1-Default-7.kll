@@ -1,14 +1,15 @@
+Variant = "standard";
+Generator = "KIICONF 0.2";
+Base = "Blank";
+Date = "2015-09-12";
+KLL = "0.3c";
+Author = "HaaTa (Jacob Alexander) 2015";
+Version = "0.1";
 Name = "MDErgo1";
 Layout = "Default";
-Base = "Blank";
-Version = "0.1";
-Author = "HaaTa (Jacob Alexander) 2015";
-KLL = "0.3c";
-Date = "2015-09-12";
-Generator = "KIICONF 0.2";
 
 U"EQUALS" : flashMode();
-U"FUNCTION1" : U"NEXT LAYER";
 U"MINUS" : flashMode();
-U"LBRACE" : U"NEXT LAYER";
+
+
 
