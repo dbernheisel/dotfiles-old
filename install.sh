@@ -370,6 +370,7 @@ files=(
   aliases.sh
   bash_profile
   bashrc
+  default-gems
   fzf.bash
   fzf.zsh
   gitconfig
