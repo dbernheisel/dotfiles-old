@@ -5,7 +5,6 @@ tap 'thoughtbot/formulae'
 # This should be installed manually
 # https://www.google.com/chrome/
 # cask 'google-chrome'  # Internet browser
-# cask 'firefox'        # Internet browser
 
 # This should be installed manually.
 # https://1password.com/downloads/
@@ -18,6 +17,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'alfred'         # Spotlight replacement
   cask 'android-file-transfer'  # Transfer files from/to Android
   cask 'boxer'          # DOS Emulator
+  cask 'chromedriver'   # Headless browser
   cask 'dash'           # Offline documentation
   cask 'font-firacode-nerd-font' # Fira Mono font with code ligatures and icons
   cask 'font-inconsolatago-nerd-font' # Inconsolata-g (straight quotes) with icons
@@ -57,6 +57,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
 
   mas 'The Unarchiver', id: 425424353
   mas 'Medis',          id: 1063631769
+  mas 'GIPHY Capture',  id: 668208984
 end
 
 brew 'atool'          # CLI. Archives inspection. Used for Ranger.
