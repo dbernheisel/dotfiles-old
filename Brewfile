@@ -27,6 +27,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'hex-fiend'      # Hex value editor
   cask 'insomniax'      # Prevent computer from sleeping
   cask 'itsycal'        # Calendar menubar
+  cask 'keep'           # Notes in the menubar
   cask 'kitty'          # Terminal emulator
   cask 'omnidisksweeper'  # Disk visualizer
   cask 'omnigraffle6'   # Graphing app
