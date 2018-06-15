@@ -59,6 +59,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   mas 'The Unarchiver', id: 425424353
   mas 'Medis',          id: 1063631769
   mas 'GIPHY Capture',  id: 668208984
+  mas 'Harvest',        id: 506189836
 end
 
 brew 'atool'          # CLI. Archives inspection. Used for Ranger.
