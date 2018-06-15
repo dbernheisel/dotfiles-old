@@ -36,6 +36,10 @@ fi
 # fzf Autocompletions
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Android Development
+export PATH=~/flutter/bin:$PATH
+export ANDROID_HOME=~/Library/Android/sdk
+
 # PostgreSQL
 export POSTGRES_USER=$(whoami)
 
@@ -43,7 +47,7 @@ export POSTGRES_USER=$(whoami)
 export ERL_AFLAGS="-kernel shell_history enabled"
 
 # RipGrep
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'
 
 # recommended by brew doctor
 export PATH="/usr/local/bin:$PATH"

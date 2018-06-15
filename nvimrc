@@ -8,7 +8,7 @@ set splitbelow              " open splits below current
 set splitright              " open splits to the right of current
 set laststatus=2
 set encoding=utf-8
-set mouse="" " Disable mouse
+set mouse=""                " Disable mouse
 
 " Configure tabs to 2, and convert to spaces
 set tabstop=2
@@ -74,16 +74,8 @@ map ; :
 " jj maps to Esc while in insert mode
 inoremap jj <Esc>
 
-" leader to edit vimrc and reload
-if !exists("*ResetConfig")
-  function! ResetConfig()
-    set all&
-    source $MYVIMRC
-  endfunction
-endif
-
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <leader>sv :call ResetConfig()<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Set lines and number gutter
 set cursorline " turn on row highlighting where cursor is
@@ -125,8 +117,6 @@ call plug#begin('~/.config/nvim/plugged')
   let g:notes_smart_quotes = 0
   Plug 'xolox/vim-misc'               " i dunno.. just need it for vim-notes
 
-  Plug 'tpope/vim-rails'              " :Eview, :Econtroller, :Emodel, :R
-                                      " :Rgenerate, :Rails
   Plug 'tpope/vim-projectionist'      " :A, :AS, :AV, and :AT
   Plug 'andyl/vim-projectionist-elixir' " Projectionist support for Elixir
 
@@ -138,15 +128,18 @@ call plug#begin('~/.config/nvim/plugged')
   nmap <leader>/ <leader>c<space>
   vmap <leader>/ <leader>c<space>
 
-  Plug 'tpope/vim-rake'               " Add :Rake commands
-  Plug 'tpope/vim-bundler'            " Add :Bundle commands
-
+  Plug 'jgdavey/tslime.vim'           " Add tslime test strategy for vim-test
+  Plug 'jgdavey/vim-turbux'           " vim-test to tmux
   Plug 'janko-m/vim-test'             " Add :Test commands
+  let g:tslime_always_current_session = 1
+  let g:tslime_always_current_window = 1
   let test#strategy = "tslime"
   let test#ruby#use_binstubs = 0
   function! RunTestSuite()
     if filereadable("bin/test_suite")
       Tmux clear; echo "bin/test_suite"; bin/test_suite
+    elseif filereadable("bin/test")
+      Tmux clear; echo "bin/test"; bin/test
     else
       TestSuite
     endif
@@ -157,12 +150,6 @@ call plug#begin('~/.config/nvim/plugged')
   nmap <silent> <leader>l :TestLast<CR>
   nmap <silent> <leader>g :TestVisit<CR>
 
-  Plug 'jgdavey/tslime.vim'           " Add tslime test strategy for vim-test
-  Plug 'jgdavey/vim-turbux'           " vim-test to tmux
-  let g:tslime_always_current_session = 1
-  let g:tslime_always_current_window = 1
-
-  Plug 'skywind3000/asyncrun.vim'     " Add asyncrun test strategy for vim-test
   Plug 'airblade/vim-gitgutter'       " Git gutter
   Plug 'tpope/vim-fugitive'           " Git support. Works w/ Airline
   Plug 'christoomey/vim-conflicted'   " Git merge conflict support
@@ -188,10 +175,10 @@ call plug#begin('~/.config/nvim/plugged')
     \'y'    : ['%Y-%m-%d %a', '%H:%M'],
     \'z'    : '#(pmset -g batt | egrep "([0-9]+\%).*" -o | cut -f1 -d ";")'}
 
-  Plug 'reewr/vim-monokai-phoenix'    " Theme
   Plug 'reedes/vim-colors-pencil'     " Theme for markdown editing
-  Plug 'crater2150/vim-theme-chroma'  " Theme
-  Plug 'crusoexia/vim-monokai'        " Theme
+  Plug 'crater2150/vim-theme-chroma'  " Theme - Light
+  Plug 'Erichain/vim-monokai-pro'     " Theme - Dark
+  Plug 'reewr/vim-monokai-phoenix'    " Theme - Darker
 
   " Distraction-free writing mode
   Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
@@ -246,7 +233,7 @@ call plug#begin('~/.config/nvim/plugged')
   if executable('fzf')
     set rtp+=/usr/local/opt/fzf " use homebrew-installed fzf
     set grepprg=rg\ --vimgrep   " use ripgrep
-    command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!tags" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+    command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!tags" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
   endif
 
   Plug 'dkprice/vim-easygrep'         " Grep across files
@@ -263,10 +250,14 @@ filetype on
 set background=dark
 colorscheme monokai-phoenix
 syntax on
+
 if $TERM_PROGRAM == "iTerm.app" || $TERMINFO =~ "kitty\.app"
   " Turn on 24bit color
   set termguicolors
   let g:truecolor = 1
+
+" Get italics working
+  hi Comment gui=italic
 else
   let g:truecolor = 0
 endif
@@ -285,6 +276,7 @@ augroup vimrcEx
   autocmd BufNewFile,BufRead *.md setf markdown
   autocmd BufNewFile,BufRead *.es6 setf javascript
   autocmd BufNewFile,BufRead *.ex* setf elixir
+  autocmd BufNewFile,BufRead *.arb setf ruby
 
   " Enable spellchecking for Markdown
   autocmd FileType markdown setlocal nolist spell foldlevel=999 tw=0 nocin
@@ -308,9 +300,9 @@ highlight OverLength ctermbg=red ctermfg=white guibg=#600000
 function! UpdateMatch()
   if &previewwindow || &ft !~ '^\%(qf\)$'
     match none
-  elseif &ft ~ '^\%(elixir\)$'
+  elseif &ft =~ '^\%(elixir\)$'
     match OverLength /\%101v/
-  elseif &ft ~ '^\%(markdown\)$'
+  elseif &ft =~ '^\%(markdown\)$'
     match OverLength /\%73v/
   else
     match OverLength /\%81v/
@@ -322,6 +314,3 @@ autocmd BufEnter,BufWinEnter * call UpdateMatch()
 if filereadable($HOME . '/.vimrc.local')
   source ~/.vimrc.local
 endif
-
-" Get italics working
-hi Comment gui=italic
