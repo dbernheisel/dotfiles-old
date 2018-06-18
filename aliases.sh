@@ -37,7 +37,6 @@ if type "terraform" &> /dev/null; then
 fi
 
 if type "hub" &> /dev/null; then
-  unalias git
   function git() { hub $@; }
 fi
 
