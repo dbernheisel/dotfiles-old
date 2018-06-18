@@ -19,15 +19,6 @@ source $HOME/.asdf/completions/asdf.bash
 setopt extended_glob
 unsetopt nomatch
 
-# iTerm2 integration
-if [[ "$OSTYPE" == darwin* ]] && [[ "$TERM_PROGRAM" == iTerm.app ]]; then
-  test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
-
-  iterm2_print_user_vars() {
-    iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
-  }
-fi
-
 # awscli from brew auto-completion
 if type aws &> /dev/null; then
   source /usr/local/share/zsh/site-functions/_aws

@@ -37,7 +37,8 @@ if type "terraform" &> /dev/null; then
 fi
 
 if type "hub" &> /dev/null; then
-  alias git='hub'
+  unalias git
+  function git() { hub $@; }
 fi
 
 # Android development
