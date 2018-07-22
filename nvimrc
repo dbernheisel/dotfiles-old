@@ -181,33 +181,38 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'reewr/vim-monokai-phoenix'    " Theme - Darker
 
   " Distraction-free writing mode
+  Plug 'reedes/vim-pencil'            " Soft breaks
+  Plug 'junegunn/limelight.vim'       " Focus mode
   Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
+  Plug 'reedes/vim-wordy'             " Weak language checker
+  let g:pencil#textwidth = 72
+  let g:goyo_width = 72
   function! s:goyo_enter()
     " light theme
     setlocal background=light
     colorscheme pencil
 
-    " turn off auto-indent, whitespace, and in-progress commands
-    setlocal noai nolist noshowcmd
+    " turn off cursor-line-highlight auto-indent, whitespace, and in-progress
+    " commands
+    setlocal noai nolist noshowcmd nocursorline
 
     " turn on autocorrect
     setlocal spell complete+=s
-    call deoplete#enable()
+
+    Limelight  " Focus on the current paragraph, dim the others
+    SoftPencil " Turn on soft breaks
+    Wordy weak " Highlight weak words
   endfunction
   function! s:goyo_leave()
-    " turn on auto-indent, whitespace, and in-progress commands
+    setlocal cursorline
     setlocal showcmd list ai
-
-    " turn off autocorrect
     setlocal nospell complete-=s
-
-    " put my theme back
     setlocal background=dark
     colorscheme monokai-phoenix
-
-    call deoplete#enable()
+    Limelight!
+    NoPencil
+    NoWordy
   endfunction
-  let g:goyo_width = 72
   autocmd! User GoyoEnter nested call <SID>goyo_enter()
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
   nmap <leader>df :Goyo<CR>
