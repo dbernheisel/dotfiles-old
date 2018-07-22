@@ -248,6 +248,8 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'w0rp/ale'                     " Execute linters and compilers
   let g:ale_linters = {'javascript': ['eslint']}
+
+  Plug 'ryanoasis/vim-devicons'       " :)
 call plug#end()
 filetype on
 
