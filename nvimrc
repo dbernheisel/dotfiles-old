@@ -259,6 +259,10 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'ryanoasis/vim-devicons'       " :)
   Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  augroup nerdtreedisablecursorline
+    autocmd!
+    autocmd FileType nerdtree setlocal nocursorline
+  augroup end
 call plug#end()
 filetype on
 
