@@ -74,6 +74,7 @@ map ; :
 " jj maps to Esc while in insert mode
 inoremap jj <Esc>
 
+" Shortcuts for editing vimrc. I do it too much
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
@@ -111,35 +112,42 @@ call plug#begin('~/.config/nvim/plugged')
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
   Plug 'wellle/tmux-complete.vim'     " Deoplete autocompletion for tmux session text
-  Plug 'rizzatti/dash.vim'            " :Dash
-  Plug 'xolox/vim-notes'              " :Notes
-  let g:notes_directories = ['~/Documents/Notes']
-  let g:notes_smart_quotes = 0
-  Plug 'xolox/vim-misc'               " i dunno.. just need it for vim-notes
+  Plug 'rizzatti/dash.vim', { 'on': 'Dash' } " :Dash
 
   Plug 'tpope/vim-projectionist'      " :A, :AS, :AV, and :AT
-  Plug 'andyl/vim-projectionist-elixir' " Projectionist support for Elixir
+  Plug 'andyl/vim-projectionist-elixir', { 'for': 'elixir' } " Projectionist support for Elixir
+  Plug 'tpope/vim-rails', { 'for': 'ruby' } " Projectionist support for Ruby
 
   Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } " Sidebar file explorer
-  nmap <leader>b :NERDTreeToggle<CR>
+  nmap <leader>b :call ToggleFileTree()<CR>
   let NERDTreeShowLineNumbers=0
+  " Don't fuck up the icons on reloading this file
+  function! ToggleFileTree()
+    if exists("g:loaded_webdevicons")
+      if exists("g:NERDTree")
+        call webdevicons#refresh()
+      endif
+    endif
+    :NERDTreeToggle
+  endfun
 
   Plug 'scrooloose/nerdcommenter'     " Easier block commenting.
   nmap <leader>/ <leader>c<space>
   vmap <leader>/ <leader>c<space>
 
-  Plug 'jgdavey/tslime.vim'           " Add tslime test strategy for vim-test
-  Plug 'jgdavey/vim-turbux'           " vim-test to tmux
-  Plug 'janko-m/vim-test'             " Add :Test commands
+  " Add :Test commands
+  Plug 'jgdavey/tslime.vim'  " Add tslime test strategy for vim-test
+  Plug 'jgdavey/vim-turbux'  " vim-test to tmux
+  Plug 'janko-m/vim-test', { 'on': ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit'] }
+  let g:turbux_command_prefix = 'bundle exec'
   let g:tslime_always_current_session = 1
   let g:tslime_always_current_window = 1
-  let test#strategy = "tslime"
-  let test#ruby#use_binstubs = 0
+  let g:test#strategy = "tslime"
   function! RunTestSuite()
-    if filereadable("bin/test_suite")
-      Tmux clear; echo "bin/test_suite"; bin/test_suite
+    if filereadable('bin/test_suite')
+      Tmux clear; echo 'bin/test_suite'; bin/test_suite
     elseif filereadable("bin/test")
-      Tmux clear; echo "bin/test"; bin/test
+      Tmux clear; echo 'bin/test'; bin/test
     else
       TestSuite
     endif
@@ -155,6 +163,8 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'christoomey/vim-conflicted'   " Git merge conflict support
   Plug 'sheerun/vim-polyglot'         " Languages support.
   let g:elm_format_autosave = 1
+  Plug 'mhinz/vim-mix-format', { 'for': 'elixir' } " Elixir formatting
+  let g:mix_format_on_save = 0
   Plug 'tpope/vim-eunuch'             " Add Bash commands Remove,Move,Find,etc
   Plug 'pbrisbin/vim-mkdir'           " create directories if they don't exist
   Plug 'terryma/vim-multiple-cursors' " visual, then C-n then I
@@ -181,10 +191,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'reewr/vim-monokai-phoenix'    " Theme - Darker
 
   " Distraction-free writing mode
-  Plug 'reedes/vim-pencil'            " Soft breaks
-  Plug 'junegunn/limelight.vim'       " Focus mode
-  Plug 'junegunn/goyo.vim'            " ProseMode for writing Markdown
-  Plug 'reedes/vim-wordy'             " Weak language checker
+  Plug 'reedes/vim-pencil', { 'for': 'markdown' }            " Soft breaks
+  Plug 'junegunn/limelight.vim', { 'for': 'markdown' }       " Focus mode
+  Plug 'junegunn/goyo.vim', { 'for': 'markdown' }            " ProseMode for writing Markdown
+  Plug 'reedes/vim-wordy', { 'for': 'markdown' }             " Weak language checker
   let g:pencil#textwidth = 72
   let g:goyo_width = 72
   function! s:goyo_enter()
@@ -243,13 +253,12 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'dkprice/vim-easygrep'         " Grep across files
   Plug 'ludovicchabant/vim-gutentags' " Ctags support.
-  Plug 'mhinz/vim-mix-format'         " Elixir formatting
-  let g:mix_format_on_save = 0
 
   Plug 'w0rp/ale'                     " Execute linters and compilers
   let g:ale_linters = {'javascript': ['eslint']}
 
   Plug 'ryanoasis/vim-devicons'       " :)
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 call plug#end()
 filetype on
 
