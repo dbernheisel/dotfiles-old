@@ -59,7 +59,7 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
 
 # Newer git
-[ -f $(brew --prefix git) ] && export PATH=$(brew --prefix git):$PATH
+[ -f $(brew --prefix git)/bin/git ] && export PATH=$(brew --prefix git)/bin:$PATH
 
 # Notify function
 if [[ "$OSTYPE" == darwin* ]]; then

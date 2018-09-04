@@ -26,7 +26,6 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'handbrakebatch' # Batch video/audio processing with handbrake
   cask 'hex-fiend'      # Hex value editor
   cask 'insomniax'      # Prevent computer from sleeping
-  cask 'itsycal'        # Calendar menubar
   cask 'keep'           # Notes in the menubar
   cask 'kitty'          # Terminal emulator
   cask 'omnidisksweeper'  # Disk visualizer
@@ -60,6 +59,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   mas 'Medis',          id: 1063631769
   mas 'GIPHY Capture',  id: 668208984
   mas 'Harvest',        id: 506189836
+  mas 'Calendarique',   id: 1040634920
 end
 
 brew 'atool'          # CLI. Archives inspection. Used for Ranger.
