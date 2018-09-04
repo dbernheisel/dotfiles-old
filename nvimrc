@@ -419,8 +419,7 @@ augroup TerminalEx
     \ |let g:r=jobstart(['nc', '-U', $NVIM_LISTEN_ADDRESS],{'rpc':v:true})
     \ |let g:f=fnameescape(expand('%:p'))
     \ |noau bwipe
-    \ |call rpcrequest(g:r, "nvim_command", "edit ".g:f)
-    \ |call rpcrequest(g:r, "nvim_command", "call lib#SetNumberDisplay()")
+    \ |call rpcrequest(g:r, "nvim_command", "-tabedit ".g:f)
     \ |qa
   \ |endif
 augroup END
