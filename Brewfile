@@ -43,6 +43,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'xld'            # Audio processing
   brew 'autoconf'       # CLI Build utility
   brew 'automake'       # CLI Build utility
+  brew 'ccat'           # CLI utility. Colorized cat
   brew 'coreutils'      # CLI GNU utilities
   brew 'htop-osx'       # CLI htop process utility
   brew 'reattach-to-user-namespace' # CLI to help tmux and mac
@@ -113,9 +114,6 @@ brew 'xz'             # CLI xz compression
 brew 'yarn'           # CLI JavaScript package manager
 
 # Services
-brew 'mysql', restart_service: :changed
-brew 'postgresql', restart_service: :changed, link: true, conflicts_with: ["postgresql@9.6"]
-brew 'postgresql@9.6', restart_service: :changed, conflicts_with: ["postgresql"]
+brew 'postgresql', restart_service: :changed
 brew 'redis', restart_service: :changed
 brew 'nginx', restart_service: :changed
-brew 'mongodb', restart_service: :changed

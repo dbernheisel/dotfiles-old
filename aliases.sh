@@ -7,6 +7,16 @@ if type "nvim" &> /dev/null; then
   }
 fi
 
+# Set title easily
+function title() {
+  echo -ne "\033]0;$1\007"
+}
+
+# Color cat
+if type "ccat" &> /dev/null; then
+ alias cat='ccat'
+fi
+
 # Git
 alias gaa='git add -A'
 alias gs='git status'

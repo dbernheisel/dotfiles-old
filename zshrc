@@ -36,6 +36,9 @@ export POSTGRES_USER=$(whoami)
 
 # Elixir
 export ERL_AFLAGS="-kernel shell_history enabled"
+if [ -f ~/.elixir_ls/language_server.sh ]; then
+  export PATH=~/.elixir_ls:$PATH
+fi
 
 # RipGrep
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'

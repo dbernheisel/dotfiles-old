@@ -2,3 +2,4 @@ bundler
 pry
 neovim
 rubocop
+solargraph

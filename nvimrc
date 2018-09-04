@@ -8,6 +8,8 @@ set splitbelow              " open splits below current
 set splitright              " open splits to the right of current
 set laststatus=2
 set encoding=utf-8
+
+" Disable mouse
 set mouse=""                " Disable mouse
 
 " Configure tabs to 2, and convert to spaces
@@ -49,6 +51,17 @@ set ignorecase
 set smartcase
 map <silent> <CR> :nohl<CR>
 
+if $TERM_PROGRAM == "iTerm.app" || $TERMINFO =~ "kitty\.app"
+  " Turn on 24bit color
+  set termguicolors
+  let g:truecolor = 1
+
+" Get italics working
+  hi Comment gui=italic
+else
+  let g:truecolor = 0
+endif
+
 " Automatically :write before running commands
 set autowrite
 
@@ -58,15 +71,28 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 
+" Emulate tmux shortcuts
+" Rembmer to use :tabclose instead of :q for zoomed terminals
+nnoremap <C-A>z :-tabedit %<CR>
+nnoremap <C-A>\ :vsplit term://$SHELL<CR>
+nnoremap <C-A>- :split term://$SHELL<CR>
+
 " Get off my lawn
-nnoremap <Left> :WinResizerStartResize<CR><Char-104><CR>
-nnoremap <Right> :WinResizerStartResize<CR><Char-108><CR>
-nnoremap <Up> :WinResizerStartResize<CR><Char-107><CR>
-nnoremap <Down> :WinResizerStartResize<CR><Char-106><CR>
 imap <Up> <nop>
 imap <Down> <nop>
 imap <Left> <nop>
 imap <Right> <nop>
+
+" Terminal Mode mappings
+tnoremap <C-O> <C-\><C-N>
+tnoremap <A-H> <C-\><C-N><C-W>h
+tnoremap <A-J> <C-\><C-N><C-W>j
+tnoremap <A-K> <C-\><C-N><C-W>k
+tnoremap <A-L> <C-\><C-N><C-W>l
+inoremap <A-H> <C-\><C-N><C-W>h
+inoremap <A-J> <C-\><C-N><C-W>j
+inoremap <A-K> <C-\><C-N><C-W>k
+inoremap <A-L> <C-\><C-N><C-W>l
 
 " Make semicolon the same as colon
 map ; :
@@ -79,8 +105,8 @@ nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Set lines and number gutter
-set cursorline " turn on row highlighting where cursor is
-set ruler      " turn on ruler information in statusline
+set nocursorline " turn off row highlighting where cursor is
+set ruler        " turn on ruler information in statusline
 
 " Set number gutter
 set number
@@ -105,13 +131,78 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
 endif
 
 filetype off
+
 call plug#begin('~/.config/nvim/plugged')
 
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    let g:deoplete#enable_at_startup = 1
-    inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+  Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
-  Plug 'wellle/tmux-complete.vim'     " Deoplete autocompletion for tmux session text
+  let g:LanguageClient_autoStart = 1
+  let g:LanguageClient_serverCommands = {}
+
+  if executable('pyls')
+    " pip install python-language-server
+    let g:LanguageClient_serverCommands.python = ['pyls']
+  endif
+
+  if executable('language_server.sh')
+    " git clone git@github.com:JakeBecker/elixir-ls.git ~/.elixir_ls
+    " cd ~/.elixir_ls
+    " mix deps.get && mix.compile
+    " mix elixir_ls.release - .
+    " add it to the $PATH
+    let g:LanguageClient_serverCommands.elixir = ['language_server.sh']
+  endif
+
+  if executable('javascript-typescript-stdio')
+    " yarn global add javascript-typescript-langserver   -or-
+    " npm i -g javascript-typescript-langserver
+    let g:LanguageClient_serverCommands['javascript'] = ['javascript-typescript-stdio']
+    let g:LanguageClient_serverCommands['typescript'] = ['javascript-typescript-stdio']
+    let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
+  endif
+
+  if executable('html-languageserver')
+    " yarn global add vscode-html-languageserver-bin   -or-
+    " npm i -g vscode-html-languageserver-bin
+    let g:LanguageClient_serverCommands.html = ['html-languageserver', '--stdio']
+  endif
+
+  if executable('css-languageserver')
+    " yarn global add vscode-css-languageserver-bin   -or-
+    " npm i -g vscode-css-languageserver-bin
+    let g:LanguageClient_serverCommands.css = ['css-languageserver', '--stdio']
+    let g:LanguageClient_serverCommands.less = ['css-languageserver', '--stdio']
+  endif
+
+  if executable('json-languageserver')
+    " yarn global add vscode-json-languageserver-bin   -or-
+    " npm i -g vscode-json-languageserver-bin
+    let g:LanguageClient_serverCommands.json = ['json-languageserver', '--stdio']
+  endif
+
+  if executable('ocaml-language-server')
+    " yarn global add ocaml-language-server   -or-
+    " npm i -g ocaml-language-server
+    let g:LanguageClient_serverCommands.reason = ['ocaml-language-server', '--stdio']
+    let g:LanguageClient_serverCommands.ocaml = ['ocaml-language-server', '--stdio']
+  endif
+
+  if executable('solargraph')
+    " gem install solargraph
+    let g:LanguageClient_serverCommands.ruby = ['solargraph', 'stdio']
+  endif
+
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
+  inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+  Plug 'w0rp/ale'                     " Execute linters and compilers
+  let g:ale_linters = {'javascript': ['eslint']}
+
   Plug 'rizzatti/dash.vim', { 'on': 'Dash' } " :Dash
 
   Plug 'tpope/vim-projectionist'      " :A, :AS, :AV, and :AT
@@ -131,72 +222,119 @@ call plug#begin('~/.config/nvim/plugged')
     :NERDTreeToggle
   endfun
 
+  Plug 'vimlab/split-term.vim'        " :VTerm, :Term
+  let g:disable_key_mappings = 1
+
   Plug 'scrooloose/nerdcommenter'     " Easier block commenting.
   nmap <leader>/ <leader>c<space>
   vmap <leader>/ <leader>c<space>
 
-  " Add :Test commands
-  Plug 'jgdavey/tslime.vim'  " Add tslime test strategy for vim-test
-  Plug 'jgdavey/vim-turbux'  " vim-test to tmux
+  " Add test commands
   Plug 'janko-m/vim-test', { 'on': ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit'] }
-  let g:turbux_command_prefix = 'bundle exec'
-  let g:tslime_always_current_session = 1
-  let g:tslime_always_current_window = 1
-  let g:test#strategy = "tslime"
+  Plug 'kassio/neoterm'
+  let g:neoterm_default_mod = 'vert'
+  let g:neoterm_size = 80
+  let g:neoterm_fixedsize = 1
+  let g:neoterm_keep_term_open = 0
+  let g:test#strategy = "neoterm"
+
+  function! RunTest(cmd)
+    exec a:cmd
+  endfunction
+
   function! RunTestSuite()
+    Tclear
     if filereadable('bin/test_suite')
-      Tmux clear; echo 'bin/test_suite'; bin/test_suite
+      T echo 'bin/test_suite'
+      T bin/test_suite
     elseif filereadable("bin/test")
-      Tmux clear; echo 'bin/test'; bin/test
+      T echo 'bin/test'
+      T bin/test
     else
       TestSuite
     endif
   endfunction
-  nmap <silent> <leader>t :TestNearest<CR>
-  nmap <silent> <leader>T :TestFile<CR>
+  nmap <silent> <leader>t :call RunTest('TestNearest')<CR>
+  nmap <silent> <leader>T :call RunTest('TestFile')<CR>
   nmap <silent> <leader>a :call RunTestSuite()<CR>
-  nmap <silent> <leader>l :TestLast<CR>
-  nmap <silent> <leader>g :TestVisit<CR>
+  nmap <silent> <leader>l :call RunTest('TestLast')<CR>
+  nmap <silent> <leader>g :call RunTest('TestVisit')<CR>
 
   Plug 'airblade/vim-gitgutter'       " Git gutter
-  Plug 'tpope/vim-fugitive'           " Git support. Works w/ Airline
-  Plug 'christoomey/vim-conflicted'   " Git merge conflict support
-  Plug 'sheerun/vim-polyglot'         " Languages support.
-  let g:elm_format_autosave = 1
+  Plug 'tpope/vim-fugitive'           " Gblame
+
+  " IEx, Docs, Jump, Mix, deoplete
+  "Plug 'slashmili/alchemist.vim', {'for': 'elixir' }
+  "let g:alchemist_tag_disable = 1
+  Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
   Plug 'mhinz/vim-mix-format', { 'for': 'elixir' } " Elixir formatting
   let g:mix_format_on_save = 0
+
+  Plug 'tommcdo/vim-lion'             " Align with gl or gL
+  Plug 'dkprice/vim-easygrep'         " Grep across files
+  Plug 'tpope/vim-endwise'            " Auto-close if, do, def
+  Plug 'tpope/vim-surround'           " Add 's' command to give motions context
+                                      " eg: `cs"'` will change the surrounding
+                                      " double-quotes to single-quotes.
+
   Plug 'tpope/vim-eunuch'             " Add Bash commands Remove,Move,Find,etc
   Plug 'pbrisbin/vim-mkdir'           " create directories if they don't exist
-  Plug 'terryma/vim-multiple-cursors' " visual, then C-n then I
+
   Plug 'simeji/winresizer'            " Resize panes with C-e and hjkl
+
+  Plug 'ludovicchabant/vim-gutentags' " Ctags support.
+
+  " FZF and RipGrep
+  Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
+  Plug 'junegunn/fzf.vim'             " Fuzzy-finder
+  nnoremap <C-P> :Files<CR>
+  nnoremap <leader>f :RipGrep<Space>
+  if executable('fzf')
+    set rtp+=/usr/local/opt/fzf " use homebrew-installed fzf
+    set grepprg=rg\ --vimgrep   " use ripgrep
+    command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!tags" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!storage/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!public/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+  endif
+
+  " Cosmetic
+  Plug 'ryanoasis/vim-devicons'       " :)
+  augroup nerdtreedisablecursorline
+    autocmd!
+    autocmd FileType nerdtree setlocal nocursorline
+  augroup end
+  Plug 'crater2150/vim-theme-chroma'  " Theme - Light
+  Plug 'Erichain/vim-monokai-pro'     " Theme - Dark
+  Plug 'reewr/vim-monokai-phoenix'    " Theme - Darker
   Plug 'itchyny/lightline.vim'        " Statusline
   let g:lightline = {
     \ 'colorscheme': 'wombat',
     \ }
   set noshowmode
-  "Plug 'edkolev/tmuxline.vim'         " Statusline to tmux
-  let g:tmuxline_preset = {
-    \'a'    : '#h',
-    \'b'    : '#S',
-    \'c'    : '',
-    \'win'  : '#I #W',
-    \'cwin' : '#I #W',
-    \'x'    : '#(git rev-parse --abbrev-ref HEAD)',
-    \'y'    : ['%Y-%m-%d %a', '%H:%M'],
-    \'z'    : '#(pmset -g batt | egrep "([0-9]+\%).*" -o | cut -f1 -d ";")'}
 
-  Plug 'reedes/vim-colors-pencil'     " Theme for markdown editing
-  Plug 'crater2150/vim-theme-chroma'  " Theme - Light
-  Plug 'Erichain/vim-monokai-pro'     " Theme - Dark
-  Plug 'reewr/vim-monokai-phoenix'    " Theme - Darker
+  let g:terminal_color_0  = '#151515'
+  let g:terminal_color_1  = '#ac4142'
+  let g:terminal_color_2  = '#7e8e50'
+  let g:terminal_color_3  = '#e5b567'
+  let g:terminal_color_4  = '#6c99bb'
+  let g:terminal_color_5  = '#9f4e85'
+  let g:terminal_color_6  = '#7dd6cf'
+  let g:terminal_color_7  = '#d0d0d0'
+  let g:terminal_color_8  = '#505050'
+  let g:terminal_color_9  = '#ac4142'
+  let g:terminal_color_10 = '#7e8e50'
+  let g:terminal_color_11 = '#e5b567'
+  let g:terminal_color_12 = '#6c99bb'
+  let g:terminal_color_13 = '#9f4e85'
+  let g:terminal_color_14 = '#7dd6cf'
+  let g:terminal_color_15 = '#f5f5f5'
 
   " Distraction-free writing mode
+  Plug 'reedes/vim-colors-pencil', {'for': 'markdown' }      " Theme for markdown editing
   Plug 'reedes/vim-pencil', { 'for': 'markdown' }            " Soft breaks
   Plug 'junegunn/limelight.vim', { 'for': 'markdown' }       " Focus mode
   Plug 'junegunn/goyo.vim', { 'for': 'markdown' }            " ProseMode for writing Markdown
   Plug 'reedes/vim-wordy', { 'for': 'markdown' }             " Weak language checker
-  let g:pencil#textwidth = 72
-  let g:goyo_width = 72
+  let g:pencil#textwidth = 80
+  let g:goyo_width = 80
   function! s:goyo_enter()
     " light theme
     setlocal background=light
@@ -227,42 +365,9 @@ call plug#begin('~/.config/nvim/plugged')
   autocmd! User GoyoLeave nested call <SID>goyo_leave()
   nmap <leader>df :Goyo<CR>
 
-  Plug 'tommcdo/vim-lion'             " Align with gl or gL
-
-  Plug 'slashmili/alchemist.vim'      " IEx, Docs, Jump, Mix, deoplete
-  let g:alchemist_tag_disable = 1
-
-  Plug 'powerman/vim-plugin-AnsiEsc'  " This fixes some docs
-  Plug 'tmux-plugins/vim-tmux'        " tmux.conf support
-  Plug 'tmux-plugins/vim-tmux-focus-events' " fix FocusGained and FocusLost
-  Plug 'tpope/vim-endwise'            " Auto-close if, do, def
-  Plug 'tpope/vim-surround'           " Add 's' command to give motions context
-                                      " eg: `cs"'` will change the surrounding
-                                      " double-quotes to single-quotes.
-
-  " FZF and RipGrep
-  Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
-  Plug 'junegunn/fzf.vim'             " Fuzzy-finder
-  nnoremap <C-P> :Files<CR>
-  nnoremap <leader>f :RipGrep<Space>
-  if executable('fzf')
-    set rtp+=/usr/local/opt/fzf " use homebrew-installed fzf
-    set grepprg=rg\ --vimgrep   " use ripgrep
-    command! -bang -nargs=* RipGrep call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!_build/**/*" --glob "!tags" --glob "!priv/static/**/*" --glob "!bower_components/**/*" --glob "!storage/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!*.cache" --color "always" '.shellescape(<q-args>), 1, <bang>0)
-  endif
-
-  Plug 'dkprice/vim-easygrep'         " Grep across files
-  Plug 'ludovicchabant/vim-gutentags' " Ctags support.
-
-  Plug 'w0rp/ale'                     " Execute linters and compilers
-  let g:ale_linters = {'javascript': ['eslint']}
-
-  Plug 'ryanoasis/vim-devicons'       " :)
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  augroup nerdtreedisablecursorline
-    autocmd!
-    autocmd FileType nerdtree setlocal nocursorline
-  augroup end
+  " Syntax highlighting
+  Plug 'sheerun/vim-polyglot'         " Languages support.
+  let g:elm_format_autosave = 1
 call plug#end()
 filetype on
 
@@ -271,24 +376,13 @@ set background=dark
 colorscheme monokai-phoenix
 syntax on
 
-if $TERM_PROGRAM == "iTerm.app" || $TERMINFO =~ "kitty\.app"
-  " Turn on 24bit color
-  set termguicolors
-  let g:truecolor = 1
-
-" Get italics working
-  hi Comment gui=italic
-else
-  let g:truecolor = 0
-endif
-
 augroup vimrcEx
   autocmd!
 
   " Open to last line after close
   autocmd BufReadPost *
     \ if &ft != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") |
-    \ exe "normal! g`\"" |
+    \   exe "normal! g`\"" |
     \ endif
 
   " Set syntax highlighting
@@ -296,14 +390,15 @@ augroup vimrcEx
   autocmd BufNewFile,BufRead *.md setf markdown
   autocmd BufNewFile,BufRead *.es6 setf javascript
   autocmd BufNewFile,BufRead *.ex* setf elixir
+  autocmd BufNewFile,BufRead mix.lock setf elixir
   autocmd BufNewFile,BufRead *.arb setf ruby
 
   " Enable spellchecking for Markdown
   autocmd FileType markdown setlocal nolist spell foldlevel=999 tw=0 nocin
   let g:vim_markdown_frontmatter = 1
 
-  " Wrap at 72 characters for Markdown
-  autocmd BufNewFile,BufRead *.md setlocal textwidth=72
+  " Wrap at 80 characters for Markdown
+  autocmd BufNewFile,BufRead *.md setlocal textwidth=80
 
   " Allow stylesheets to autocomplete hyphenated words
   autocmd FileType css,scss,sass setlocal iskeyword+=-
@@ -315,6 +410,21 @@ augroup vimrcEx
   autocmd VimResized * :wincmd =
 augroup END
 
+augroup TerminalEx
+  autocmd TermOpen * setlocal nonumber norelativenumber
+
+  " when in a neovim terminal, add a buffer to the existing vim session
+  " instead of nesting (credit justinmk)
+  autocmd VimEnter * if !empty($NVIM_LISTEN_ADDRESS) && $NVIM_LISTEN_ADDRESS !=# v:servername
+    \ |let g:r=jobstart(['nc', '-U', $NVIM_LISTEN_ADDRESS],{'rpc':v:true})
+    \ |let g:f=fnameescape(expand('%:p'))
+    \ |noau bwipe
+    \ |call rpcrequest(g:r, "nvim_command", "edit ".g:f)
+    \ |call rpcrequest(g:r, "nvim_command", "call lib#SetNumberDisplay()")
+    \ |qa
+  \ |endif
+augroup END
+
 " Highlight character that marks where line is too long
 highlight OverLength ctermbg=red ctermfg=white guibg=#600000
 function! UpdateMatch()
@@ -322,8 +432,6 @@ function! UpdateMatch()
     match none
   elseif &ft =~ '^\%(elixir\)$'
     match OverLength /\%101v/
-  elseif &ft =~ '^\%(markdown\)$'
-    match OverLength /\%73v/
   else
     match OverLength /\%81v/
   endif
