@@ -5,6 +5,8 @@ tap 'thoughtbot/formulae'
 # This should be installed manually
 # https://www.google.com/chrome/
 # cask 'google-chrome'  # Internet browser
+# cask 'google-backup-and-sync'   # File syncing
+# cask 'kitty'          # Terminal emulator
 
 # This should be installed manually.
 # https://1password.com/downloads/
@@ -21,13 +23,11 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'dash'           # Offline documentation
   cask 'font-firacode-nerd-font' # Fira Mono font with code ligatures and icons
   cask 'font-inconsolatago-nerd-font' # Inconsolata-g (straight quotes) with icons
-  cask 'google-backup-and-sync'   # File syncing
   cask 'handbrake'      # Video/audio processing
   cask 'handbrakebatch' # Batch video/audio processing with handbrake
   cask 'hex-fiend'      # Hex value editor
   cask 'insomniax'      # Prevent computer from sleeping
   cask 'keep'           # Notes in the menubar
-  cask 'kitty'          # Terminal emulator
   cask 'omnidisksweeper'  # Disk visualizer
   cask 'omnigraffle6'   # Graphing app
   cask 'pdftotext'      # CLI for converting PDF to Text. Used for Ranger
@@ -37,7 +37,6 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'sourcetree'     # Git manager
   cask 'transmission'   # Bittorrent
   cask 'virtualbox'     # Virtual Machine manager
-  cask 'visual-studio-code'   # Code Editor
   cask 'vlc'            # Video/Audio Player
   cask 'wkhtmltopdf'    # CLI wkhtmltopdf Convert HTML to PDFs
   cask 'xld'            # Audio processing
