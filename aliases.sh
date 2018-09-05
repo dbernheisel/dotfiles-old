@@ -2,9 +2,19 @@
 
 # Neovim
 if type "nvim" &> /dev/null; then
-  function vim() {
-    nvim $argv
-  }
+  if type "nvr" &> /dev/null; then
+    function vim() {
+      if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+        nvr -p --remote-wait +'set bufhidden=wipe'
+      else
+        nvim $argv
+      fi
+    }
+  else
+    function vim() {
+      nvim $argv
+    }
+  fi
 fi
 
 # Set title easily

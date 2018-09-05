@@ -32,7 +32,6 @@
   compression = -1
   autocrlf = input
   excludesfile = ~/.gitignore
-  editor = nvim
   pager = diff-so-fancy | less --tabs=4 -RX
 [fetch]
   prune = true
@@ -58,8 +57,6 @@
   template = ~/dotfiles/gitmessage
 [http]
   postBuffer = 157286400
-[url "git@github.com:thoughtbot/"]
-  insteadOf = tb:
 [url "ssh://git@github.com/"]
   insteadOf = https://github.com/
 [url "ssh://git@heroku.com/"]

@@ -352,6 +352,7 @@ fancy_echo "Installing neovim plugins for languages"
 gem_install_or_update neovim
 pip2 install neovim
 pip3 install neovim
+pip3 install neovim-remote
 
 fancy_echo "Installing eslint" "$yellow"
 npm_install_or_update eslint

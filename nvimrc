@@ -56,7 +56,7 @@ if $TERM_PROGRAM == "iTerm.app" || $TERMINFO =~ "kitty\.app"
   set termguicolors
   let g:truecolor = 1
 
-" Get italics working
+  " Get italics working
   hi Comment gui=italic
 else
   let g:truecolor = 0
@@ -72,10 +72,10 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 
 " Emulate tmux shortcuts
-" Rembmer to use :tabclose instead of :q for zoomed terminals
+" Remember to use :tabclose instead of :q for zoomed terminals
 nnoremap <C-A>z :-tabedit %<CR>
-nnoremap <C-A>\ :vsplit term://$SHELL<CR>
-nnoremap <C-A>- :split term://$SHELL<CR>
+nnoremap <C-A>\ :vsplit term://$SHELL -l<CR>
+nnoremap <C-A>- :split term://$SHELL -l<CR>
 
 " Get off my lawn
 imap <Up> <nop>
@@ -222,9 +222,6 @@ call plug#begin('~/.config/nvim/plugged')
     :NERDTreeToggle
   endfun
 
-  Plug 'vimlab/split-term.vim'        " :VTerm, :Term
-  let g:disable_key_mappings = 1
-
   Plug 'scrooloose/nerdcommenter'     " Easier block commenting.
   nmap <leader>/ <leader>c<space>
   vmap <leader>/ <leader>c<space>
@@ -232,6 +229,7 @@ call plug#begin('~/.config/nvim/plugged')
   " Add test commands
   Plug 'janko-m/vim-test', { 'on': ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit'] }
   Plug 'kassio/neoterm'
+  let g:neoterm_shell = '$SHELL -l'
   let g:neoterm_default_mod = 'vert'
   let g:neoterm_size = 80
   let g:neoterm_fixedsize = 1
@@ -410,18 +408,14 @@ augroup vimrcEx
   autocmd VimResized * :wincmd =
 augroup END
 
-augroup TerminalEx
-  autocmd TermOpen * setlocal nonumber norelativenumber
+augroup netrwEx
+  " Turn off line numbers in file tree
+  autocmd FileType netrw setlocal nonumber norelativenumber
+augroup END
 
-  " when in a neovim terminal, add a buffer to the existing vim session
-  " instead of nesting (credit justinmk)
-  autocmd VimEnter * if !empty($NVIM_LISTEN_ADDRESS) && $NVIM_LISTEN_ADDRESS !=# v:servername
-    \ |let g:r=jobstart(['nc', '-U', $NVIM_LISTEN_ADDRESS],{'rpc':v:true})
-    \ |let g:f=fnameescape(expand('%:p'))
-    \ |noau bwipe
-    \ |call rpcrequest(g:r, "nvim_command", "-tabedit ".g:f)
-    \ |qa
-  \ |endif
+augroup TerminalEx
+  " Turn off line numbers in :terminal
+  autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
 " Highlight character that marks where line is too long

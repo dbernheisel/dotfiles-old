@@ -11,6 +11,12 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 export PAGER='less'
 
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+  export VISUAL="nvr -cc tabedit --remote-wait +'set bufhidden=wipe'"
+else
+  export VISUAL="nvim"
+fi
+
 # Language
 if [[ -z "$LANG" ]]; then
   export LANG='en_US.UTF-8'
