@@ -226,15 +226,20 @@ call plug#begin('~/.config/nvim/plugged')
   nmap <leader>/ <leader>c<space>
   vmap <leader>/ <leader>c<space>
 
+  " Add :Gist commands
+  Plug 'mattn/webapi-vim'
+  Plug 'mattn/gist-vim'
+
   " Add test commands
   Plug 'janko-m/vim-test', { 'on': ['TestNearest', 'TestFile', 'TestSuite', 'TestLast', 'TestVisit'] }
+  let g:test#strategy = "neoterm"
+
   Plug 'kassio/neoterm'
   let g:neoterm_shell = '$SHELL -l'
   let g:neoterm_default_mod = 'vert'
   let g:neoterm_size = 80
   let g:neoterm_fixedsize = 1
   let g:neoterm_keep_term_open = 0
-  let g:test#strategy = "neoterm"
 
   function! RunTest(cmd)
     exec a:cmd
