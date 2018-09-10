@@ -75,3 +75,5 @@
   whitespace = red reverse
   oldMoved = 141 bold
   newMoved = 39 bold
+[github]
+  user = dbernheisel

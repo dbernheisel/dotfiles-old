@@ -8,10 +8,9 @@ fi
 
 # Editors
 export EDITOR='nvim'
-export VISUAL='nvim'
 export PAGER='less'
 
-if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+if [ -n "$NVIM_LISTEN_ADDRESS" ] && type nvr &> /dev/null; then
   export VISUAL="nvr -cc tabedit --remote-wait +'set bufhidden=wipe'"
 else
   export VISUAL="nvim"

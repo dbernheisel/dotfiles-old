@@ -34,19 +34,15 @@ gem_install_or_update() {
     gem update "$@"
   else
     gem install "$@"
-    asdf rehash
   fi
 }
 
-npm_install_or_update() {
-  local program
-  program=$1; shift
+pip_install_or_update() {
+  pip3 install "$1" -U
+}
 
-  if npm -g list --depth=1 2> /dev/null | grep "$program" > /dev/null; then
-    npm -g update "$program"
-  else
-    npm -g install "$program"
-  fi
+yarn_install_or_update() {
+  yarn global add "$1" --latest
 }
 
 append_to_file() {
@@ -229,6 +225,56 @@ brew cask cleanup
 brew prune
 
 
+#### Setup dotfiles
+column
+fancy_echo "Backing up existing dotfiles" "$yellow"
+folder=$(pwd)
+files=(
+  aliases.sh
+  bash_profile
+  bashrc
+  ctags
+  default-gems
+  default-npm-packages
+  fzf.bash
+  fzf.zsh
+  gitconfig
+  gitignore
+  gitmessage
+  irbrc
+  pryrc
+  tmux.conf
+  zlogin
+  zlogout
+  zpreztorc
+  zprofile
+  zshenv
+  zshrc
+)
+
+mkdir -p "$folder/backup" 2>/dev/null
+for f in "${files[@]}"; do
+  if [ -e "$HOME/.$f" ]; then
+    mv -v "$HOME/.$f" "$folder/backup/.$f"
+  fi
+done
+
+column
+fancy_echo "Symlinking config files" "$yellow"
+for f in "${files[@]}"; do
+  ln -fs "$folder/$f" "$HOME/.$f"
+done
+
+if [ ! -e "$HOME/.secrets" ]; then
+  fancy_echo "Creating secrets file" "$yellow"
+  touch "$HOME/.secrets"
+fi
+
+if [ ! -e "$HOME/.zshlocal" ]; then
+  fancy_echo "Creating local zsh config" "$yellow"
+  touch "$HOME/.zshlocal"
+fi
+
 #### asdf Install, plugins, and languages
 column
 install_asdf() {
@@ -348,73 +394,35 @@ install_asdf &&\
 
 #### Tools
 column
-fancy_echo "Installing neovim plugins for languages"
+fancy_echo "Installing neovim plugins for languages" "$yellow"
 gem_install_or_update neovim
 pip2 install neovim
 pip3 install neovim
 pip3 install neovim-remote
 
-fancy_echo "Installing eslint" "$yellow"
-npm_install_or_update eslint
-npm_install_or_update babel-eslint
+mkdir -p "$HOME/.config/nvim"
+mv -v "$HOME/.config/nvim/init.vim" "$folder/backup/init.vim"
+ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"
 
-fancy_echo "Installing alias-tips for zsh"
+fancy_echo "Installing language servers" "$yellow"
+pip3 install pyls
+yarn_install_or_update vscode-json-languageserver-bin
+yarn_install_or_update vscode-html-languageserver-bin
+yarn_install_or_update vscode-css-languageserver-bin
+yarn_install_or_update ocaml-language-server
+yarn_install_or_update javascript-typescript-language-server
+(
+  git clone git@github.com:JakeBecker/elixir-ls.git ~/.elixir_ls
+  cd ~/.elixir_ls || exit 1
+  mix deps.get && mix.compile
+  mix elixir_ls.release - .
+)
+
+fancy_echo "Installing alias-tips for zsh" "$yellow"
 git clone git://github.com/djui/alias-tips.git "$HOME/.zprezto/modules/alias-tips"
 
 fancy_echo "Registering tmux terminfo for italics" "$yellow"
 tic $HOME/dotfiles/tmux-italics.terminfo
-
-column
-fancy_echo "Backing up existing dotfiles" "$yellow"
-folder=$(pwd)
-files=(
-  aliases.sh
-  bash_profile
-  bashrc
-  ctags
-  default-gems
-  fzf.bash
-  fzf.zsh
-  gitconfig
-  gitignore
-  gitmessage
-  irbrc
-  pryrc
-  tmux.conf
-  zlogin
-  zlogout
-  zpreztorc
-  zprofile
-  zshenv
-  zshrc
-)
-
-mkdir -p "$folder/backup" 2>/dev/null
-for f in "${files[@]}"; do
-  if [ -e "$HOME/.$f" ]; then
-    mv -v "$HOME/.$f" "$folder/backup/.$f"
-  fi
-done
-
-column
-fancy_echo "Symlinking config files" "$yellow"
-for f in "${files[@]}"; do
-  ln -fs "$folder/$f" "$HOME/.$f"
-done
-
-if [ ! -e "$HOME/.secrets" ]; then
-  fancy_echo "Creating secrets file" "$yellow"
-  touch "$HOME/.secrets"
-fi
-
-if [ ! -e "$HOME/.zshlocal" ]; then
-  fancy_echo "Creating local zsh config" "$yellow"
-  touch "$HOME/.zshlocal"
-fi
-
-mkdir -p "$HOME/.config/nvim"
-mv -v "$HOME/.config/nvim/init.vim" "$folder/backup/init.vim"
-ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"
 
 mkdir -p "$HOME/.config/ranger"
 mkdir -p "$folder/backup/ranger"
@@ -429,7 +437,6 @@ mkdir -p "$kitty_home"
 mv -v "$kitty_home/kitty.conf" "$folder/backup/kitty.conf"
 ln -fs "$HOME/dotfiles/kitty.conf" "$kitty_home/kitty.conf"
 unset kitty_home
-
 
 #### Apple macOS defaults
 if is_mac; then

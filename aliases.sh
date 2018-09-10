@@ -5,7 +5,7 @@ if type "nvim" &> /dev/null; then
   if type "nvr" &> /dev/null; then
     function vim() {
       if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
-        nvr -p --remote-wait +'set bufhidden=wipe'
+        nvr -cc tabedit --remote-wait +'set bufhidden=wipe'
       else
         nvim $argv
       fi
@@ -61,7 +61,9 @@ if type "hub" &> /dev/null; then
 fi
 
 # Android development
-alias adb='~/Library/Android/sdk/platform-tools/adb'
+if [ -d "$HOME/Library/Android/sdk/platform-tools/adb" ]; then
+  alias adb="~/Library/Android/sdk/platform-tools/adb"
+fi
 
 # Alias some docker commands
 docker_rm_images() {
@@ -75,7 +77,9 @@ alias docker_rm_volumes='docker volume ls -qf dangling=true | xargs docker volum
 alias docker_clean='docker_rm_images && docker_rm_containers && docker_rm_volumes'
 
 # Alias some NPM tools
-alias google='googler -n 10'
+if type "googler" &> /dev/null; then
+  alias google='googler -n 10'
+fi
 
 # Alias some Ruby/Bundler/Rails commands
 alias be='bundle exec'
@@ -92,5 +96,21 @@ alias ll='ls -lah'
 alias tmuxbase='tmux attach -t base || tmux new -s base'
 
 # Development
-alias boom="git stash && git pull --rebase && git stash pop && git add -A && git commit -m 'another one' && git push"
-alias copy_prod_db='heroku pg:backups:capture -r production && heroku pg:backups:download -r production && pg_restore --verbose --clean --no-acl --no-owner -h localhost -d joydrive_dev latest.dump'
+function boom() {
+  git stash && \
+  git pull --rebase && \
+  git stash pop && \
+  git add -A && \
+  git commit -m 'Fix another test' && \
+  git push
+}
+
+function copy_prod_db() {
+  if [ $# -eq 0 ]; then
+    echo "Please specify the local database to load into"
+    return 1
+  fi
+  heroku pg:backups:capture -r production && \
+  heroku pg:backups:download -r production && \
+  pg_restore --verbose --clean --no-acl --no-owner -h localhost -d "$1" latest.dump
+}
