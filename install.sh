@@ -234,6 +234,7 @@ files=(
   bash_profile
   bashrc
   ctags
+  gemrc
   default-gems
   default-npm-packages
   fzf.bash
@@ -243,6 +244,7 @@ files=(
   gitmessage
   irbrc
   pryrc
+  psqlrc
   tmux.conf
   zlogin
   zlogout
@@ -400,9 +402,19 @@ pip2 install neovim
 pip3 install neovim
 pip3 install neovim-remote
 
+VIM_FILES=(
+  plugs.vim
+  languageserver.vim
+  terminal.vim
+)
 mkdir -p "$HOME/.config/nvim"
-mv -v "$HOME/.config/nvim/init.vim" "$folder/backup/init.vim"
+mv -v "$HOME/.config/nvim" "$folder/backup/nvim"
+mkdir -p "$HOME/.config/nvim"
 ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"
+ln -fs "$HOME/dotfiles/vim/ftdetect" "$HOME/.config/nvim/ftdetect"
+for f in "${VIM_FILES[@]}"; do
+  ln -fs "$HOME/dotfiles/vim/$f" "$HOME/.config/nvim/$f"
+done
 
 fancy_echo "Installing language servers" "$yellow"
 pip3 install pyls
@@ -416,6 +428,11 @@ yarn_install_or_update javascript-typescript-language-server
   cd ~/.elixir_ls || exit 1
   mix deps.get && mix.compile
   mix elixir_ls.release - .
+)
+(
+  git clone git@github.com:fwcd/KotlinLanguageServer.git ~/.kotlin_ls
+  cd ~/.kotlin_ls || exit 1
+  ./gradlew installDist
 )
 
 fancy_echo "Installing alias-tips for zsh" "$yellow"
