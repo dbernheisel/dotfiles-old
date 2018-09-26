@@ -411,7 +411,7 @@ mkdir -p "$HOME/.config/nvim"
 mv -v "$HOME/.config/nvim" "$folder/backup/nvim"
 mkdir -p "$HOME/.config/nvim"
 ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"
-ln -fs "$HOME/dotfiles/vim/ftdetect" "$HOME/.config/nvim/ftdetect"
+ln -fs "$HOME/dotfiles/vim/after" "$HOME/.config/nvim/after"
 for f in "${VIM_FILES[@]}"; do
   ln -fs "$HOME/dotfiles/vim/$f" "$HOME/.config/nvim/$f"
 done
