@@ -213,12 +213,14 @@ augroup END
 
 augroup nerdtreeEx
   autocmd!
-  autocmd FileType nerdtree setlocal nocursorline
+  autocmd FileType nerdtree setlocal nocursorline nonumber norelativenumber
+  autocmd FileType nerdtree setlocal colorcolumn=
 augroup end
 
 augroup netrwEx
   " Turn off line numbers in file tree
   autocmd FileType netrw setlocal nonumber norelativenumber
+  autocmd FileType netrw setlocal colorcolumn=
 augroup END
 
 filetype on
