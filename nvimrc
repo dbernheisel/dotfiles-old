@@ -48,7 +48,7 @@ set undofile
 set undodir=~/.config/nvim/undo
 
 " Set map key to space
-let mapleader=' '
+let mapleader="\<space>"
 let g:maplocalleader='\\'
 
 " Set searching to highlighting, incrementally, and smartcase search
@@ -104,12 +104,12 @@ set number
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
-if filereadable(expand("~/.config/nvim/plugs.vim"))
-  source ~/.config/nvim/plugs.vim
+if filereadable(expand("~/.config/nvim/language-servers.vim"))
+  source ~/.config/nvim/language-servers.vim
 endif
 
-if filereadable(expand("~/.config/nvim/languageservers.vim"))
-  source ~/.config/nvim/languageservers.vim
+if filereadable(expand("~/.config/nvim/plugs.vim"))
+  source ~/.config/nvim/plugs.vim
 endif
 
 if filereadable(expand("~/.config/nvim/terminal.vim"))
@@ -117,10 +117,13 @@ if filereadable(expand("~/.config/nvim/terminal.vim"))
 endif
 
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+nnoremap <c-]> :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+nnoremap <silent> <C-s> :call LanguageClient#textDocument_documentSymbol()<CR>
+nnoremap <silent> <C-f> :call LanguageClient#textDocument_formatting()<CR>
+nnoremap <silent> <leader>r :call LanguageClient#textDocument_references()<CR>
 
-let g:ale_linters = {'javascript': ['eslint']}
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 nmap <leader>b :call ToggleFileTree()<CR>
 let NERDTreeShowLineNumbers=0

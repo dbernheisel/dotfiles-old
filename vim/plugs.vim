@@ -15,8 +15,8 @@ call plug#begin('~/.config/nvim/plugged')
     \ }
 
   " Execute linters, compilers, and autocomplete
+  let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'w0rp/ale'
 
   " :Dash
   Plug 'rizzatti/dash.vim', { 'on': 'Dash' }

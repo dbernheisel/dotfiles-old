@@ -404,7 +404,7 @@ pip3 install neovim-remote
 
 VIM_FILES=(
   plugs.vim
-  languageserver.vim
+  language-servers.vim
   terminal.vim
 )
 mkdir -p "$HOME/.config/nvim"

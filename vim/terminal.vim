@@ -1,6 +1,6 @@
 augroup terminalEx
   " Turn off line numbers in :terminal
-  autocmd TermOpen * setlocal nonumber norelativenumber
+  autocmd TermOpen * setlocal nonumber norelativenumber nocursorline
 augroup END
 
 " Emulate tmux shortcuts

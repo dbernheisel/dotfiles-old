@@ -10,3 +10,4 @@ tmp
 temp
 .log
 .vscode/
+.elixir_ls/
