@@ -84,8 +84,8 @@ is_linux() {
   fi
 }
 
-is_ubuntu() {
-  if is_linux && uname -a | grep -q Ubuntu; then
+is_debian() {
+  if [ -f /etc/debian_version ]; then
     return 0
   else
     return 1
@@ -113,7 +113,7 @@ if is_linux; then
   fancy_echo "Installing essential source-building packages" "$yellow"
   fancy_echo "This may ask for sudo access for installs..." "$yellow"
 
-  if is_ubuntu && ! grep "^[^#;]" Aptfile | sort -u | xargs sudo apt-get install -y; then
+  if is_debian && ! grep "^[^#;]" Aptfile | sort -u | xargs sudo apt-get install -y; then
     fancy_echo "Could not install system utilities. Please install those and then re-run this script" "$red"
     exit 1
   fi
