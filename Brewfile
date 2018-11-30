@@ -42,9 +42,13 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'xld'            # Audio processing
   brew 'autoconf'       # CLI Build utility
   brew 'automake'       # CLI Build utility
-  brew 'ccat'           # CLI utility. Colorized cat
   brew 'coreutils'      # CLI GNU utilities
+  brew 'fontconfig'     # CLI fontconfig Font utility for patching fonts
+  brew 'freetype'       # Library Render fonts
+  brew 'heroku'         # CLI heroku
   brew 'htop-osx'       # CLI htop process utility
+  brew 'libxml2'        # Library XML parsing
+  brew 'libyaml'        # Library for parsing YAML
   brew 'reattach-to-user-namespace' # CLI to help tmux and mac
   brew 'wxmac'          # Library for Erlang debugger to render GUI
   brew 'mas'            # CLI to install from Mac App Store
@@ -64,6 +68,7 @@ end
 
 brew 'atool'          # CLI. Archives inspection. Used for Ranger.
 brew 'battery'        # CLI for showing battery level, used for tmux
+brew 'ccat'           # CLI utility. Colorized cat
 brew 'cmake'          # CLI Build utility
 brew 'ctags'          # CLI Exhuburant ctags
 brew 'dfu-util'       # CLI Firmware loader for keyboard
@@ -71,8 +76,6 @@ brew 'diff-so-fancy'  # CLI diff-highlight for git
 brew 'exercism'       # CLI exercism.io
 brew 'exiftool'       # CLI. Image file metadata inspection. Used for Ranger.
 brew 'ffmpeg'         # CLI ffmpeg Media encoder/decoder
-brew 'fontconfig'     # CLI fontconfig Font utility for patching fonts
-brew 'freetype'       # Library Render fonts
 brew 'fzf'            # CLI Fuzzy Finder CLI
 brew 'ghostscript'    # CLI Produce PDFs
 brew 'git'            # CLI Git version control
@@ -81,20 +84,15 @@ brew 'glib'           # Library Build utility
 brew 'googler'        # CLI google from command line
 brew 'gradle'         # CLI build tool for java
 brew 'gpg'            # CLI GPG security
-brew 'heroku'         # CLI heroku
 brew 'highlight'      # Library. Provides syntax highlighting. Used for Ranger
 brew 'hub'            # CLI add commands to git
 brew 'imagemagick'    # CLI magick Image converter CLI
 brew 'lame'           # Library audio encoder/decoder
-brew 'libxml2'        # Library XML parsing
-brew 'libyaml'        # Library for parsing YAML
 brew 'mediainfo'      # CLI. Media file metadata inspection. Used for Ranger.
 brew 'neovim'         # CLI nvim text editor
 brew 'openssl'        # Library SSL library
 brew 'p7zip'          # CLI 7a 7za compression
 brew 'parity'         # CLI adding commands to heroku
-brew 'phantomjs'      # CLI phantomjs headless webkit browser (for testing)
-brew 'qt@5.5'         # Library qt. Used for Capybara
 brew 'ranger'         # CLI Ranger File Explorer
 brew 'readline'       # Library file reading
 brew 'ripgrep'        # CLI rg grep current directory
