@@ -10,8 +10,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-source $HOME/.aliases.sh
-
 # asdf version manager autocompletes
 source $HOME/.asdf/completions/asdf.bash
 
@@ -45,12 +43,27 @@ if [ -f ~/.kotlin_ls/build/install/kotlin-language-server/bin/kotlin-language-se
   export PATH=~/.kotlin_ls/build/install/kotlin-language-server/bin:$PATH
 fi
 
+# Linuxbrew
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
+# asdf version manager
+# Autocompletions are sourced in zshrc
+[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
+
+# Newer git
+[ -f $(brew --prefix git)/bin/git ] && export PATH=$(brew --prefix git)/bin:$PATH
+
+# Rust
+if [ -d "$HOME/.cargo/bin" ]; then
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 # RipGrep
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'
 
-# recommended by brew doctor
-export PATH="/usr/local/bin:$PATH"
-
 source ~/.asdf/asdf.sh
+source ~/.aliases.sh
+source ~/.secrets
 
 [ -e "$HOME/.zshlocal" ] && source "$HOME/.zshlocal"

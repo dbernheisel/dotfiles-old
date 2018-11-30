@@ -59,13 +59,6 @@ fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
 
-# asdf version manager
-# Autocompletions are sourced in zshrc
-[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
-
-# Newer git
-[ -f $(brew --prefix git)/bin/git ] && export PATH=$(brew --prefix git)/bin:$PATH
-
 # Notify function
 if [[ "$OSTYPE" == darwin* ]]; then
   notify () {
@@ -80,10 +73,3 @@ fi
 # Press Ctrl+h as Keyboard Shortcut
 # Choose Send Escape Sequence as Action
 # Type [104;5u
-
-source ~/.aliases.sh
-source ~/.secrets
-
-if [ -d "$HOME/.cargo/bin" ]; then
-  export PATH="$HOME/.cargo/bin:$PATH"
-fi

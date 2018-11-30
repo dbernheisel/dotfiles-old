@@ -156,12 +156,10 @@ if is_linux && ! command -v brew >/dev/null; then
   fancy_echo "Installing Linuxbrew ..." "$yellow"
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
 
-  [[ -d "$HOME/.linuxbrew" ]] && PATH="$HOME/.linuxbrew/bin:$HOME/.linuxbrew/sbin:$PATH"
-  [[ -d /home/linuxbrew/.linuxbrew ]] && PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
-  # shellcheck disable=SC2016
-  append_to_file bashrc "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"'
-  # shellcheck disable=SC2016
-  append_to_file zshrc "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"'
+  test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+  test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+  test -r ~/.bashrc && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bashrc
+  test -r ~/.zshrc && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.zshrc
 fi
 
 

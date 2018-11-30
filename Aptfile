@@ -27,7 +27,7 @@ libgdbm-dev
 libgdbm3
 libncurses5-dev
 libreadline6-dev
-libssl-dev
+# libssl-dev  # commented out because libssh-dev conflicts
 libyaml-dev
 zlib1g-dev
 
@@ -38,7 +38,7 @@ libbz2-dev
 libncurses5-dev
 libreadline-dev
 libsqlite3-dev
-libssl-dev
+# libssl-dev  # commented out because libssh-dev conflicts
 llvm
 make
 tk-dev
