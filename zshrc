@@ -19,9 +19,6 @@ if type aws &> /dev/null; then
   source /usr/local/share/zsh/site-functions/_aws
 fi
 
-# fzf Autocompletions
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # Android Development
 export PATH=~/flutter/bin:$PATH
 export ANDROID_HOME=~/Library/Android/sdk
@@ -43,6 +40,16 @@ fi
 # Linuxbrew
 test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
 test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
+# fzf Autocompletions
+if type fzf &> /dev/null; then
+  if [ -f ~/.fzf.zsh ]; then
+    source ~/.fzf.zsh
+  else
+    echo "Running fzf install"
+    $(brew --prefix)/opt/fzf/install
+  fi
+fi
 
 # asdf version manager
 # Autocompletions are sourced in zshrc
