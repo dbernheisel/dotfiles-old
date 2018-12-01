@@ -219,7 +219,6 @@ fi
 brew update
 brew bundle check || brew bundle
 brew cleanup
-brew cask cleanup
 brew prune
 
 
