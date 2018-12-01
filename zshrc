@@ -10,9 +10,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# asdf version manager autocompletes
-source $HOME/.asdf/completions/asdf.bash
-
 # Customize to your needs...
 setopt extended_glob
 unsetopt nomatch
@@ -63,6 +60,7 @@ fi
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'
 
 source ~/.asdf/asdf.sh
+source ~/.asdf/completions/asdf.bash
 source ~/.aliases.sh
 source ~/.secrets
 
