@@ -234,8 +234,6 @@ files=(
   gemrc
   default-gems
   default-npm-packages
-  fzf.bash
-  fzf.zsh
   gitconfig
   gitignore
   gitmessage
@@ -381,23 +379,21 @@ asdf_install_latest_golang() {
   asdf global "$language" "$latest_version"
 }
 
-install_asdf &&\
-  asdf_install_latest_version ruby &&\
-  asdf_install_latest_version erlang &&\
-  asdf_install_latest_version elixir &&\
-  asdf_install_latest_version elm &&\
-  asdf_install_latest_nodejs &&\
-  asdf_install_latest_pythons &&\
-  asdf_install_latest_golang
+install_asdf
+if type asdf &> /dev/null; then
+  asdf_install_latest_version ruby
+  asdf_install_latest_nodejs
+  asdf_install_latest_pythons
 
-
-#### Tools
-column
-fancy_echo "Installing neovim plugins for languages" "$yellow"
-gem_install_or_update neovim
-pip2 install neovim
-pip3 install neovim
-pip3 install neovim-remote
+  #### Tools
+  column
+  fancy_echo "Installing neovim plugins for languages" "$yellow"
+  gem_install_or_update neovim
+  pip2 install neovim
+  pip3 install neovim
+  pip3 install neovim-remote
+  pip3 install pyls
+fi
 
 VIM_FILES=(
   plugs.vim
@@ -414,7 +410,6 @@ for f in "${VIM_FILES[@]}"; do
 done
 
 fancy_echo "Installing language servers" "$yellow"
-pip3 install pyls
 yarn_install_or_update vscode-json-languageserver-bin
 yarn_install_or_update vscode-html-languageserver-bin
 yarn_install_or_update vscode-css-languageserver-bin
