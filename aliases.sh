@@ -85,6 +85,10 @@ fi
 alias be='bundle exec'
 alias sandbox='rails c --sandbox'
 
+# Alias some Elixir/Phoenix commands
+alias imp='iex -S mix phx.server'
+alias im='iex -S mix'
+
 # Alias SourceTree to open in current dir
 alias sourcetree='open -a SourceTree ./'
 
