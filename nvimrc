@@ -104,9 +104,9 @@ set number
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
-if filereadable(expand("~/.config/nvim/language-servers.vim"))
-  source ~/.config/nvim/language-servers.vim
-endif
+"if filereadable(expand("~/.config/nvim/language-servers.vim"))
+  "source ~/.config/nvim/language-servers.vim
+"endif
 
 if filereadable(expand("~/.config/nvim/plugs.vim"))
   source ~/.config/nvim/plugs.vim
@@ -116,12 +116,11 @@ if filereadable(expand("~/.config/nvim/terminal.vim"))
   source ~/.config/nvim/terminal.vim
 endif
 
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <c-]> :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-nnoremap <silent> <C-s> :call LanguageClient#textDocument_documentSymbol()<CR>
-nnoremap <silent> <C-f> :call LanguageClient#textDocument_formatting()<CR>
-nnoremap <silent> <leader>r :call LanguageClient#textDocument_references()<CR>
+"nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+"nnoremap <c-]> :call LanguageClient#textDocument_definition()<CR>
+"nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+"nnoremap <silent> <C-s> :call LanguageClient#textDocument_documentSymbol()<CR>
+"nnoremap <silent> <leader>r :call LanguageClient#textDocument_references()<CR>
 
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 

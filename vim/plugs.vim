@@ -9,10 +9,10 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
   " Language server support
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+  "Plug 'autozimu/LanguageClient-neovim', {
+    "\ 'branch': 'next',
+    "\ 'do': 'bash install.sh',
+    "\ }
 
   " Execute linters, compilers, and autocomplete
   let g:deoplete#enable_at_startup = 1
