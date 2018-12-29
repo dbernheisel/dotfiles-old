@@ -64,7 +64,13 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ludovicchabant/vim-gutentags' " Ctags support.
 
   " FZF and RipGrep
-  Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
+  if isdirectory('/home/linuxbrew/.linuxbrew/opt/fzf')
+    Plug '/home/linuxbrew/.linuxbrew/opt/fzf'           " Use brew-installed fzf
+  endif
+
+  if isdirectory('/usr/local/opt/fzf')
+    Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
+  endif
   Plug 'junegunn/fzf.vim'             " Fuzzy-finder
 
   " Cosmetic
