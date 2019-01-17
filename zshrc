@@ -52,8 +52,8 @@ if type fzf &> /dev/null; then
 fi
 
 # asdf version manager
-# Autocompletions are sourced in zshrc
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
+[ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/completions/asdf.bash
 
 # Newer git
 [ -f $(brew --prefix git)/bin/git ] && export PATH=$(brew --prefix git)/bin:$PATH
@@ -66,8 +66,6 @@ fi
 # RipGrep
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'
 
-source ~/.asdf/asdf.sh
-source ~/.asdf/completions/asdf.bash
 source ~/.aliases.sh
 source ~/.secrets
 
