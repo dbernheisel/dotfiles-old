@@ -76,6 +76,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug '/usr/local/opt/fzf'         " Use brew-installed fzf
   endif
   Plug 'junegunn/fzf.vim'             " Fuzzy-finder
+  Plug 'zackhsi/fzf-tags'             " fzf for tags
+  nmap <C-]> <Plug>(fzf_tags)
 
   " Cosmetic
   Plug 'ryanoasis/vim-devicons'       " :)
