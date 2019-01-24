@@ -1,6 +1,8 @@
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_serverCommands = {}
 
+nnoremap <silent> <c-]> :call LanguageClient#textDocument_definition()<CR>
+
 if executable('javascript-typescript-stdio')
   " yarn global add javascript-typescript-langserver   -or-
   " npm i -g javascript-typescript-langserver
@@ -38,9 +40,10 @@ endif
 if executable('language_server.sh')
   " git clone git@github.com:JakeBecker/elixir-ls.git ~/.elixir_ls
   " cd ~/.elixir_ls
-  " mix deps.get && mix.compile
+  " mix deps.get && mix compile
   " mix elixir_ls.release - .
   " add it to the $PATH
+
   let g:LanguageClient_serverCommands.elixir = ['language_server.sh']
 endif
 

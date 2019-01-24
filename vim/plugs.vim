@@ -1,4 +1,5 @@
 " ln -s ~/dotfiles/vim/plugs.vim ~/.config/nvim/plugs.vim
+map K <Nop>
 
 " install vim-plug if needed.
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
@@ -9,12 +10,15 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
   " Language server support
-  "Plug 'autozimu/LanguageClient-neovim', {
-    "\ 'branch': 'next',
-    "\ 'do': 'bash install.sh',
-    "\ }
+  Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
-  " Execute linters, compilers, and autocomplete
+  " Linters
+  Plug 'w0rp/ale'
+
+  " Autocomplete
   let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
@@ -65,11 +69,11 @@ call plug#begin('~/.config/nvim/plugged')
 
   " FZF and RipGrep
   if isdirectory('/home/linuxbrew/.linuxbrew/opt/fzf')
-    Plug '/home/linuxbrew/.linuxbrew/opt/fzf'           " Use brew-installed fzf
+    Plug '/home/linuxbrew/.linuxbrew/opt/fzf' " Use brew-installed fzf
   endif
 
   if isdirectory('/usr/local/opt/fzf')
-    Plug '/usr/local/opt/fzf'           " Use brew-installed fzf
+    Plug '/usr/local/opt/fzf'         " Use brew-installed fzf
   endif
   Plug 'junegunn/fzf.vim'             " Fuzzy-finder
 

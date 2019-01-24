@@ -14,3 +14,6 @@ endfunction
 
 let g:test#custom_transformations = {'elixir_umbrella': function('ElixirUmbrellaTransform')}
 let g:test#transformation = 'elixir_umbrella'
+
+let b:ale_linters = ['mix', 'credo', 'dialyxir']
+let b:ale_fixers = ['mix_format']
