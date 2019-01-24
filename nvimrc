@@ -104,9 +104,9 @@ set number
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
-if filereadable(expand("~/.config/nvim/language-servers.vim"))
-  source ~/.config/nvim/language-servers.vim
-endif
+"if filereadable(expand("~/.config/nvim/language-servers.vim"))
+  "source ~/.config/nvim/language-servers.vim
+"endif
 
 if filereadable(expand("~/.config/nvim/plugs.vim"))
   source ~/.config/nvim/plugs.vim

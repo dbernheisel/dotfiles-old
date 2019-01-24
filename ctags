@@ -18,6 +18,16 @@
 --regex-js=/(function)*[ \t]*([A-Za-z$_][A-Za-z0-9_$]+)[ \t]*\([^)]*\)[ \t]*\{/\2/f,function/
 --regex-js=/['"]*([A-Za-z$][A-Za-z0-9_$]+)['"]*:[ \t]*function[ \t]*\(/\1/m,method/
 --regex-js=/([A-Za-z0-9_$]+)\[["']([A-Za-z0-9_$]+)["']\][ \t]*=[ \t]*function[ \t]*\(/\2/m,method/
+--exclude=vendor
+--exclude=priv/static/js
+--exclude=coverage
+--exclude=bower_components
+--exclude=node_modules
+--exclude=dist
+--exclude=gulp
+--exclude=tmp
+--exclude=public
+
 --langdef=typescript
 --langmap=typescript:.ts
 --regex-typescript=/^[ \t]*(export)?[ \t]*class[ \t]+([a-zA-Z0-9_]+)/\2/c,classes/
@@ -29,6 +39,7 @@
 --regex-typescript=/^[ \t]*(export)?[ \t]*interface[ \t]+([a-zA-Z0-9_]+)/\2/i,interfaces/
 --regex-typescript=/^[ \t]*(export)?[ \t]*enum[ \t]+([a-zA-Z0-9_]+)/\2/e,enums/
 --regex-typescript=/^[ \t]*import[ \t]+([a-zA-Z0-9_]+)/\1/I,imports/
+
 --exclude=vendor
 --exclude=priv/static/js
 --exclude=coverage
@@ -40,7 +51,8 @@
 --exclude=public
 
 --langdef=Elixir
---langmap=Elixir:.ex.exs
+--langmap=js:.ex
+--langmap=js:+.exs
 --regex-Elixir=/^[ \t]*def(p?)[ \t]+([a-z_][a-zA-Z0-9_?!]*)/\2/f,functions,functions (def ...)/
 --regex-Elixir=/^[ \t]*defcallback[ \t]+([a-z_][a-zA-Z0-9_?!]*)/\1/c,callbacks,callbacks (defcallback ...)/
 --regex-Elixir=/^[ \t]*defdelegate[ \t]+([a-z_][a-zA-Z0-9_?!]*)/\1/d,delegates,delegates (defdelegate ...)/
@@ -54,7 +66,7 @@
 --regex-Elixir=/^[ \t]*test[ \t]+\"([a-z_][a-zA-Z0-9_?! ]*)\"*/\1/t,tests,tests (test ...)/
 --exclude=deps
 --exclude=_build
-
+--exclude=.elixir_ls
 
 --langdef=elm
 --langmap=elm:.elm
