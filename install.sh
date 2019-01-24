@@ -230,7 +230,6 @@ files=(
   aliases.sh
   bash_profile
   bashrc
-  ctags
   gemrc
   default-gems
   default-npm-packages
@@ -394,6 +393,8 @@ if type asdf &> /dev/null; then
   pip3 install neovim-remote
   pip3 install pyls
 fi
+
+ln -fs "$HOME/dotfiles/ctags.d" "$HOME/.ctags.d"
 
 VIM_FILES=(
   plugs.vim

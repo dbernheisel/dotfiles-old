@@ -16,8 +16,8 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   tap 'caskroom/cask'
   tap 'caskroom/fonts'
   tap 'caskroom/versions'
-  cask 'alfred'         # Spotlight replacement
-  cask 'android-file-transfer'  # Transfer files from/to Android
+  cask 'alfred' # Spotlight replacement
+  cask 'android-file-transfer' # Transfer files from/to Android
   cask 'boxer'          # DOS Emulator
   cask 'chromedriver'   # Headless browser
   cask 'dash'           # Offline documentation
@@ -26,9 +26,10 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   cask 'handbrake'      # Video/audio processing
   cask 'handbrakebatch' # Batch video/audio processing with handbrake
   cask 'hex-fiend'      # Hex value editor
+  brew 'hub'            # CLI add commands to git
   cask 'insomniax'      # Prevent computer from sleeping
   cask 'keep'           # Notes in the menubar
-  cask 'omnidisksweeper'  # Disk visualizer
+  cask 'omnidisksweeper' # Disk visualizer
   cask 'omnigraffle6'   # Graphing app
   cask 'pdftotext'      # CLI for converting PDF to Text. Used for Ranger
   cask 'postico'        # Postgres Database Viewer
@@ -64,36 +65,36 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   mas 'GIPHY Capture',  id: 668208984
   mas 'Harvest',        id: 506189836
   mas 'Calendarique',   id: 1040634920
+
+  # Services
+  brew 'postgresql', restart_service: :changed
+  brew 'redis', restart_service: :changed
+  brew 'nginx', restart_service: :changed
 end
 
 brew 'atool'          # CLI. Archives inspection. Used for Ranger.
 brew 'battery'        # CLI for showing battery level, used for tmux
 brew 'ccat'           # CLI utility. Colorized cat
 brew 'cmake'          # CLI Build utility
-brew 'ctags'          # CLI Exhuburant ctags
+brew 'universal-ctags/universal-ctags/universal-ctags', args: ['HEAD'] # CLI Universal ctags
 brew 'dfu-util'       # CLI Firmware loader for keyboard
 brew 'diff-so-fancy'  # CLI diff-highlight for git
 brew 'exercism'       # CLI exercism.io
-brew 'exiftool'       # CLI. Image file metadata inspection. Used for Ranger.
 brew 'ffmpeg'         # CLI ffmpeg Media encoder/decoder
 brew 'fzf'            # CLI Fuzzy Finder CLI
 brew 'ghostscript'    # CLI Produce PDFs
 brew 'git'            # CLI Git version control
-brew 'git-flow'       # CLI Git-Flow git shortcuts
 brew 'glib'           # Library Build utility
 brew 'googler'        # CLI google from command line
 brew 'gradle'         # CLI build tool for java
 brew 'gpg'            # CLI GPG security
-brew 'highlight'      # Library. Provides syntax highlighting. Used for Ranger
-brew 'hub'            # CLI add commands to git
+brew 'httpie'         # CLI http
 brew 'imagemagick'    # CLI magick Image converter CLI
 brew 'lame'           # Library audio encoder/decoder
-brew 'mediainfo'      # CLI. Media file metadata inspection. Used for Ranger.
 brew 'neovim'         # CLI nvim text editor
 brew 'openssl'        # Library SSL library
 brew 'p7zip'          # CLI 7a 7za compression
 brew 'parity'         # CLI adding commands to heroku
-brew 'ranger'         # CLI Ranger File Explorer
 brew 'readline'       # Library file reading
 brew 'ripgrep'        # CLI rg grep current directory
 brew 'rsync'          # CLI rsync file copying
@@ -111,7 +112,7 @@ brew 'x264'           # Library video decoder
 brew 'xz'             # CLI xz compression
 brew 'yarn'           # CLI JavaScript package manager
 
-# Services
-brew 'postgresql', restart_service: :changed
-brew 'redis', restart_service: :changed
-brew 'nginx', restart_service: :changed
+brew 'ranger'         # CLI Ranger File Explorer
+brew 'exiftool'       # CLI. Image file metadata inspection. Used for Ranger.
+brew 'highlight'      # Library. Provides syntax highlighting. Used for Ranger
+brew 'mediainfo'      # CLI. Media file metadata inspection. Used for Ranger.
