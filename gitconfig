@@ -1,6 +1,8 @@
 [user]
   name = David Bernheisel
   email = david@bernheisel.com
+[github]
+  user = dbernheisel
 [color]
   ui = auto
 [interactive]
@@ -41,6 +43,7 @@
 [diff]
   tool = vimdiff
   colorMoved = zebra
+  colorMovedWS = allow-indentation-change
 [difftool "vscode"]
   cmd = code --wait --diff \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
@@ -81,5 +84,3 @@
   whitespace = red reverse
   oldMoved = 141 bold
   newMoved = 39 bold
-[github]
-  user = dbernheisel

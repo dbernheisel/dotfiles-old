@@ -70,4 +70,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/**/*" --g
 source ~/.aliases.sh
 source ~/.secrets
 
+export PATH=~/dotfiles/bin:$PATH
+
 [ -e "$HOME/.zshlocal" ] && source "$HOME/.zshlocal"
