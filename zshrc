@@ -51,9 +51,6 @@ if type fzf &> /dev/null; then
   fi
 fi
 
-# zsh auto-suggestions
-[ -f /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 # asdf version manager
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/completions/asdf.bash
