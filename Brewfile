@@ -111,6 +111,7 @@ brew 'wrk'            # CLI wrk HTTP benchmarking
 brew 'x264'           # Library video decoder
 brew 'xz'             # CLI xz compression
 brew 'yarn'           # CLI JavaScript package manager
+brew 'zsh-autosuggestions' # CLI zsh auto-suggestions like fish
 
 brew 'ranger'         # CLI Ranger File Explorer
 brew 'exiftool'       # CLI. Image file metadata inspection. Used for Ranger.

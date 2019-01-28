@@ -51,6 +51,9 @@ if type fzf &> /dev/null; then
   fi
 fi
 
+# zsh auto-suggestions
+[ -f /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # asdf version manager
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/asdf.sh
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/completions/asdf.bash
@@ -64,10 +67,7 @@ if [ -d "$HOME/.cargo/bin" ]; then
 fi
 
 # RipGrep
-export FZF_DEFAULT_OPTS='
-  --color fg:-1,bg:-1,hl:230,fg+:3,bg+:233,hl+:229
-  --color info:150,prompt:110,spinner:150,pointer:167,marker:174
-'
+export FZF_DEFAULT_OPTS='--color fg:-1,bg:-1,hl:230,fg+:3,bg+:233,hl+:229 --color info:150,prompt:110,spinner:150,pointer:167,marker:174'
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/**/*" --glob "!_build/**/*" --glob "!.elixir_ls/**/*" --glob "!node_modules/**/*" --glob "!bower_components/**/*" --glob "!tmp/**/*" --glob "!coverage/**/*" --glob "!deps/**/*" --glob "!.hg/**/*" --glob "!.svn/**/*" --glob "!.sass-cache/**/*" --glob "!.Trash/**/*"'
 
 source ~/.aliases.sh
