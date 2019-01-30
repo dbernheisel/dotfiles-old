@@ -1,0 +1,119 @@
+wtf:
+  colors:
+    border:
+      focusable: darkslateblue
+      focused: orange
+      normal: gray
+  grid:
+    columns: [40, 40]
+    rows: [13, 13, 4]
+  refreshInterval: 1
+  mods:
+    clocks:
+      colors:
+        rows:
+          even: "lightblue"
+          odd: "white"
+      enabled: true
+      locations:
+        California: "America/Los_Angeles"
+        Durham: "America/New_York"
+      position:
+        top: 0
+        left: 0
+        height: 1
+        width: 1
+      refreshInterval: 15
+      sort: "alphabetical"
+    security:
+      enabled: false
+      position:
+        top: 1
+        left: 0
+        height: 1
+        width: 1
+      refreshInterval: 3600
+    resourceusage:
+      enabled: true
+      position:
+        top: 1
+        left: 1
+        height: 1
+        width: 1
+      refreshInterval: 1
+    system:
+      enabled: false
+      position:
+        top: 1
+        left: 1
+        height: 1
+        width: 1
+      refreshInterval: 3600
+    gcal:
+      colors:
+        title: "red"
+        description: "lightblue"
+        highlights:
+        - ['1on1|1\/11', 'green']
+        - ['apple|google|aws', 'blue']
+        - ['interview|meet', 'magenta']
+        - ['lunch|gym', 'yellow']
+        past: "gray"
+      conflictIcon: "🚨"
+      currentIcon: "💥"
+      displayResponseStatus: true
+      email: "david@bernheisel.com"
+      enabled: true
+      eventCount: 12
+      multiCalendar: true
+      position:
+        top: 0
+        left: 2
+        height: 5
+        width: 1
+      refreshInterval: 300
+      secretFile: "~/.config/wtf/gcal_client_secret.json"
+      showDeclined: false
+      withLocation: true
+    prettyweather:
+      enabled: true
+      position:
+        top: 0
+        left: 1
+        height: 1
+        width: 1
+    jira:
+      # export WTF_JIRA_API_KEY
+      colors:
+        rows:
+          even: "lightblue"
+          odd: "white"
+      domain: "https://taxjar.atlassian.net"
+      email: "david@bernheisel.com"
+      enabled: true
+      jql: "issueType = Story"
+      position:
+        top: 3
+        left: 0
+        height: 1
+        width: 2
+      project: "Platform"
+      refreshInterval: 900
+      username: "dbernheisel"
+      verifyServerCertificate: true
+    github:
+      # export WTF_GITHUB_TOKEN
+      baseURL: ""
+      enabled: true
+      enableStatus: true
+      position:
+        top: 4
+        left: 0
+        height: 1
+        width: 2
+      refreshInterval: 300
+      repositories:
+        formulator: "thoughtbot"
+        brady: "thoughtbot"
+      uploadURL: ""
+      username: "dbernheisel"

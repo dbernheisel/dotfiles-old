@@ -206,7 +206,7 @@ install_zprezto() {
 }
 
 install_zprezto
-cp prompt_bernheisel_setup "$HOME/.zprezto/modules/prompt/functions/prompt_bernheisel_setup"
+ln -sf "$HOME/dotfiles/prompt_bernheisel_setup" "$HOME/.zprezto/modules/prompt/functions/prompt_bernheisel_setup"
 
 
 #### Brew installs
@@ -395,6 +395,9 @@ if type asdf &> /dev/null; then
 fi
 
 ln -fs "$HOME/dotfiles/ctags.d" "$HOME/.ctags.d"
+
+mkdir -p "$HOME/.config/wtf"
+ln -fs "$HOME/dotfiles/wtf-config.yml" "$HOME/.config/wtf/config.yml"
 
 VIM_FILES=(
   plugs.vim

@@ -33,16 +33,14 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'ssh' \
-  'autosuggestions' \
   'completion' \
   'homebrew' \
   'rsync' \
   'osx' \
-  'ruby' \
-  'rails' \
   'git' \
   'syntax-highlighting' \
   'history-substring-search' \
+  'autosuggestions' \
   'prompt'
 
 source ~/.zprezto/modules/alias-tips/alias-tips.plugin.zsh
@@ -52,7 +50,8 @@ source ~/.zprezto/modules/alias-tips/alias-tips.plugin.zsh
 #
 
 # Set the key mapping style to 'emacs' or 'vi'.
-#zstyle ':prezto:module:editor' key-bindings 'vi'
+zstyle ':prezto:module:editor' key-bindings 'vi'
+zstyle ':prezto:module:editor' ps-context 'yes'
 
 # Auto convert .... to ../..
 zstyle ':prezto:module:editor' dot-expansion 'yes'
