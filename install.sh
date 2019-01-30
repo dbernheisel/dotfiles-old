@@ -100,6 +100,14 @@ is_fedora() {
   fi
 }
 
+is_arch() {
+  if is_linux && uname -a | grep -Eq 'manjaro|antergos|arch'; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 
 #### Prerequisites, like xcode and homebrew
 if is_mac; then
@@ -121,6 +129,11 @@ if is_linux; then
   if is_fedora && ! grep "^[^#;]" Dnffile | sort -u | xargs sudo dnf install -y; then
     fancy_echo "Could not install system utilities. Please install those and then re-run this script" "$red"
     exit 1
+  fi
+
+  if is_arch; then
+    sudo pacman -S yaourt
+    sudo yaourt -S --needed "$(comm -12 <(pacman -Slq | sort) <(sort Archfile))"
   fi
 fi
 
