@@ -15,7 +15,7 @@ setopt extended_glob
 unsetopt nomatch
 
 # awscli from brew auto-completion
-if type aws &> /dev/null; then
+if type aws &> /dev/null && [ -f ~/usr/local/share/zsh/site-functions/_aws ]; then
   source /usr/local/share/zsh/site-functions/_aws
 fi
 

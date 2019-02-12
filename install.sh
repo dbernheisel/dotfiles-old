@@ -118,6 +118,7 @@ fi
 
 if is_linux; then
   column
+
   fancy_echo "Installing essential source-building packages" "$yellow"
   fancy_echo "This may ask for sudo access for installs..." "$yellow"
 
@@ -125,7 +126,6 @@ if is_linux; then
     fancy_echo "Could not install system utilities. Please install those and then re-run this script" "$red"
     exit 1
   fi
-
   if is_fedora && ! grep "^[^#;]" Dnffile | sort -u | xargs sudo dnf install -y; then
     fancy_echo "Could not install system utilities. Please install those and then re-run this script" "$red"
     exit 1
@@ -141,6 +141,42 @@ if [ ! -f "$HOME/.ssh/id_rsa.pub" ]; then
   column
   fancy_echo "You need to generate an SSH key" "$red"
   ssh-keygen
+fi
+
+if is_debian; then
+  fancy_echo "Installing Keybase ..." "$yellow"
+  curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
+  sudo dpkg -i keybase_amd64.deb
+  sudo apt-get install -f
+  run_keybase
+
+  fancy_echo "Installing Yarn ..." "$yellow"
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+  fancy_echo "Installing Google Chrome ..." "$yellow"
+  curl -sS https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+  fancy_echo "Installing Google Drive" "$yellow"
+  sudo add-apt-repository ppa:alessandro-strada/ppa
+
+  fancy_echo "Installing Adapta GTK Theme..." "$yellow"
+  sudo add-apt-repository ppa:tista/adapta
+
+  fancy_echo "Installing Papirus GTK Icons ..." "$yellow"
+  sudo add-apt-repository ppa:papirus/papirus
+
+  fancy_echo "Installing PostgreSQL 9.6..." "$yellow"
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+  sudo apt update
+
+  sudo apt install postgresql-9.6 google-chrome-stable papirus-icon-theme
+  adapta-gtk-theme google-drive-ocamlfuse
+
+  pip3 install pywal
 fi
 
 if is_mac && ! command -v brew >/dev/null; then
@@ -259,6 +295,7 @@ files=(
   zprofile
   zshenv
   zshrc
+  Xresources
 )
 
 mkdir -p "$folder/backup" 2>/dev/null
@@ -394,8 +431,8 @@ asdf_install_latest_golang() {
 install_asdf
 if type asdf &> /dev/null; then
   asdf_install_latest_version ruby
+  asdf_install_latest_version elixir
   asdf_install_latest_nodejs
-  asdf_install_latest_pythons
 
   #### Tools
   column
@@ -404,34 +441,17 @@ if type asdf &> /dev/null; then
   pip2 install neovim
   pip3 install neovim
   pip3 install neovim-remote
-  pip3 install pyls
 fi
 
+ln -fs "$HOME/.config" "$HOME/dotfiles/.config"
 ln -fs "$HOME/dotfiles/ctags.d" "$HOME/.ctags.d"
-
-mkdir -p "$HOME/.config/wtf"
-ln -fs "$HOME/dotfiles/wtf-config.yml" "$HOME/.config/wtf/config.yml"
-
-VIM_FILES=(
-  plugs.vim
-  language-servers.vim
-  terminal.vim
-)
-mkdir -p "$HOME/.config/nvim"
-mv -v "$HOME/.config/nvim" "$folder/backup/nvim"
-mkdir -p "$HOME/.config/nvim"
-ln -fs "$HOME/dotfiles/nvimrc" "$HOME/.config/nvim/init.vim"
-ln -fs "$HOME/dotfiles/vim/after" "$HOME/.config/nvim/after"
-for f in "${VIM_FILES[@]}"; do
-  ln -fs "$HOME/dotfiles/vim/$f" "$HOME/.config/nvim/$f"
-done
 
 fancy_echo "Installing language servers" "$yellow"
 yarn_install_or_update vscode-json-languageserver-bin
 yarn_install_or_update vscode-html-languageserver-bin
 yarn_install_or_update vscode-css-languageserver-bin
 yarn_install_or_update ocaml-language-server
-yarn_install_or_update javascript-typescript-language-server
+yarn_install_or_update typescript-language-server
 (
   git clone git@github.com:JakeBecker/elixir-ls.git ~/.elixir_ls
   cd ~/.elixir_ls || exit 1
@@ -450,19 +470,16 @@ git clone git://github.com/djui/alias-tips.git "$HOME/.zprezto/modules/alias-tip
 fancy_echo "Registering tmux terminfo for italics" "$yellow"
 tic $HOME/dotfiles/tmux-italics.terminfo
 
-mkdir -p "$HOME/.config/ranger"
-mkdir -p "$folder/backup/ranger"
-mv -v "$HOME/.config/ranger/rc.conf" "$folder/backup/ranger/rc.conf"
-mv -v "$HOME/.config/ranger/scope.sh" "$folder/backup/rangers/scope.sh"
-ln -fs "$HOME/dotfiles/ranger/rc.conf" "$HOME/.config/ranger/rc.conf"
-ln -fs "$HOME/dotfiles/ranger/scope.sh" "$HOME/.config/ranger/scope.sh"
+if is_mac; then
+  ln -fs "$HOME/.config/kitty/kitty.conf" "$HOME/Library/Preferences/kitty"
+fi
 
-is_mac && kitty_home="$HOME/Library/Preferences/kitty"
-is_linux && kitty_home="$HOME/.config/kitty"
-mkdir -p "$kitty_home"
-mv -v "$kitty_home/kitty.conf" "$folder/backup/kitty.conf"
-ln -fs "$HOME/dotfiles/kitty.conf" "$kitty_home/kitty.conf"
-unset kitty_home
+if is_linux; then
+  if ! command kitty; then
+    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin launch=n
+  fi
+  ln -fs "$HOME/.local/kitty.app/bin/kitty" "$HOME/.local/bin/kitty"
+fi
 
 #### Apple macOS defaults
 if is_mac; then

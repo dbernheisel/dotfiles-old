@@ -10,8 +10,7 @@ set laststatus=2
 set encoding=utf-8
 set noshowmode
 
-" Disable mouse
-set mouse=""                " Disable mouse
+set mouse=a                 " Disable mouse
 
 " Generally configure tabs to 2, and convert to spaces
 set tabstop=2
@@ -206,6 +205,8 @@ augroup vimrcEx
   autocmd BufNewFile,BufRead *.drab setf eelixir
   autocmd BufNewFile,BufRead mix.lock setf elixir
   autocmd BufNewFile,BufRead *.arb setf ruby
+  autocmd BufNewFile,BufRead irbrc setf ruby
+  autocmd BufNewFile,BufRead pryrc setf ruby
 
   " Remove trailing whitespace on save
   autocmd BufWritePre * :%s/\s\+$//e

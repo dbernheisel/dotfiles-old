@@ -17,6 +17,16 @@ if type "nvim" &> /dev/null; then
   fi
 fi
 
+if [[ $TERMINFO == *"kitty.app"* ]];  then
+  function icat() {
+    kitty +kitten icat "$1"
+  }
+
+  function ranger() {
+    TERM=xterm-kitty command ranger $argv
+  }
+fi
+
 # Set title easily
 function title() {
   echo -ne "\033]0;$1\007"
@@ -88,6 +98,11 @@ alias sandbox='rails c --sandbox'
 # Alias some Elixir/Phoenix commands
 alias imp='iex -S mix phx.server'
 alias im='iex -S mix'
+
+if type "xclip" &> /dev/null; then
+  alias pbcopy='xclip'
+  alias pbpaste='xclip -o'
+fi
 
 # Alias SourceTree to open in current dir
 alias sourcetree='open -a SourceTree ./'
