@@ -50,6 +50,8 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   brew 'freetype'       # Library Render fonts
   brew 'glib'           # Library Build utility
   brew 'gpg'            # CLI GPG security
+  brew 'ghostscript'    # CLI Produce PDFs
+  brew 'gradle'         # CLI build tool for java
   brew 'heroku'         # CLI heroku
   brew 'htop-osx'       # CLI htop process utility
   brew 'hub'            # CLI add commands to git
@@ -58,6 +60,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   brew 'mas'            # CLI to install from Mac App Store
   brew 'openssl'        # Library SSL library
   brew 'readline'       # Library file reading
+  brew 'rsync'          # CLI rsync file copying
   brew 'p7zip'          # CLI 7a 7za compression
   brew 'reattach-to-user-namespace' # CLI to help tmux and mac
   brew 'unixodbc'       # Library for interfacing with different databases
@@ -88,17 +91,14 @@ brew 'dfu-util'       # CLI Firmware loader for keyboard
 brew 'diff-so-fancy'  # CLI diff-highlight for git
 brew 'exercism'       # CLI exercism.io
 brew 'fzf'            # CLI Fuzzy Finder CLI
-brew 'ghostscript'    # CLI Produce PDFs
 brew 'git'            # CLI Git version control
 brew 'googler'        # CLI google from command line
-brew 'gradle'         # CLI build tool for java
 brew 'httpie'         # CLI http
 brew 'imagemagick'    # CLI magick Image converter CLI
 brew 'lame'           # Library audio encoder/decoder
 brew 'neovim'         # CLI nvim text editor
 brew 'parity'         # CLI adding commands to heroku
 brew 'ripgrep'        # CLI rg grep current directory
-brew 'rsync'          # CLI rsync file copying
 brew 'shellcheck'     # CLI POSIX shell linter
 brew 'tesseract'      # CLI tesseract OCR
 brew 'tidy-html5'     # CLI tidy HTML linting
