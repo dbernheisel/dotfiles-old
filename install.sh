@@ -498,9 +498,6 @@ yarn_install_or_update typescript-language-server
   ./gradlew installDist
 )
 
-fancy_echo "Installing alias-tips for zsh" "$yellow"
-git clone git://github.com/djui/alias-tips.git "$HOME/.zprezto/modules/alias-tips"
-
 fancy_echo "Registering tmux terminfo for italics" "$yellow"
 tic $HOME/dotfiles/tmux-italics.terminfo
 
