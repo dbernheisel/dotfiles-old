@@ -14,5 +14,7 @@
 Icon?
 Thumbs.db
 tags
+tags.lock
+tags.temp
 temp
 tmp/**/*
