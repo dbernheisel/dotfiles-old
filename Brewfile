@@ -53,6 +53,7 @@ if RUBY_PLATFORM.downcase.include? 'darwin'
   brew 'ghostscript'    # CLI Produce PDFs
   brew 'gradle'         # CLI build tool for java
   brew 'heroku'         # CLI heroku
+  brew 'parity'         # CLI adding commands to heroku
   brew 'htop-osx'       # CLI htop process utility
   brew 'hub'            # CLI add commands to git
   brew 'libxml2'        # Library XML parsing
@@ -97,7 +98,6 @@ brew 'httpie'         # CLI http
 brew 'imagemagick'    # CLI magick Image converter CLI
 brew 'lame'           # Library audio encoder/decoder
 brew 'neovim'         # CLI nvim text editor
-brew 'parity'         # CLI adding commands to heroku
 brew 'ripgrep'        # CLI rg grep current directory
 brew 'shellcheck'     # CLI POSIX shell linter
 brew 'tesseract'      # CLI tesseract OCR
