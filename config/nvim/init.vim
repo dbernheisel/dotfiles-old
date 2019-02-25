@@ -2,7 +2,12 @@
 
 " General
 set nocompatible
-set clipboard=unnamed       " allow yanks to go to system clipboard
+let uname = substitute(system('uname'), '\n', '', '')
+if uname == 'Linux'
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed       " allow yanks to go to system clipboard
+endif
 set title                   " set tab title
 set splitbelow              " open splits below current
 set splitright              " open splits to the right of current
