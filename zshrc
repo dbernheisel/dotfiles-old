@@ -51,7 +51,9 @@ fi
 
 # fzf Autocompletions
 if type fzf &> /dev/null; then
-  if [ -f ~/.fzf.zsh ]; then
+  if [ -f /usr/share/fzf/key-bindings.zsh ]; then
+    source /usr/share/fzf/key-bindings.zsh
+  elif [ -f ~/.fzf.zsh ]; then
     source ~/.fzf.zsh
   else
     if type brew &> /dev/null; then

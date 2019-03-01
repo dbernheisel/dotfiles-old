@@ -19,9 +19,9 @@ compositing-border = over
 
 [bar/top]
 monitor = ${env:MONITOR:}
-dpi = 110
+dpi = ${xrdb:Xft.dpi:172}
 width = 100%
-height = 36
+height = 40
 offset-x = 0
 offset-y = 0
 radius = 0
@@ -52,6 +52,7 @@ tray-padding = 0
 tray-offset-x = 0
 tray-background = ${colors.background}
 tray-scale = 1.0
+tray-maxsize = 40
 
 ;wm-restack = bspwm
 enable-ipc = true
@@ -86,6 +87,8 @@ ramp-signal-foreground = ${colors.foreground-alt}
 [module/i3]
 type = internal/i3
 fuzzy-match = true
+format = <label-state> <label-mode>
+label-mode = %mode%
 
 [module/bspwm]
 type = internal/bspwm
@@ -177,11 +180,11 @@ enable-scroll = true
 format = <ramp><label>
 label = %percentage%
 
-ramp-0 = 🌕
-ramp-1 = 🌔
-ramp-2 = 🌓
-ramp-3 = 🌒
-ramp-4 = 🌑
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
 
 [module/volume]
 type = internal/alsa
@@ -226,7 +229,8 @@ menu-2-0-exec = poweroff
 menu-2-0-padding = 3
 
 menu-3-0 = logout?
-menu-3-0-exec = bspc quit
+menu-3-0-exec = i3-msg exit
+;menu-3-0-exec = bspc quit
 menu-3-0-padding = 3
 
 ; vim:ft=dosini

@@ -9,6 +9,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+
+
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -55,10 +57,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+ntilde move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -67,10 +69,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+- split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+\ split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -82,9 +84,6 @@ bindsym $mod+Shift+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
-
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -136,10 +135,10 @@ mode "resize" {
     # Pressing right will grow the window’s width.
     # Pressing up will shrink the window’s height.
     # Pressing down will grow the window’s height.
-    bindsym j resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink height 10 px or 10 ppt
-    bindsym ntilde resize grow width 10 px or 10 ppt
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
 
     # same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt
@@ -154,36 +153,37 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg-color            #2f343f
-set $inactive-bg-color   #2f343f
-set $text-color          #f3f4f5
-set $inactive-text-color #676e7d
-set $urgent-bg-color     #e53935
-set $indicator-color     #a0a0a0
+set_from_resource $color0 color0 #2f343f
+set_from_resource $color1 color1 #2f343f
+set_from_resource $color2 color2 #a0a0a0
+set_from_resource $color3 color3 #e53935
+set_from_resource $color4 color4 #676e7d
+set_from_resource $color7 color7 #f3f4f5
+set_from_resource $color15  color15 #676e7d
 
 # set window colors
 #                       border             background         text                 indicator
-client.focused          $bg-color          $bg-color          $text-color          $indicator-color
-client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color $indicator-color
-client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $indicator-color
-client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color          $indicator-color
+client.focused          $color15           $color0            $color7
+client.unfocused        $color1            $color4            $color2
+client.focused_inactive $color2            $color4            $color2
+client.urgent           $color3            $color15           $color7
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-    status_command i3status
-    font pango:monospace 9
+#bar {
+    #status_command i3status
+    #font pango:monospace 9
 
-	colors {
-        background $bg-color
-        separator #757575
-        #                  border             background         text
-        focused_workspace  $bg-color          $bg-color          $text-color
-        inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-        urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-    }
-}
+	#colors {
+        #background $bg-color
+        #separator #757575
+        ##                  border             background         text
+        #focused_workspace  $bg-color          $bg-color          $text-color
+        #inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+        #urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+    #}
+#}
 
 # gaps
 for_window [class="^.*"] border pixel 0
@@ -196,6 +196,15 @@ smart_borders on
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Kalu"] floating enable
 for_window [class="Zoom"] floating enable
+for_window [class="(?i)blueman"] floating enable
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
 
 ## Multimedia Keys
 
@@ -232,6 +241,7 @@ bindsym $mod+F8 exec mocp --next
 # App shortcuts
 bindsym $mod+w exec "/usr/bin/google-chrome-stable --force-device-scale-factor=2"
 bindsym $mod+n exec "/usr/bin/thunar"
+bindsym $mod+space exec "rofi -show run"
 
 # Redirect sound to headphones
 bindsym $mod+m exec "/usr/local/bin/switch-audio-port"
@@ -240,7 +250,8 @@ bindsym $mod+m exec "/usr/local/bin/switch-audio-port"
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id "allow_rgp10_configs=false compton --config ~/.config/compton/compton.conf -b"
 exec --no-startup-id "~/dotfiles/bin/launch_polybar.sh"
-exec --no-startup-id nm-applet
+exec --no-startup-id nm-applet &
+exec --no-startup-id blueman-applet &
 exec --no-startup-id "wal -i ~/backgrounds"
 exec --no-startup-id "sleep 2s && kalu"
 exec --no-startup-id "unclutter -root &"
