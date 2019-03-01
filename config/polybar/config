@@ -45,7 +45,7 @@ font-2 = siji:size=10;0
 
 modules-left = powermenu spacer i3 spacer xwindow
 modules-center =
-modules-right = backlight spacer battery spacer volume spacer wifi spacer date
+modules-right = backlight spacer battery spacer volume spacer date
 
 tray-position = right
 tray-padding = 0
