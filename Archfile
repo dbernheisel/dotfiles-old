@@ -1,5 +1,12 @@
-fzf
-ripgrep
-python-pip2
-python-pip
+aws-cli
 ctags
+fzf
+gucharmap
+htop
+python-pip
+python-pillow
+python-pip2
+ripgrep
+scrot
+unclutter
+xclip

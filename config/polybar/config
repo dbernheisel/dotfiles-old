@@ -53,7 +53,7 @@ tray-offset-x = 0
 tray-background = ${colors.background}
 tray-scale = 1.0
 
-wm-restack = bspwm
+;wm-restack = bspwm
 enable-ipc = true
 
 scroll-up = i3wm-wsnext

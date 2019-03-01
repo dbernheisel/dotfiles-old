@@ -54,8 +54,10 @@ if type fzf &> /dev/null; then
   if [ -f ~/.fzf.zsh ]; then
     source ~/.fzf.zsh
   else
-    echo "Running fzf install"
-    $(brew --prefix)/opt/fzf/install
+    if type brew &> /dev/null; then
+      echo "Running fzf install"
+      $(brew --prefix)/opt/fzf/install
+    fi
   fi
 fi
 
@@ -64,7 +66,7 @@ fi
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/completions/asdf.bash
 
 # Newer git
-[ -f $(brew --prefix git)/bin/git ] && export PATH=$(brew --prefix git)/bin:$PATH
+type brew &> /dev/null && [ -f $(brew --prefix git)/bin/git ] && export PATH=$(brew --prefix git)/bin:$PATH
 
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then

@@ -44,11 +44,6 @@ alias gd='git diff'
 alias gds='git diff --staged --color-moved'
 alias undeployed='git fetch --multiple production origin && git log production/master..origin/master'
 
-# Use Exhuburant ctags
-if [ -f "$(brew --prefix)/bin/ctags)" ]; then
- alias ctags='$(brew --prefix)/bin/ctags'
-fi
-
 # Alias some ansible commands
 if type "ansible-playbook" &> /dev/null; then
   alias aplaybook='ansible-playbook'

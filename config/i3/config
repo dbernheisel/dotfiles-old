@@ -42,6 +42,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
+focus_follows_mouse no
 bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
@@ -184,9 +185,17 @@ bar {
     }
 }
 
+# gaps
+for_window [class="^.*"] border pixel 0
+gaps inner 15
+gaps outer -2
+smart_gaps on
+smart_borders on
+
 # floating windows
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Kalu"] floating enable
+for_window [class="Zoom"] floating enable
 
 ## Multimedia Keys
 
@@ -212,6 +221,9 @@ bindsym XF86AudioStop exec mocp --togle-pause
 bindsym XF86AudioNext exec mocp --next
 bindsym XF86AudioPrev exec mocp --previous
 
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
 bindsym $mod+F5 exec mocp --toggle-pause
 bindsym $mod+F6 exec mocp --stop
 bindsym $mod+F7 exec mocp --previous
@@ -226,7 +238,11 @@ bindsym $mod+m exec "/usr/local/bin/switch-audio-port"
 
 # Autostart apps
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id "compton -cC"
+exec --no-startup-id "allow_rgp10_configs=false compton --config ~/.config/compton/compton.conf -b"
+exec --no-startup-id "~/dotfiles/bin/launch_polybar.sh"
 exec --no-startup-id nm-applet
-exec --no-startup-id "nitrogen --restore"
+exec --no-startup-id "wal -i ~/backgrounds"
 exec --no-startup-id "sleep 2s && kalu"
+exec --no-startup-id "unclutter -root &"
+exec --no-startup-id "xset r rate 350 50"
+exec --no-startup-id "xsetroot -cursor_name left_ptr"
