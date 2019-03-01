@@ -43,7 +43,7 @@ font-0 = FuraCode Nerd Font:size=14;2
 font-1 = FontAwesome:size=16;-2
 font-2 = siji:size=10;0
 
-modules-left = powermenu spacer bspwm spacer xwindow
+modules-left = powermenu spacer i3 spacer xwindow
 modules-center =
 modules-right = backlight spacer battery spacer volume spacer wifi spacer date
 
@@ -56,8 +56,10 @@ tray-scale = 1.0
 wm-restack = bspwm
 enable-ipc = true
 
-scroll-up = bspwm-desknext
-scroll-down = bspwm-deskprev
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
 
 ; MODULES
 [module/spacer]
@@ -80,6 +82,10 @@ ramp-signal-2 =
 ramp-signal-3 =
 ramp-signal-4 =
 ramp-signal-foreground = ${colors.foreground-alt}
+
+[module/i3]
+type = internal/i3
+fuzzy-match = true
 
 [module/bspwm]
 type = internal/bspwm

@@ -132,8 +132,8 @@ if is_linux; then
   fi
 
   if is_arch; then
-    sudo pacman -S yaourt
-    sudo yaourt -S --needed "$(comm -12 <(pacman -Slq | sort) <(sort Archfile))"
+    sudo pacman -S yay
+    yay -S --needed $(comm -12 <(pacman -Slq | sort) <(sort Archfile))
   fi
 fi
 
@@ -210,45 +210,11 @@ if is_mac && ! command -v brew >/dev/null; then
   fi
 fi
 
-if is_linux && ! command -v brew >/dev/null; then
-  column
-  fancy_echo "Installing Linuxbrew ..." "$yellow"
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-
-  test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-  test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-  test -r ~/.bashrc && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bashrc
-  test -r ~/.zshrc && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.zshrc
-fi
-
-
-
 #### Install zsh
-update_shell() {
-  local shell_path;
-  shell_path="$(brew --prefix zsh)/bin/zsh"
-  if [ "$SHELL" != "$shell_path" ]; then
-
-    column
-    fancy_echo "Changing your shell to zsh ..." "$yellow"
-    if ! grep "^$shell_path" /etc/shells > /dev/null 2>&1 ; then
-      brew install zsh
-      sudo sh -c "echo $shell_path >> /etc/shells"
-    fi
-    chsh -s "$shell_path"
-  fi
-}
-
-case "$SHELL" in
-  */zsh)
-    if [[ "$(brew --prefix zsh)/bin/zsh" == */bin/zsh* ]] ; then
-      update_shell
-    fi
-    ;;
-  *)
-    update_shell
-    ;;
-esac
+column
+fancy_echo "Changing your shell to zsh ..." "$yellow"
+chsh -l
+chsh -s "$shell_path"
 
 
 #### Install dotfiles
@@ -269,20 +235,12 @@ ln -sf "$HOME/dotfiles/prompt_bernheisel_setup" "$HOME/.zprezto/modules/prompt/f
 
 
 #### Brew installs
-column
-fancy_echo "Installing programs" "$yellow"
-brew update
-brew bundle check || brew bundle
-brew cleanup
-
-if is_linux; then
-  brew unlink postgresql
-  brew unlink python
-  brew unlink python2
-  brew unlink python3
-  brew unlink rsync
-  brew unlink xdpyinfo
-  brew unlink systemd
+if is_mac; then
+  column
+  fancy_echo "Installing programs" "$yellow"
+  brew update
+  brew bundle check || brew bundle
+  brew cleanup
 fi
 
 
