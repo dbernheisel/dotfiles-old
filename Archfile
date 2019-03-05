@@ -4,6 +4,7 @@ aws-cli
 blueman
 ctags
 diff-so-fancy
+feh
 fzf
 google-chrome
 gucharmap
@@ -26,6 +27,7 @@ rofi
 scrot
 thunar
 ttf-font-awesome
+ttf-fira-code
 ttf-roboto
 unclutter
 vlc
@@ -34,3 +36,18 @@ xcursor-breeze
 yarn
 zoom
 zsh
+
+# Ruby
+libffi
+libyaml
+openssl
+zlib
+
+# Erlang
+libssh
+ncurses
+glu
+mesa
+wxgtk2
+libpng
+unixodbc

@@ -133,7 +133,7 @@ if is_linux; then
 
   if is_arch; then
     sudo pacman -S yay
-    yay -S --needed $(comm -12 <(pacman -Slq | sort) <(sort Archfile))
+    yay -S --needed $(comm -12 <(pacman -Slq | sort) <(! grep "^[^#;]" Archfile | sort | uniq))
   fi
 fi
 
