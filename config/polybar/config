@@ -89,6 +89,7 @@ type = internal/i3
 fuzzy-match = true
 format = <label-state> <label-mode>
 label-mode = %mode%
+pin-workspaces = true
 
 [module/bspwm]
 type = internal/bspwm

@@ -30,7 +30,7 @@ hide_edge_borders both
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 floating_minimum_size 300 x 300
-floating_maximum_size 300 x 300
+floating_maximum_size 1000 x 1000
 
 # start a terminal
 bindsym $mod+Return exec kitty
@@ -43,7 +43,8 @@ bindsym $mod+Shift+q kill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+Shift+d exec --no-startup-id ~/dotfiles/bin/switch-displays.sh
 
 # change focus
 focus_follows_mouse no
@@ -256,7 +257,8 @@ exec --no-startup-id nm-applet &
 exec --no-startup-id blueman-applet &
 exec --no-startup-id "feh --randomize --bg-fill ~/backgrounds"
 exec --no-startup-id "wal -Rn"
-exec --no-startup-id "sleep 2s && kalu"
 exec --no-startup-id "unclutter -root &"
 exec --no-startup-id "xset r rate 350 50"
 exec --no-startup-id "xsetroot -cursor_name left_ptr"
+exec --no-startup-id "xrdb -merge ~/.Xresources"
+exec --no-startup-id "sleep 10s && kalu"
