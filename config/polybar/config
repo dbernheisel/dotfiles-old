@@ -133,7 +133,7 @@ time = %l:%M%P
 date-alt = %A, %d %B %Y
 time-alt = %l:%M:%S%P
 
-label = %{A1:gnome-calendar:}%date%%{A}   %time%
+label = %{A1:california:}%date%%{A}   %time%
 format = <label>
 format-background = ${colors.background}
 format-foreground = ${colors.foreground-alt}
