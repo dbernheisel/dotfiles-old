@@ -109,6 +109,8 @@ alias ll='ls -lah'
 
 alias tmuxbase='tmux attach -t base || tmux new -s base'
 
+alias csv-diff='git diff --color-words="[^[:space:],]+" --no-index'
+
 # Development
 function boom() {
   git stash && \
