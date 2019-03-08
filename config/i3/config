@@ -245,7 +245,7 @@ bindsym $mod+F7 exec mocp --previous
 bindsym $mod+F8 exec mocp --next
 
 # App shortcuts
-bindsym $mod+w exec "/usr/bin/google-chrome-stable --force-device-scale-factor=2"
+bindsym $mod+w exec "/usr/bin/google-chrome-stable"
 bindsym $mod+n exec "/usr/bin/thunar"
 bindsym $mod+space exec "rofi -show run"
 

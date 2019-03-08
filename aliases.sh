@@ -17,7 +17,7 @@ if type "nvim" &> /dev/null; then
   fi
 fi
 
-if [[ $TERMINFO == *"kitty.app"* ]];  then
+if [[ $TERMINFO == *"kitty"* ]];  then
   function icat() {
     kitty +kitten icat "$1"
   }
