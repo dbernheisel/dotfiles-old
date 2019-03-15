@@ -15,7 +15,7 @@ setlocal colorcolumn=+1
 function! s:goyo_enter()
   " light theme
   setlocal background=light
-  colorscheme pencil
+  colorscheme chroma
 
   " turn off cursor-line-highlight auto-indent, whitespace, and in-progress
   " commands
