@@ -7,25 +7,7 @@ EXTERNAL2=DP2
 LOWER_DPI=96
 HIGHER_DPI=192
 
-function is_connected() {
-  local MON
-  MON=$1; shift
-
-  echo "checking connected $MON"
-  xrandr -q | grep -w "connected" | grep -w $MON &> /dev/null
-}
-
-function is_active() {
-  local MON
-  MON=$1; shift
-
-  if is_connected $MON; then
-    echo "checking active $MON"
-    xrandr -q | grep -w $MON | awk '{print $4}' | grep -P '\d' &> /dev/null
-  else
-    false
-  fi
-}
+source ~/dotfiles/bin/monitor-detection.sh
 
 function lower_dpi() {
   echo "Lowering DPI"
@@ -39,28 +21,28 @@ function higher_dpi() {
   xrandr --dpi $HIGHER_DPI
 }
 
-if is_active $EXTERNAL1 && is_active $INTERNAL; then
-  echo "Turning on Ultrawide only"
-  ~/.screenlayout/ultrawide1.sh
-  lower_dpi
-elif is_active $EXTERNAL2 && is_active $INTERNAL; then
-  echo "Turning on Ultrawide only"
+if is_active $EXTERNAL2 && is_active $INTERNAL; then
+  echo "Turning on Ultrawide only - Port 2"
   ~/.screenlayout/ultrawide2.sh
   lower_dpi
+elif is_active $EXTERNAL1 && is_active $INTERNAL; then
+  echo "Turning on Ultrawide only - Port 1"
+  ~/.screenlayout/ultrawide1.sh
+  lower_dpi
 elif is_connected $EXTERNAL1 && is_active $INTERNAL; then
-  echo "Turning on Dual screen - Ultrawide"
+  echo "Turning on Dual screen - Ultrawide - Port 1"
   ~/.screenlayout/dual1.sh
   higher_dpi
 elif is_connected $EXTERNAL2 && is_active $INTERNAL; then
-  echo "Turning on Dual screen - Ultrawide"
+  echo "Turning on Dual screen - Ultrawide - Port 2"
   ~/.screenlayout/dual2.sh
   higher_dpi
 elif is_active $EXTERNAL1 && ! is_active $INTERNAL; then
-  echo "Turning on Dual screen - Internal"
+  echo "Turning on Dual screen - Internal - Port 1"
   ~/.screenlayout/dual1.sh
   higher_dpi
 elif is_active $EXTERNAL2 && ! is_active $INTERNAL; then
-  echo "Turning on Dual screen - Internal"
+  echo "Turning on Dual screen - Internal - Port 2"
   ~/.screenlayout/dual2.sh
   higher_dpi
 else
