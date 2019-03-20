@@ -2,7 +2,7 @@
 set -e
 
 lockmessage="Locked"
-delay_before_suspend="5s"
+delay_before_suspend="30m"
 
 deskshot=$(mktemp --suffix=.png)
 lockshot=$(mktemp --suffix=.png)

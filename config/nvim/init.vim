@@ -207,6 +207,7 @@ augroup vimrcEx
   autocmd BufNewFile,BufRead Brewfile setf ruby
   autocmd BufNewFile,BufRead *.md setf markdown
   autocmd BufNewFile,BufRead *.ex* setf elixir
+  autocmd BufNewFile,BufRead *.leex setf eelixir
   autocmd BufNewFile,BufRead *.drab setf eelixir
   autocmd BufNewFile,BufRead mix.lock setf elixir
   autocmd BufNewFile,BufRead *.arb setf ruby

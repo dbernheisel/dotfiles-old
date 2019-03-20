@@ -30,7 +30,6 @@ if [ -d ~/flutter/bin ]; then
   export PATH=~/flutter/bin:$PATH
 fi
 
-
 if [ -d /home/linuxbrew/.linuxbrew/bin ]; then
   export PATH="$(brew --prefix)/bin:$PATH"
 fi
@@ -68,7 +67,11 @@ fi
 [ -f $HOME/.asdf/asdf.sh ] && source $HOME/.asdf/completions/asdf.bash
 
 # Newer git
-type brew &> /dev/null && [ -f $(brew --prefix git)/bin/git ] && export PATH=$(brew --prefix git)/bin:$PATH
+if type brew &> /dev/null; then
+  if [ -f $(brew --prefix git)/bin/git ]; then
+    export PATH=$(brew --prefix git)/bin:$PATH
+  fi
+fi
 
 # Rust
 if [ -d "$HOME/.cargo/bin" ]; then
