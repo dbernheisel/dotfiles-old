@@ -41,7 +41,7 @@ if executable('language_server.sh')
   " git clone git@github.com:JakeBecker/elixir-ls.git ~/.elixir_ls
   " cd ~/.elixir_ls
   " mix deps.get && mix compile
-  " mix elixir_ls.release - .
+  " mix elixir_ls.release -o ./release
   " add it to the $PATH
 
   let g:LanguageClient_serverCommands.elixir = ['language_server.sh']

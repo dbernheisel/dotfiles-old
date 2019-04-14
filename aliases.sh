@@ -111,22 +111,21 @@ alias tmuxbase='tmux attach -t base || tmux new -s base'
 
 alias csv-diff='git diff --color-words="[^[:space:],]+" --no-index'
 
-# Development
-function boom() {
-  git stash && \
-  git pull --rebase && \
-  git stash pop && \
-  git add -A && \
-  git commit -m 'Fix another test' && \
-  git push
-}
+if type scanimage &> /dev/null; then
+  # usage: scanimg test.jpg
+  alias scanimg='scanimage --device="brother4:net1;dev0" --mode Color --format=jpeg --resolution=600 --batch > '
+fi
 
-function copy_prod_db() {
-  if [ $# -eq 0 ]; then
-    echo "Please specify the local database to load into"
-    return 1
-  fi
-  heroku pg:backups:capture -r production && \
-  heroku pg:backups:download -r production && \
-  pg_restore --verbose --clean --no-acl --no-owner -h localhost -d "$1" latest.dump
-}
+# usage: copy_heroku_db production my_app_dev
+if type heroku &> /dev/null; then
+  function copy_heroku_db() {
+    local heroku_app=$1; shift
+    local local_db=$1; shift
+
+    [[ -z $local_db ]] && echo "Please specify the local database to load into" && return 1
+
+    heroku pg:backups:capture --app "$heroku_app" && \
+    heroku pg:backups:download --app "$heroku_app" && \
+    pg_restore --verbose --clean --no-acl --no-owner -h localhost -d "$1" latest.dump
+  }
+fi

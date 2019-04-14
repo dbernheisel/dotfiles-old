@@ -39,8 +39,8 @@ export POSTGRES_USER=$(whoami)
 
 # Elixir
 export ERL_AFLAGS="-kernel shell_history enabled"
-if [ -f ~/.elixir_ls/language_server.sh ]; then
-  export PATH=~/.elixir_ls:$PATH
+if [ -f ~/.elixir_ls/release/language_server.sh ]; then
+  export PATH=~/.elixir_ls/release:$PATH
 fi
 
 # Kotlin

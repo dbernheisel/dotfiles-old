@@ -6,6 +6,7 @@
   killall flameshot
   killall kalu
 
+  # This fixes an issue with the tray using lo-rez icons
   unset GDK_SCALE
   unset GDK_DPI_SCALE
 
