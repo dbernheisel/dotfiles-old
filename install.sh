@@ -134,6 +134,9 @@ if is_linux; then
   if is_arch; then
     sudo pacman -S yay
     yay -S --needed $(comm -12 <(pacman -Slq | sort) <(! grep "^[^#;]" Archfile | sort | uniq))
+
+    fancy_echo "Installing script to reset keyrate when waking up"
+    sudo systemctl enable resume.service
   fi
 fi
 
@@ -294,6 +297,7 @@ configfiles=(
   ranger
   rofi
   sxkhd
+  systemd
   wtf
   gtkrc
   gtkrc-2.0
