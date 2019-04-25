@@ -10,10 +10,13 @@ endif
 
 call plug#begin('~/.config/nvim/plugged')
   " Language server support
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+  "Plug 'autozimu/LanguageClient-neovim', {
+    "\ 'branch': 'next',
+    "\ 'do': 'bash install.sh',
+    "\ }
+
+  "Plug 'prabirshrestha/async.vim'
+  "Plug 'prabirshrestha/vim-lsp'
 
   " Linters
   Plug 'w0rp/ale'
@@ -23,7 +26,14 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
   " :Dash
-  Plug 'rizzatti/dash.vim', { 'on': 'Dash' }
+  if has('mac')
+    Plug 'rizzatti/dash.vim', { 'on': 'Dash' }
+  endif
+
+  " Wiki
+  let g:vimwiki_list = [{'path': '~/drive/vimwiki/',
+                      \ 'syntax': 'markdown', 'ext': '.md'}]
+  Plug 'vimwiki/vimwiki'
 
   " Jump to related files, :A, :AS, :AV, and :AT
   Plug 'tpope/vim-projectionist'

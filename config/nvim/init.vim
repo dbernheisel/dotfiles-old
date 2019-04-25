@@ -2,11 +2,10 @@
 
 " General
 set nocompatible
-let uname = substitute(system('uname'), '\n', '', '')
-if uname == 'Linux'
-  set clipboard=unnamedplus
+if has('mac')
+  set clipboard=unnamed
 else
-  set clipboard=unnamed       " allow yanks to go to system clipboard
+  set clipboard=unnamedplus " allow yanks to go to system clipboard
 endif
 set title                   " set tab title
 set splitbelow              " open splits below current
@@ -81,6 +80,7 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
+nnoremap <leader>gd :ALEGoToDefinition<cr>
 
 " Get off my lawn
 imap <Up> <nop>
@@ -108,9 +108,9 @@ set number
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
-"if filereadable(expand("~/.config/nvim/language-servers.vim"))
-  "source ~/.config/nvim/language-servers.vim
-"endif
+if filereadable(expand("~/.config/nvim/language-servers.vim"))
+  source ~/.config/nvim/language-servers.vim
+endif
 
 if filereadable(expand("~/.config/nvim/plugs.vim"))
   source ~/.config/nvim/plugs.vim

@@ -37,6 +37,10 @@ if type "ccat" &> /dev/null; then
  alias cat='ccat'
 fi
 
+if type "bat" &> /dev/null; then
+ alias cat='bat -p'
+fi
+
 # Git
 alias gaa='git add -A'
 alias gs='git status'
