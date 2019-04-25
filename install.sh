@@ -136,7 +136,10 @@ if is_linux; then
     yay -S --needed $(comm -12 <(pacman -Slq | sort) <(! grep "^[^#;]" Archfile | sort | uniq))
 
     fancy_echo "Installing script to reset keyrate when waking up"
-    sudo systemctl enable resume.service
+    sudo mkdir -p /usr/lib/systemd/system-sleep
+    for hook in $HOME/dotfiles/usr/lib/systemd/system-sleep/*; do
+      sudo ln -vsf $hook "/usr/lib/systemd/system-sleep"
+    done
   fi
 fi
 
