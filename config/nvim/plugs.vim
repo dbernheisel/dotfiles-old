@@ -31,9 +31,11 @@ call plug#begin('~/.config/nvim/plugged')
   endif
 
   " Wiki
-  let g:vimwiki_list = [{'path': '~/drive/vimwiki/',
+  let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki/',
                       \ 'syntax': 'markdown', 'ext': '.md'}]
   Plug 'vimwiki/vimwiki'
+  Plug 'itchyny/calendar.vim'
+  nnoremap <leader>cc :Calendar -view=year -split=horizontal -position=bottom -height=12<cr>
 
   " Jump to related files, :A, :AS, :AV, and :AT
   Plug 'tpope/vim-projectionist'
