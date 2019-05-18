@@ -99,8 +99,8 @@ alias imp='iex -S mix phx.server'
 alias im='iex -S mix'
 
 if type "xclip" &> /dev/null; then
-  alias pbcopy='xclip'
-  alias pbpaste='xclip -o'
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -o -selection clipboard'
 fi
 
 # Alias SourceTree to open in current dir
